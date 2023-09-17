@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.CQRS.Mediators.ARequests.Abstract;
+﻿using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using MediatR;
 
-namespace CleanArchitecture.Application.CQRS.Mediators.ARequests.User.Commands
+namespace CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands
 {
     public class UpdateUserCommandRequest : RequestBase, IRequest<bool>
     {

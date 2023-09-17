@@ -1,6 +1,4 @@
-﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Bases;
-
-namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
+﻿namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
 {
     public class CreateUserDto
     {

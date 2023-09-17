@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Application.CQRS.Mediators.ARequests.User.Queries;
-using CleanArchitecture.Application.CQRS.Mediators.Handlers.Abstract;
+using CleanArchitecture.Application.CQRS.Mediators.Abstract;
+using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using CleanArchitecture.Application.Persistence.Contracts;
 using MediatR;
 
-namespace CleanArchitecture.Application.CQRS.Mediators.Handlers.User.Queries
+namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Queries
 {
     public class GetUserQueryHandler : HandlerBase<IUserRepository>, IRequestHandler<GetUserQueryRequest, ViewUserDto>
     {

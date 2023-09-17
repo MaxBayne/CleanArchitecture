@@ -12,6 +12,10 @@ CQRS
 - stand for (Command and Query Responsibility Seggregation)
 - this pattern used to seperate commands actions from query actions
 
+Fluent Validation
+=================
+- extension for make validation over DTO objects
+
 AppDependencyInjection
 ===================
 - where we register all auto-mapper profiles inside dependency Injections system of .Net Core

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Application.CQRS.Mediators.ARequests.User.Commands;
-using CleanArchitecture.Application.CQRS.Mediators.Handlers.Abstract;
+using CleanArchitecture.Application.CQRS.Mediators.Abstract;
+using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using CleanArchitecture.Application.Persistence.Contracts;
 using MediatR;
 
-namespace CleanArchitecture.Application.CQRS.Mediators.Handlers.User.Commands
+namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Commands
 {
     public class CreateUserCommandHandler :HandlerBase<IUserRepository>, IRequestHandler<CreateUserCommandRequest, ViewUserDto>
     {

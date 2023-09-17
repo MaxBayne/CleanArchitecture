@@ -1,6 +1,4 @@
-﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Bases;
-
-namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveType
+﻿namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveType
 {
     public class UpdateLeaveTypeDto
     {

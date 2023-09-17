@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.CQRS.Mediators.ARequests.Abstract
+﻿namespace CleanArchitecture.Application.CQRS.Mediators.Abstract
 {
     public interface IRequestBase
     {

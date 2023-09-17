@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Bases;
+﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Abstract;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveType;
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveRequest

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace CleanArchitecture.Application.CQRS.Mediators.Handlers.Abstract
+namespace CleanArchitecture.Application.CQRS.Mediators.Abstract
 {
     public interface IHandlerBase
     {
