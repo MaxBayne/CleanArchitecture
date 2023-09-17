@@ -1,11 +1,12 @@
 ﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Bases;
 
-namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos
+namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
 {
-    public class UserDto : BaseDTO
+    public class ViewUserDto : BaseDTO
     {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
+        public bool IsEnabled { get; set; }
     }
 }

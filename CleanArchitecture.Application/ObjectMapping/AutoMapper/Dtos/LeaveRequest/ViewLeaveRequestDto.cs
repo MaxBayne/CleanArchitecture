@@ -1,9 +1,9 @@
 ﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Bases;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveType;
 
-
-namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos
+namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveRequest
 {
-    public class LeaveRequestDto : BaseDTO
+    public class ViewLeaveRequestDto : BaseDTO
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -14,6 +14,6 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos
         public bool IsCancelled { get; set; }
 
         public int LeaveTypeId { get; set; }
-        public LeaveTypeDto LeaveType { get; set; }
+        public ViewLeaveTypeDto LeaveType { get; set; }
     }
 }
