@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
+using CleanArchitecture.Application.HandleExceptions.Exceptions;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using CleanArchitecture.Application.Persistence.Contracts;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.User;
@@ -20,7 +21,7 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
             var validator = await new CreateUserDtoValidator().ValidateAsync(request.createUserDto, cancellationToken);
 
             if (!validator.IsValid)
-                throw new Exception(validator.Errors.ToString());
+                throw new ValidationException(validator);
 
 
             //Convert Dto To Domain Entity to can send it to database
