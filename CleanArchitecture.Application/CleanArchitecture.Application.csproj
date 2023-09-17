@@ -12,12 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     <PackageReference Include="MediatR" Version="12.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CQRS\Mediators\Handlers\Commands\" />
-    <Folder Include="CQRS\Mediators\Requests\Commands\" />
   </ItemGroup>
 
 </Project>
