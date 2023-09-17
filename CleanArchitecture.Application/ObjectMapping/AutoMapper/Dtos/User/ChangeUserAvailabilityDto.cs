@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
 {
-    public class ChangeUserAvailabilityDto : BaseDTO
+    public class ChangeUserAvailabilityDto : BaseDto
     {
         public bool? IsEnabled { get; set; }
     }

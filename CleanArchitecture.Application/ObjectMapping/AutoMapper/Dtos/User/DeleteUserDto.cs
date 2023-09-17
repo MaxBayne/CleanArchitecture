@@ -2,8 +2,8 @@
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
 {
-    public class ChangeUserRoleDto : BaseDto
+    public class DeleteUserDto : BaseDto
     {
-        public string? Role { get; set; }
+        public int UserId { get; set; }
     }
 }

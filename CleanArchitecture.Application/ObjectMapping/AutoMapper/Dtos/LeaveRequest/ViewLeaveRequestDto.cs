@@ -3,8 +3,10 @@ using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveType;
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.LeaveRequest
 {
-    public class ViewLeaveRequestDto : BaseDTO
+    public class ViewLeaveRequestDto : BaseDto
     {
+        public int Id { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime RequestedDate { get; set; }

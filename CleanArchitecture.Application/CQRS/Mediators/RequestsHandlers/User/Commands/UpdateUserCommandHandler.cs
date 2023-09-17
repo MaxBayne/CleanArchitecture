@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Validation.FluentValidation.Validators.User;
 using MediatR;
 
 namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Commands
@@ -14,6 +15,12 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
 
         public async Task<bool> Handle(UpdateUserCommandRequest request, CancellationToken cancellationToken)
         {
+            //Validate Dto 
+            var validator = await new UpdateUserDtoValidator().ValidateAsync(request.UpdatedUserDto!, cancellationToken);
+
+            if (!validator.IsValid)
+                throw new Exception(validator.Errors.ToString());
+
             //Get Old Entity From Database via Repository
             var oldUserEntity = await Repository.GetAsync(c => c.Id == request.UserId);
 

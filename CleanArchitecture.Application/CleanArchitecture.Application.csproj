@@ -17,11 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validation\FluentValidation\Abstract\" />
     <Folder Include="Validation\FluentValidation\Validators\LeaveType\" />
     <Folder Include="Validation\FluentValidation\Validators\LeaveRequest\" />
     <Folder Include="Validation\FluentValidation\Validators\LeaveAllocation\" />
-    <Folder Include="Validation\FluentValidation\Validators\User\" />
   </ItemGroup>
 
 </Project>

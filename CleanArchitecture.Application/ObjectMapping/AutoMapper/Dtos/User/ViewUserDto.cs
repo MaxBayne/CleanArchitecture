@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User
 {
-    public class ViewUserDto : BaseDTO
+    public class ViewUserDto : BaseDto
     {
         public string Name { get; set; }
         public string Email { get; set; }
