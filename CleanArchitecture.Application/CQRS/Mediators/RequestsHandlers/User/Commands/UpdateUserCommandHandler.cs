@@ -5,7 +5,7 @@ using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.HandleExceptions.Exceptions;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
-using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Persistence.Repositories;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.User;
 
 
@@ -57,22 +57,14 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
             var updatedUserDto = AutoMapper.Map<UserDto>(updatedUserEntity);
             
             //Save Updated Entity inside database
-            var result = await Repository.UpdateAsync(updatedUserEntity);
+            await Repository.UpdateAsync(updatedUserEntity!);
 
             response.StopWatch.Stop();
 
-            if (result)
-            {
-                response.IsSuccess = true;
-                response.Message = "Update User Success";
-                response.OriginalData = oldUserDto;
-                response.UpdatedData = updatedUserDto;
-            }
-            else
-            {
-                response.IsSuccess = false;
-                response.Message = "Update User Fail via Repository";
-            }
+            response.IsSuccess = true;
+            response.Message = "Update User Success";
+            response.OriginalData = oldUserDto;
+            response.UpdatedData = updatedUserDto;
 
 
             return response;

@@ -5,7 +5,7 @@ using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.HandleExceptions.Exceptions;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
-using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Persistence.Repositories;
 
 
 
@@ -45,20 +45,12 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
             var originalUserDto = AutoMapper.Map<UserDto>(originalUserEntity);
 
             //Delete User From Database
-            var result = await Repository.DeleteAsync(request.UserId);
+            await Repository.DeleteAsync(request.UserId);
 
-            if (result)
-            {
-                response.IsSuccess = true;
-                response.Message = "Delete User Success";
-                response.DeletedData = originalUserDto;
-                response.DeletedId = request.UserId;
-            }
-            else
-            {
-                response.IsSuccess = false;
-                response.Message = "Delete User Fail via Repository";
-            }
+            response.IsSuccess = true;
+            response.Message = "Delete User Success";
+            response.DeletedData = originalUserDto;
+            response.DeletedId = request.UserId;
 
 
             return response;

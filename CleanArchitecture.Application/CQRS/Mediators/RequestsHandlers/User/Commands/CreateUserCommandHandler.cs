@@ -5,7 +5,7 @@ using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.HandleExceptions.Exceptions;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
-using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Persistence.Repositories;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.User;
 
 

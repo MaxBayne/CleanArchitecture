@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 
-namespace CleanArchitecture.Application.Persistence.Contracts
+namespace CleanArchitecture.Application.Persistence.Abstract
 {
-    public interface IGenericRepository<TEntity,TKey> where TEntity : class
+    public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        #region Get
-        
+        #region Select Single
+
         Task<TEntity?> GetAsync(TKey id);
         Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
@@ -15,7 +15,7 @@ namespace CleanArchitecture.Application.Persistence.Contracts
 
         #endregion
 
-        #region Gets
+        #region Select Multi
 
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
@@ -29,7 +29,7 @@ namespace CleanArchitecture.Application.Persistence.Contracts
         #region Update
 
         Task UpdateAsync(TEntity entity);
-        Task UpdateAsync(TKey id,TEntity entity);
+        Task UpdateAsync(TKey id, TEntity entity);
         #endregion
 
         #region Delete

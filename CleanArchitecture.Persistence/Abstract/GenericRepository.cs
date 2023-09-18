@@ -1,19 +1,19 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Persistence.Abstract
 {
-    public abstract class BaseRepository<TContext,TEntity, TKey> :IGenericRepository<TEntity, TKey> where TContext : DbContext where TEntity : class
+    public abstract class GenericRepository<TContext,TEntity, TKey> :IGenericRepository<TEntity, TKey> where TContext : DbContext where TEntity : class
     {
-        private readonly TContext _dbContext;
+        protected readonly TContext _dbContext;
 
-        protected BaseRepository(TContext dbContext)
+        protected GenericRepository(TContext dbContext)
         {
-            _dbContext=dbContext;
+            _dbContext= dbContext;
         }
 
-        #region Get
+        #region Select Single
 
         public async Task<TEntity?> GetAsync(TKey id)
         {
@@ -39,7 +39,7 @@ namespace CleanArchitecture.Persistence.Abstract
 
         #endregion
 
-        #region Gets
+        #region Select Multi
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {

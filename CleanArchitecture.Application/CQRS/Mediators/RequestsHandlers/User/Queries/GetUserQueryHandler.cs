@@ -4,7 +4,7 @@ using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Queries;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
-using CleanArchitecture.Application.Persistence.Contracts;
+using CleanArchitecture.Application.Persistence.Repositories;
 
 
 namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Queries
