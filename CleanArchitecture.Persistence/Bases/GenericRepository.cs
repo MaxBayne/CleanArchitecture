@@ -2,7 +2,7 @@
 using CleanArchitecture.Application.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.Persistence.Abstract
+namespace CleanArchitecture.Persistence.Bases
 {
     public abstract class GenericRepository<TContext,TEntity, TKey> :IGenericRepository<TEntity, TKey> where TContext : DbContext where TEntity : class
     {

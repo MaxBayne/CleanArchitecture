@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Persistence.Repositories;
 using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Persistence.Abstract;
+using CleanArchitecture.Persistence.Bases;
 using CleanArchitecture.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 

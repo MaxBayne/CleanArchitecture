@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace CleanArchitecture.Application.AppDependencyInjection
+namespace CleanArchitecture.Application.ADependencyInjection
 {
     public static class ApplicationServicesRegistration
     {
