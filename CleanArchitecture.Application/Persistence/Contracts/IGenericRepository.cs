@@ -6,15 +6,19 @@ namespace CleanArchitecture.Application.Persistence.Contracts
     {
         #region Get
         
-        Task<TEntity> GetAsync(TKey id);
-        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity?> GetAsync(TKey id);
+        Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
+
+
+        Task<bool> ExistAsync(TKey id);
+        Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate);
+
+        #endregion
+
+        #region Gets
 
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
-
-        Task<bool> ExistAsync(TKey id);
-        Task<bool> ExistAsync(TEntity entity);
-        Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate);
 
         #endregion
 
@@ -24,17 +28,16 @@ namespace CleanArchitecture.Application.Persistence.Contracts
 
         #region Update
 
-        Task<bool> UpdateAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TKey id, TEntity entity);
-
+        Task UpdateAsync(TEntity entity);
+        Task UpdateAsync(TKey id,TEntity entity);
         #endregion
 
         #region Delete
-        Task<bool> DeleteAsync(TKey id);
-        Task<bool> DeleteAsync(TEntity entity);
+        Task DeleteAsync(TKey id);
+        Task DeleteAsync(TEntity entity);
 
-        Task<bool> DeleteAllAsync();
-        Task<bool> DeleteAllAsync(Expression<Func<TEntity, bool>> predicate);
+        Task DeleteAllAsync();
+        Task DeleteAllAsync(Expression<Func<TEntity, bool>> predicate);
         #endregion
     }
 }
