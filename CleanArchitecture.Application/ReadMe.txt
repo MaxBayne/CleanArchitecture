@@ -1,25 +1,30 @@
-﻿AutoMapper
-==========
-- is Extension For .Net Core to Mapping Between Objects , mean convert from object to another 
-- we can use it to convert from entities to view models (DTO) data Transfer Object to reduce the details of entity as source to the target DTO (ViewModel) that will be interacted with UI
+﻿AppDependencyInjection
+===================
+- where we register all auto-mapper profiles inside dependency Injections system of .Net Core
+- where we register all mediators services configurations inside dependency injection system of .Net Core
 
-Mediators
-=========
-- is extension for implement (mediator) which is behavioral design pattern
 
 CQRS
 =====
 - stand for (Command and Query Responsibility Seggregation)
 - this pattern used to seperate commands actions from query actions
+- we use extension called (mediator) its behavioral design pattern to implement CQRS Pattern
 
-Fluent Validation
-=================
+HandleExceptions
+================
+- its way to handel custom exceptions 
+
+ObjectMapping (AutoMapper)
+==========================
+- is Extension For .Net Core to Mapping Between Objects , mean convert from object to another 
+- we can use it to convert from entities to view models (DTO) data Transfer Object to reduce the details of entity as source to the target DTO (ViewModel) that will be interacted with UI
+
+
+
+Validation (Fluent Validation)
+==============================
 - extension for make validation over DTO objects
 
-AppDependencyInjection
-===================
-- where we register all auto-mapper profiles inside dependency Injections system of .Net Core
-- where we register all mediators services configurations inside dependency injection system of .Net Core
 
 Persistance
 ===========

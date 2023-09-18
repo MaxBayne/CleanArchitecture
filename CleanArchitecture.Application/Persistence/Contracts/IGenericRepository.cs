@@ -12,6 +12,10 @@ namespace CleanArchitecture.Application.Persistence.Contracts
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
 
+        Task<bool> ExistAsync(TKey id);
+        Task<bool> ExistAsync(TEntity entity);
+        Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate);
+
         #endregion
 
         #region Insert
@@ -19,8 +23,10 @@ namespace CleanArchitecture.Application.Persistence.Contracts
         #endregion
 
         #region Update
+
         Task<bool> UpdateAsync(TEntity entity);
-        Task<bool> UpdateAsync(TKey id, TEntity entity);
+        Task<TEntity> UpdateAsync(TKey id, TEntity entity);
+
         #endregion
 
         #region Delete

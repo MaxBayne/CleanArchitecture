@@ -1,26 +1,31 @@
-﻿using AutoMapper;
+﻿using MediatR;
+using AutoMapper;
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Queries;
+using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using CleanArchitecture.Application.Persistence.Contracts;
-using MediatR;
+
 
 namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Queries
 {
-    public class GetUserListQueryHandler :HandlerBase<IUserRepository>, IRequestHandler<GetUserListQueryRequest, List<ViewUserDto>>
+    public class GetUserListQueryHandler :BaseHandler<IUserRepository>, IRequestHandler<GetUserListQueryRequest,QueryResponse<List<UserDto>>>
     {
         public GetUserListQueryHandler(IUserRepository repository, IMapper mapper) : base(repository, mapper) {}
 
-        public async Task<List<ViewUserDto>> Handle(GetUserListQueryRequest request, CancellationToken cancellationToken)
+        public async Task<QueryResponse<List<UserDto>>> Handle(GetUserListQueryRequest request, CancellationToken cancellationToken)
         {
+            var response = new QueryResponse<List<UserDto>>();
+
             //Get Data from Database using Repository as Entities
             var usersEntities = await Repository.GetAllAsync();
 
             //Convert Domain Entity to Dto using AutoMapper
-            var usersDto = AutoMapper.Map<List<ViewUserDto>>(usersEntities);
+            var usersDto = AutoMapper.Map<List<UserDto>>(usersEntities);
 
-            return usersDto;
+            response.QueriedData = usersDto;
 
+            return response;
         }
 
         

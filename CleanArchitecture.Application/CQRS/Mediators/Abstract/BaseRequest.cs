@@ -1,10 +1,10 @@
 ﻿namespace CleanArchitecture.Application.CQRS.Mediators.Abstract
 {
-    public interface IRequestBase
+    public interface IBaseRequest
     {
 
     }
-    public abstract class RequestBase : IRequestBase
+    public abstract class BaseRequest : IBaseRequest
     {
     }
 }

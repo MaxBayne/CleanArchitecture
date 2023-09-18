@@ -19,7 +19,7 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Profiles
             CreateMap<LeaveType, CreateLeaveTypeDto>().ReverseMap();
             CreateMap<LeaveType, UpdateLeaveTypeDto>().ReverseMap();
 
-            CreateMap<User, ViewUserDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserDto>().ReverseMap();
             CreateMap<User, UpdateUserDto>().ReverseMap();
 
