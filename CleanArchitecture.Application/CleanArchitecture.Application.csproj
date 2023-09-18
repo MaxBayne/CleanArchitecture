@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validation\FluentValidation\Validators\LeaveAllocation\**" />
+    <Compile Remove="Validation\FluentValidation\Validators\LeaveRequest\**" />
+    <Compile Remove="Validation\FluentValidation\Validators\LeaveType\**" />
+    <EmbeddedResource Remove="Validation\FluentValidation\Validators\LeaveAllocation\**" />
+    <EmbeddedResource Remove="Validation\FluentValidation\Validators\LeaveRequest\**" />
+    <EmbeddedResource Remove="Validation\FluentValidation\Validators\LeaveType\**" />
+    <None Remove="Validation\FluentValidation\Validators\LeaveAllocation\**" />
+    <None Remove="Validation\FluentValidation\Validators\LeaveRequest\**" />
+    <None Remove="Validation\FluentValidation\Validators\LeaveType\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
   </ItemGroup>
 
@@ -14,12 +26,6 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     <PackageReference Include="MediatR" Version="12.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Validation\FluentValidation\Validators\LeaveType\" />
-    <Folder Include="Validation\FluentValidation\Validators\LeaveRequest\" />
-    <Folder Include="Validation\FluentValidation\Validators\LeaveAllocation\" />
   </ItemGroup>
 
 </Project>

@@ -20,9 +20,6 @@ namespace CleanArchitecture.Persistence.ADependencyInjection
 
             //Register Repositories inside Dependency Injection System as Scoped
             //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
-            services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
-            services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
