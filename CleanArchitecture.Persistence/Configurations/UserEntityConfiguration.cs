@@ -8,7 +8,8 @@ namespace CleanArchitecture.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasOne(c=>c.Address);
+            builder.ToTable("Membership.Users");
+            builder.HasKey(u=>u.Id);
         }
     }
 }
