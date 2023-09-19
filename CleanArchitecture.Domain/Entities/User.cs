@@ -10,6 +10,6 @@ namespace CleanArchitecture.Domain.Entities
         public string? Email { get; set; }
         public string? Role { get; set; }
 
-        public Address Address { get; set; } = new Address();
+        public Address Address { get; set; } = new();
     }
 }
