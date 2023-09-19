@@ -1,5 +1,4 @@
 ﻿using CleanArchitecture.Domain.Bases;
-using CleanArchitecture.Domain.ObjectValues;
 
 namespace CleanArchitecture.Domain.Entities
 {
