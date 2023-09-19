@@ -1,6 +1,10 @@
-﻿namespace CleanArchitecture.Application.Models.Infrastructure
+﻿using CleanArchitecture.Application.Contracts.Infrastructure;
+
+namespace CleanArchitecture.Application.Models.Infrastructure
 {
-    public class EmailSettings
+   
+
+    public class EmailSettings : IEmailSettings
     {
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
