@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using AutoMapper;
+using CleanArchitecture.Application.Contracts.Infrastructure;
 using CleanArchitecture.Application.Contracts.Persistence.Repositories;
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.HandleExceptions.Exceptions;
+using CleanArchitecture.Application.Models.Infrastructure;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.User;
 
@@ -14,7 +16,12 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
 {
     public class UpdateUserCommandHandler: BaseHandler<IUserRepository>, IRequestHandler<UpdateUserCommandRequest,UpdateCommandResponse<UserDto>>
     {
-        public UpdateUserCommandHandler(IUserRepository repository, IMapper mapper) : base(repository, mapper) { }
+        private readonly IEmailSenderService _emailSenderService;
+
+        public UpdateUserCommandHandler(IUserRepository repository, IMapper mapper,IEmailSenderService emailSenderService) : base(repository, mapper)
+        {
+            _emailSenderService = emailSenderService;
+        }
 
         public async Task<UpdateCommandResponse<UserDto>> Handle(UpdateUserCommandRequest request, CancellationToken cancellationToken)
         {
@@ -66,6 +73,14 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
             response.OriginalData = oldUserDto;
             response.UpdatedData = updatedUserDto;
 
+            //Send Email Notification To User to say you info updated
+            await _emailSenderService.SendEmailAsync(new Email()
+            {
+                To = updatedUserDto.Email,
+                Subject = "User Profile Updated",
+                Body = $"your profile updated at {DateTime.Now}"
+
+            });
 
             return response;
         }
