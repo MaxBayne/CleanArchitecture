@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitecture.Application.Persistence.Abstract;
+using CleanArchitecture.Application.Contracts.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Persistence.Bases

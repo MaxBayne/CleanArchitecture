@@ -28,4 +28,8 @@
     <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Infrastructure\" />
+  </ItemGroup>
+
 </Project>

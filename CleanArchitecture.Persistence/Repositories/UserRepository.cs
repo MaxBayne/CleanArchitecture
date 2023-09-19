@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Persistence.Repositories;
+﻿using CleanArchitecture.Application.Contracts.Persistence.Repositories;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Persistence.Bases;
 using CleanArchitecture.Persistence.Contexts;

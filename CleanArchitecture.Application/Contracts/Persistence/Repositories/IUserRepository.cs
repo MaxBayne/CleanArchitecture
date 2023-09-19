@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.Persistence.Abstract;
+﻿using CleanArchitecture.Application.Contracts.Persistence.Abstract;
 using CleanArchitecture.Domain.Entities;
 
-namespace CleanArchitecture.Application.Persistence.Repositories
+namespace CleanArchitecture.Application.Contracts.Persistence.Repositories
 {
     public interface IUserRepository : IGenericRepository<User, int>
     {

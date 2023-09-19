@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CleanArchitecture.Application.Persistence.Abstract
+namespace CleanArchitecture.Application.Contracts.Persistence.Abstract
 {
     public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {

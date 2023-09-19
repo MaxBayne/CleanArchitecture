@@ -1,8 +1,11 @@
-﻿AppDependencyInjection
+﻿ADependencyInjection
 ===================
 - where we register all auto-mapper profiles inside dependency Injections system of .Net Core
 - where we register all mediators services configurations inside dependency injection system of .Net Core
 
+Contracts
+===========
+- where all interfaces for persistence or infrastructure live
 
 CQRS
 =====
@@ -26,6 +29,3 @@ Validation (Fluent Validation)
 - extension for make validation over DTO objects
 
 
-Persistance
-===========
-- where Repositories of our Entities lives

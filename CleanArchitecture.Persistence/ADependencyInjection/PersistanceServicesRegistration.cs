@@ -1,12 +1,11 @@
-﻿using CleanArchitecture.Application.Persistence.Abstract;
-using CleanArchitecture.Application.Persistence.Repositories;
-using CleanArchitecture.Persistence.Bases;
+﻿using CleanArchitecture.Persistence.Bases;
 using CleanArchitecture.Persistence.Contexts;
 using CleanArchitecture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using CleanArchitecture.Application.Contracts.Persistence.Repositories;
 
 namespace CleanArchitecture.Persistence.ADependencyInjection
 {
