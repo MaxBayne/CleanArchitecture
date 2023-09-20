@@ -27,60 +27,67 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
         {
             var response = new UpdateCommandResponse<UserDto>();
 
-
-            //Validate Dto 
-            var validator = await new UpdateUserDtoValidator().ValidateAsync(request.UpdatedUserDto!, cancellationToken);
-
-            if (!validator.IsValid)
+            try
             {
-                response.IsSuccess = false;
-                response.Message = "Update User Failed";
-                response.Errors = validator.Errors.Select(s => s.ErrorMessage).ToList();
-                response.Exception = new ValidationException(validator);
+                //Validate Dto 
+                var validator = await new UpdateUserDtoValidator().ValidateAsync(request.UpdatedUserDto!, cancellationToken);
 
-                return response;
+                if (!validator.IsValid)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Update User Failed";
+                    response.Errors = validator.Errors.Select(s => s.ErrorMessage).ToList();
+                    response.Exception = new ValidationException(validator);
+
+                    return response;
+                }
+
+                //check if original data exist or not
+                var isExist = await Repository.ExistAsync(request.UserId);
+                if (isExist == false)
+                {
+                    response.IsSuccess = false;
+                    response.Errors.Add($"User with Id {request.UserId} Not Found");
+                    response.Exception = new NotFoundException(nameof(request.UserId), request.UserId);
+
+                    return response;
+                }
+
+
+                response.StopWatch.Start();
+
+                //Get Old Entity From Database via Repository
+                var oldUserEntity = await Repository.GetAsync(c => c.Id == request.UserId);
+                var oldUserDto = AutoMapper.Map<UserDto>(oldUserEntity);
+
+                //Update OldUserEntity using UpdatedUserDto powered by auto mapper
+                var updatedUserEntity = AutoMapper.Map(request.UpdatedUserDto, oldUserEntity);
+                var updatedUserDto = AutoMapper.Map<UserDto>(updatedUserEntity);
+
+                //Save Updated Entity inside database
+                await Repository.UpdateAsync(updatedUserEntity!);
+
+                response.StopWatch.Stop();
+
+                response.IsSuccess = true;
+                response.Message = "Update User Success";
+                response.OriginalData = oldUserDto;
+                response.UpdatedData = updatedUserDto;
+
+                //Send Email Notification To User to say you info updated
+                await _emailSenderService.SendEmailAsync(new Email()
+                {
+                    To = updatedUserDto.Email,
+                    Subject = "User Profile Updated",
+                    Body = $"your profile updated at {DateTime.Now}"
+
+                });
+
             }
-
-            //check if original data exist or not
-            var isExist = await Repository.ExistAsync(request.UserId);
-            if (isExist == false)
+            catch (Exception e)
             {
-                response.IsSuccess = false;
-                response.Errors.Add($"User with Id {request.UserId} Not Found");
-                response.Exception = new NotFoundException(nameof(request.UserId), request.UserId);
-
-                return response;
+                response.Exception = new BadRequestException(e.Message);
             }
-
-
-            response.StopWatch.Start();
-
-            //Get Old Entity From Database via Repository
-            var oldUserEntity = await Repository.GetAsync(c => c.Id == request.UserId);
-            var oldUserDto = AutoMapper.Map<UserDto>(oldUserEntity);
-
-            //Update OldUserEntity using UpdatedUserDto powered by auto mapper
-            var updatedUserEntity=AutoMapper.Map(request.UpdatedUserDto, oldUserEntity);
-            var updatedUserDto = AutoMapper.Map<UserDto>(updatedUserEntity);
-            
-            //Save Updated Entity inside database
-            await Repository.UpdateAsync(updatedUserEntity!);
-
-            response.StopWatch.Stop();
-
-            response.IsSuccess = true;
-            response.Message = "Update User Success";
-            response.OriginalData = oldUserDto;
-            response.UpdatedData = updatedUserDto;
-
-            //Send Email Notification To User to say you info updated
-            await _emailSenderService.SendEmailAsync(new Email()
-            {
-                To = updatedUserDto.Email,
-                Subject = "User Profile Updated",
-                Body = $"your profile updated at {DateTime.Now}"
-
-            });
 
             return response;
         }

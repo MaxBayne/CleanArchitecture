@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Contracts.Persistence.Repositories;
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Queries;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
+using CleanArchitecture.Application.HandleExceptions.Exceptions;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 
 
@@ -17,13 +18,20 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Que
         {
             var response = new QueryResponse<List<UserDto>>();
 
-            //Get Data from Database using Repository as Entities
-            var usersEntities = await Repository.GetAllAsync();
+            try
+            {
+                //Get Data from Database using Repository as Entities
+                var usersEntities = await Repository.GetAllAsync();
 
-            //Convert Domain Entity to Dto using AutoMapper
-            var usersDto = AutoMapper.Map<List<UserDto>>(usersEntities);
+                //Convert Domain Entity to Dto using AutoMapper
+                var usersDto = AutoMapper.Map<List<UserDto>>(usersEntities);
 
-            response.QueriedData = usersDto;
+                response.QueriedData = usersDto;
+            }
+            catch (Exception e)
+            {
+                response.Exception = new BadRequestException(e.Message);
+            }
 
             return response;
         }

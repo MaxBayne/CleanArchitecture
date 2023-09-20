@@ -4,6 +4,9 @@ using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
+using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
+
 // ReSharper disable NotAccessedField.Local
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,7 +33,7 @@ namespace CleanArchitecture.API.Controllers
         [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<UserDto>>> Get()
+        public async Task<ActionResult<QueryResponse<List<UserDto>>>> Get()
         {
             try
             {
@@ -52,7 +55,7 @@ namespace CleanArchitecture.API.Controllers
                         return NoContent();
                     }
 
-                    return Ok(response.QueriedData);
+                    return Ok(response);
                 }
             }
             catch (Exception ex)
@@ -66,7 +69,7 @@ namespace CleanArchitecture.API.Controllers
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UserDto>> Get(int id)
+        public async Task<ActionResult<QueryResponse<UserDto>>> Get(int id)
         {
             try
             {
@@ -92,7 +95,7 @@ namespace CleanArchitecture.API.Controllers
                         return NotFound();
                     }
 
-                    return Ok(response.QueriedData);
+                    return Ok(response);
                 }
             }
             catch (Exception ex)
@@ -105,7 +108,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UserDto>> Post([FromBody] CreateUserDto newUser)
+        public async Task<ActionResult<CreateCommandResponse<UserDto>>> Post([FromBody] CreateUserDto newUser)
         {
             try
             {
@@ -125,7 +128,7 @@ namespace CleanArchitecture.API.Controllers
                 else
                 {
                     //On Response Success
-                    return CreatedAtAction(nameof(Get),new {id=response.CreatedData!.Id},response.CreatedData);
+                    return CreatedAtAction(nameof(Get),new {id=response.CreatedData!.Id},response);
                 }
             }
             catch (Exception ex)
@@ -138,7 +141,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Put(int id, [FromBody] UpdateUserDto updatedUser)
+        public async Task<ActionResult<UpdateCommandResponse<UserDto>>> Put(int id, [FromBody] UpdateUserDto updatedUser)
         {
             try
             {
@@ -159,7 +162,7 @@ namespace CleanArchitecture.API.Controllers
                 else
                 {
                     //On Response Success
-                    return NoContent();
+                    return Ok(response);
                 }
             }
             catch (Exception ex)
@@ -172,7 +175,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult<DeleteCommandResponse<UserDto>>> Delete(int id)
         {
             try
             {
@@ -192,7 +195,7 @@ namespace CleanArchitecture.API.Controllers
                 else
                 {
                     //On Response Success
-                    return  NoContent();
+                    return  Ok(response);
                 }
             }
             catch (Exception ex)

@@ -18,39 +18,46 @@ namespace CleanArchitecture.Application.CQRS.Mediators.RequestsHandlers.User.Com
         {
             var response = new DeleteCommandResponse<UserDto>();
 
-            //Validate 
-            if (request.UserId == 0)
+            try
             {
-                response.IsSuccess = false;
-                response.Message = "Delete User Failed";
-                response.Exception = new ValidationException($"{nameof(request.UserId)} equal zero");
+                //Validate 
+                if (request.UserId == 0)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Delete User Failed";
+                    response.Exception = new ValidationException($"{nameof(request.UserId)} equal zero");
 
-                return response;
+                    return response;
+                }
+
+
+                //check if original data exist or not
+                var isExist = await Repository.ExistAsync(request.UserId);
+                if (isExist == false)
+                {
+                    response.IsSuccess = false;
+                    response.Errors.Add($"User with Id {request.UserId} Not Found");
+                    response.Exception = new NotFoundException(nameof(request.UserId), request.UserId);
+
+                    return response;
+                }
+
+                var originalUserEntity = await Repository.GetAsync(request.UserId);
+                var originalUserDto = AutoMapper.Map<UserDto>(originalUserEntity);
+
+                //Delete User From Database
+                await Repository.DeleteAsync(request.UserId);
+
+                response.IsSuccess = true;
+                response.Message = "Delete User Success";
+                response.DeletedData = originalUserDto;
+                response.DeletedId = request.UserId;
+
             }
-
-
-            //check if original data exist or not
-            var isExist = await Repository.ExistAsync(request.UserId);
-            if (isExist == false)
+            catch (Exception e)
             {
-                response.IsSuccess = false;
-                response.Errors.Add($"User with Id {request.UserId} Not Found");
-                response.Exception = new NotFoundException(nameof(request.UserId), request.UserId);
-
-                return response;
+                response.Exception = new BadRequestException(e.Message);
             }
-
-            var originalUserEntity = await Repository.GetAsync(request.UserId);
-            var originalUserDto = AutoMapper.Map<UserDto>(originalUserEntity);
-
-            //Delete User From Database
-            await Repository.DeleteAsync(request.UserId);
-
-            response.IsSuccess = true;
-            response.Message = "Delete User Success";
-            response.DeletedData = originalUserDto;
-            response.DeletedId = request.UserId;
-
 
             return response;
         }
