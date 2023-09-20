@@ -3,7 +3,8 @@ using CleanArchitecture.Application.CQRS.Mediators.Requests.User.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
+using System.Net.Mime;
+// ReSharper disable NotAccessedField.Local
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,6 +12,7 @@ namespace CleanArchitecture.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
@@ -25,6 +27,9 @@ namespace CleanArchitecture.API.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
+        [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<UserDto>>> Get()
         {
             try
@@ -58,6 +63,9 @@ namespace CleanArchitecture.API.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
             try
@@ -81,7 +89,7 @@ namespace CleanArchitecture.API.Controllers
 
                     if (response.QueriedData==null)
                     {
-                        return NoContent();
+                        return NotFound();
                     }
 
                     return Ok(response.QueriedData);
@@ -95,6 +103,8 @@ namespace CleanArchitecture.API.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserDto>> Post([FromBody] CreateUserDto newUser)
         {
             try
@@ -126,6 +136,8 @@ namespace CleanArchitecture.API.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Put(int id, [FromBody] UpdateUserDto updatedUser)
         {
             try
@@ -158,6 +170,8 @@ namespace CleanArchitecture.API.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete(int id)
         {
             try

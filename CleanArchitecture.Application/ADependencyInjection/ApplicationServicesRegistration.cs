@@ -11,7 +11,11 @@ namespace CleanArchitecture.Application.ADependencyInjection
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             //Register Mediator Services Configurations inside Dependency Injection System
-            //services.AddMediatR();
+            services.AddMediatR((config) =>
+            {
+                config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+            });
             
 
             return services;

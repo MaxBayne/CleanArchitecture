@@ -1,3 +1,4 @@
+using CleanArchitecture.API.ADependencyInjection;
 using CleanArchitecture.Application.ADependencyInjection;
 using CleanArchitecture.Infrastructure.ADependencyInjection;
 using CleanArchitecture.Persistence.ADependencyInjection;
@@ -15,11 +16,7 @@ namespace CleanArchitecture.API
             builder.Services.ConfigureApplicationServices();
             builder.Services.ConfigureInfrastructureServices(builder.Configuration);
             builder.Services.ConfigurePersistanceServices(builder.Configuration);
-
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddCors(o =>{ o.AddPolicy("CorsPolicy",corsPolicyBuilder=>corsPolicyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
+            builder.Services.ConfigureApiServices();
 
             // Build Application
             var app = builder.Build();
