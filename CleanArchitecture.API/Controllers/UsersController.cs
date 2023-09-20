@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
+using CleanArchitecture.API.Attributes;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -30,9 +31,9 @@ namespace CleanArchitecture.API.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(StatusCodes.Status204NoContent)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<QueryResponse<List<UserDto>>>> Get()
         {
             try
@@ -66,9 +67,9 @@ namespace CleanArchitecture.API.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ResponseType(StatusCodes.Status404NotFound)]
+        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<QueryResponse<UserDto>>> Get(int id)
         {
             try
@@ -106,8 +107,8 @@ namespace CleanArchitecture.API.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CreateCommandResponse<UserDto>>> Post([FromBody] CreateUserDto newUser)
         {
             try
@@ -139,8 +140,8 @@ namespace CleanArchitecture.API.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status204NoContent)]
+        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UpdateCommandResponse<UserDto>>> Put(int id, [FromBody] UpdateUserDto updatedUser)
         {
             try
@@ -173,8 +174,8 @@ namespace CleanArchitecture.API.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status204NoContent)]
+        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DeleteCommandResponse<UserDto>>> Delete(int id)
         {
             try
