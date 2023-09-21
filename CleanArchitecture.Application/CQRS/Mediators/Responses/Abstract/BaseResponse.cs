@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 using CleanArchitecture.Application.HandleExceptions.Abstract;
 using FluentValidation.Results;
 
@@ -17,19 +18,26 @@ namespace CleanArchitecture.Application.CQRS.Mediators.Responses.Abstract
         public string Message { get; set; } = string.Empty;
 
         /// <summary>
-        /// Watcher used to calc process time just start stopWatch before process and stop watcher after finish it
-        /// </summary>
-        public Stopwatch StopWatch { get; private set; } = new Stopwatch();
-
-
-        public BaseException? Exception { get; set; }
-
-        /// <summary>
         /// List of Errors if operation failure
         /// </summary>
         public List<string> Errors { get; set; } = new List<string>();
 
-        private ValidationResult _validationResult=new ValidationResult();
+        #region Helpers
+
+        /// <summary>
+        /// Watcher used to calc process time just start stopWatch before process and stop watcher after finish it
+        /// </summary>
+        [JsonIgnore]
+        public Stopwatch StopWatch { get; private set; } = new Stopwatch();
+
+        [JsonIgnore]
+        public BaseException? Exception { get; set; }
+
+
+        [JsonIgnore]
+        private ValidationResult _validationResult = new ValidationResult();
+
+        [JsonIgnore]
         public ValidationResult ValidationResult
         {
             get => _validationResult;
@@ -39,10 +47,11 @@ namespace CleanArchitecture.Application.CQRS.Mediators.Responses.Abstract
 
                 IsSuccess = _validationResult.IsValid;
 
-                _validationResult.Errors.ForEach((error)=>Errors.Add(error.ErrorMessage));
+                _validationResult.Errors.ForEach((error) => Errors.Add(error.ErrorMessage));
             }
         }
 
+        #endregion
 
     }
 }

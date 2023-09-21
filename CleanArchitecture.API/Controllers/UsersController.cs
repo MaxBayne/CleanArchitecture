@@ -4,9 +4,9 @@ using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using CleanArchitecture.API.Attributes;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
-using CleanArchitecture.API.Attributes;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -67,9 +67,9 @@ namespace CleanArchitecture.API.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        [ResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
-        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<QueryResponse<UserDto>>> Get(int id)
         {
             try
@@ -107,8 +107,8 @@ namespace CleanArchitecture.API.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        [ResponseType(typeof(UserDto), StatusCodes.Status201Created)]
-        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status201Created)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CreateCommandResponse<UserDto>>> Post([FromBody] CreateUserDto newUser)
         {
             try
@@ -141,7 +141,7 @@ namespace CleanArchitecture.API.Controllers
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
-        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UpdateCommandResponse<UserDto>>> Put(int id, [FromBody] UpdateUserDto updatedUser)
         {
             try
@@ -175,7 +175,7 @@ namespace CleanArchitecture.API.Controllers
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
-        [ResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DeleteCommandResponse<UserDto>>> Delete(int id)
         {
             try
