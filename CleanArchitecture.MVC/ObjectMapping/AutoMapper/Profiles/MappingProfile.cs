@@ -14,7 +14,10 @@ namespace CleanArchitecture.MVC.ObjectMapping.AutoMapper.Profiles
             CreateMap<DeleteUserDto, DeleteUserViewModel>().ReverseMap();
             CreateMap<ChangeUserAvailabilityDto, ChangeUserAvailabilityViewModel>().ReverseMap();
             CreateMap<ChangeUserRoleDto, ChangeUserRoleViewModel>().ReverseMap();
-
+            
+            CreateMap<UserViewModel, CreateUserViewModel>().ReverseMap();
+            CreateMap<UserViewModel, UpdateUserViewModel>().ReverseMap();
+            CreateMap<UserViewModel, DeleteUserViewModel>().ReverseMap();
         }
     }
 }

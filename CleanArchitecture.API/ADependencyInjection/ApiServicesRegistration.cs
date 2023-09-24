@@ -11,7 +11,10 @@ namespace CleanArchitecture.API.ADependencyInjection
 
             services.AddTransient<IMediator, Mediator>();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null; //make api serialize objects without change camel case of names
+            });
             
             services.AddEndpointsApiExplorer();
             
@@ -21,7 +24,7 @@ namespace CleanArchitecture.API.ADependencyInjection
             });
             
             services.AddCors(o => { o.AddPolicy("CorsPolicy", corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
-
+            
 
             return services;
         }

@@ -13,14 +13,15 @@ namespace CleanArchitecture.MVC.ADependencyInjection
 
             var apiUrl = configuration.GetSection("api").Value;
 
+            services.AddControllersWithViews();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddHttpClient<IApiClient, ApiClient>(c=>c.BaseAddress=new Uri(apiUrl!));
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
+            services.AddScoped<IUsersService, UsersService>();
 
-
-            services.AddControllersWithViews();
+            
 
 
             return services;
