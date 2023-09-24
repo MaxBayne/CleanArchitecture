@@ -3,10 +3,9 @@
     //Stored inside Client App Settings
     public class JWTSettings
     {
-        public string ApiKey { get; set; }
-        public string ApiSecret { get; set; }
-
+        public string SecretKey { get; set; }
         public string Issuer { get; set; }
+        public string Audience { get; set; }
         public string DurationInMinutes { get; set; }
     }
 }

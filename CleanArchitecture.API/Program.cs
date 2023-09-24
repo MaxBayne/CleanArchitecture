@@ -2,6 +2,7 @@ using CleanArchitecture.API.ADependencyInjection;
 using CleanArchitecture.Application.ADependencyInjection;
 using CleanArchitecture.Infrastructure.ADependencyInjection;
 using CleanArchitecture.Persistence.ADependencyInjection;
+using CleanArchitecture.Identity.ADependencyInjection;
 
 
 namespace CleanArchitecture.API
@@ -16,6 +17,7 @@ namespace CleanArchitecture.API
             builder.Services.ConfigureApplicationServices();
             builder.Services.ConfigureInfrastructureServices(builder.Configuration);
             builder.Services.ConfigurePersistanceServices(builder.Configuration);
+            builder.Services.ConfigureIdentityServices(builder.Configuration);
             builder.Services.ConfigureApiServices();
 
             // Build Application
