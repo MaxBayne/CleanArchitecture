@@ -7,6 +7,7 @@ using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.Book.Commands;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
+using Microsoft.AspNetCore.Authorization;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -106,6 +107,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // POST api/<BookController>
+        //[Authorize]
         [HttpPost]
         [ResponseType(StatusCodes.Status201Created)]
         [ResponseType(StatusCodes.Status400BadRequest)]
@@ -138,7 +140,9 @@ namespace CleanArchitecture.API.Controllers
             }
         }
 
+
         // PUT api/<BookController>/5
+        //[Authorize]
         [HttpPut("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
@@ -173,6 +177,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // DELETE api/<BookController>/5
+        //[Authorize]
         [HttpDelete("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]

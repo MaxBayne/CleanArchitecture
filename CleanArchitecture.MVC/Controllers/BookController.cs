@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.MVC.Controllers
 {
-    public class BooksController : Controller
+    public class BookController : Controller
     {
         private readonly IBooksService _booksService;
         private readonly IMapper _mapper;
 
-        public BooksController(IBooksService booksService,IMapper mapper)
+        public BookController(IBooksService booksService,IMapper mapper)
         {
             _booksService = booksService;
             _mapper = mapper;

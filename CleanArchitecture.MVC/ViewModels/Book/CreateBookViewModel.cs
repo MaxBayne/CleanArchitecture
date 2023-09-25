@@ -11,6 +11,7 @@ namespace CleanArchitecture.MVC.ViewModels.Book
 
         [Required]
         public string? Category { get; set; }
-        public bool? IsActive { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

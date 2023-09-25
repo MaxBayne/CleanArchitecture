@@ -12,22 +12,22 @@ namespace CleanArchitecture.MVC.Services.Implement
 
         public async Task<ApiResponse<List<ViewBookViewModel>>> GetBooks()
         {
-            return  await GetAsync<List<ViewBookDto>, List<ViewBookViewModel>>("books");
+            return  await GetAsync<List<ViewBookDto>, List<ViewBookViewModel>>("book");
         }
 
         public async Task<ApiResponse<ViewBookViewModel>> GetBook(int id)
         {
-            return await GetAsync<ViewBookDto, ViewBookViewModel>($"books/{id}");
+            return await GetAsync<ViewBookDto, ViewBookViewModel>($"book/{id}");
         }
 
         public async Task<ApiResponse<ViewBookViewModel>> CreateBook(CreateBookViewModel book)
         {
-            return await PostAsync<ViewBookDto, ViewBookViewModel>("books", book);
+            return await PostAsync<ViewBookDto, ViewBookViewModel>("book", book);
         }
 
         public async Task<ApiResponse> UpdateBook(UpdateBookViewModel book)
         {
-            var result = await PutAsync<ViewBookDto, ViewBookViewModel>($"books/{book.Id}", book);
+            var result = await PutAsync<ViewBookDto, ViewBookViewModel>($"book/{book.Id}", book);
 
             return new ApiResponse(result.IsSuccess,result.Message, result.ValidationErrors);
 
@@ -36,7 +36,7 @@ namespace CleanArchitecture.MVC.Services.Implement
 
         public async Task<ApiResponse> DeleteBook(int bookId)
         {
-            var result = await DeleteAsync<ViewBookDto, ViewBookViewModel>($"books/{bookId}");
+            var result = await DeleteAsync<ViewBookDto, ViewBookViewModel>($"book/{bookId}");
 
             return new ApiResponse(result.IsSuccess, result.Message, result.ValidationErrors);
 
