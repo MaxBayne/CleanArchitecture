@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
-using CleanArchitecture.MVC.ViewModels.User;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
+using CleanArchitecture.MVC.ViewModels.Book;
 
 namespace CleanArchitecture.MVC.ObjectMapping.AutoMapper.Profiles
 {
@@ -8,16 +8,14 @@ namespace CleanArchitecture.MVC.ObjectMapping.AutoMapper.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, UserViewModel>().ReverseMap();
-            CreateMap<CreateUserDto, CreateUserViewModel>().ReverseMap();
-            CreateMap<UpdateUserDto, UpdateUserViewModel>().ReverseMap();
-            CreateMap<DeleteUserDto, DeleteUserViewModel>().ReverseMap();
-            CreateMap<ChangeUserAvailabilityDto, ChangeUserAvailabilityViewModel>().ReverseMap();
-            CreateMap<ChangeUserRoleDto, ChangeUserRoleViewModel>().ReverseMap();
+            CreateMap<ViewBookDto, ViewBookViewModel>().ReverseMap();
+            CreateMap<CreateBookDto, CreateBookViewModel>().ReverseMap();
+            CreateMap<UpdateBookDto, UpdateBookViewModel>().ReverseMap();
+            CreateMap<DeleteBookDto, DeleteBookViewModel>().ReverseMap();
             
-            CreateMap<UserViewModel, CreateUserViewModel>().ReverseMap();
-            CreateMap<UserViewModel, UpdateUserViewModel>().ReverseMap();
-            CreateMap<UserViewModel, DeleteUserViewModel>().ReverseMap();
+            CreateMap<ViewBookViewModel, CreateBookViewModel>().ReverseMap();
+            CreateMap<ViewBookViewModel, UpdateBookViewModel>().ReverseMap();
+            CreateMap<ViewBookViewModel, DeleteBookViewModel>().ReverseMap();
         }
     }
 }

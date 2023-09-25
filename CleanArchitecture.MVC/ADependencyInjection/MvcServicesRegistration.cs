@@ -19,7 +19,7 @@ namespace CleanArchitecture.MVC.ADependencyInjection
 
 
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
-            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IBooksService, BooksService>();
 
             
 

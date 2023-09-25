@@ -16,7 +16,7 @@ namespace CleanArchitecture.API
             // Config services to the container.
             builder.Services.ConfigureApplicationServices();
             builder.Services.ConfigureInfrastructureServices(builder.Configuration);
-            builder.Services.ConfigurePersistanceServices(builder.Configuration);
+            builder.Services.ConfigurePersistenceServices(builder.Configuration);
             builder.Services.ConfigureIdentityServices(builder.Configuration);
             builder.Services.ConfigureApiServices();
 
@@ -31,8 +31,15 @@ namespace CleanArchitecture.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("CorsPolicy");
+
+            //Configure Security
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
+
 
             //Start Application
             app.Run();

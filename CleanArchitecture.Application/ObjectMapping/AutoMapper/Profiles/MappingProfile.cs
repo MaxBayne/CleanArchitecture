@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.User;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Domain.Entities;
 
 namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Profiles
@@ -8,9 +8,10 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<User, CreateUserDto>().ReverseMap();
-            CreateMap<User, UpdateUserDto>().ReverseMap();
+            CreateMap<Book, ViewBookDto>().ReverseMap();
+            CreateMap<Book, CreateBookDto>().ReverseMap();
+            CreateMap<Book, UpdateBookDto>().ReverseMap();
+            CreateMap<Book, DeleteBookDto>().ReverseMap();
         }
     }
 }
