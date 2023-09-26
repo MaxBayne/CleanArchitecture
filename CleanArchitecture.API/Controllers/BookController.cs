@@ -31,6 +31,7 @@ namespace CleanArchitecture.API.Controllers
 
 
         // GET: api/<BookController>
+        [Authorize]
         [HttpGet]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]

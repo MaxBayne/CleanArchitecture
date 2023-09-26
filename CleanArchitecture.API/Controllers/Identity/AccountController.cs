@@ -36,14 +36,14 @@ namespace CleanArchitecture.API.Controllers.Identity
 
             _logger.LogInformation($"User ({loginRequest.UserName}) failed login");
 
-            return BadRequest(loginResponse.Exception);
+            return BadRequest(loginResponse.ErrorMessage);
         }
 
         
         [HttpPost("register")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<LoginResponse>> Register(RegisterRequest registerRequest)
+        public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest registerRequest)
         {
             var registerResponse = await _identityService.RegisterAsync(registerRequest);
 
@@ -52,7 +52,7 @@ namespace CleanArchitecture.API.Controllers.Identity
                 return Ok(registerResponse);
             }
 
-            return BadRequest(registerResponse.Exception);
+            return BadRequest(registerResponse.ErrorMessage);
         }
         
     }

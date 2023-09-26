@@ -1,4 +1,6 @@
-﻿namespace CleanArchitecture.Application.Models.Identity
+﻿using System.Security.Claims;
+
+namespace CleanArchitecture.Application.Models.Identity
 {
     public class LoginResponse
     {
@@ -8,7 +10,8 @@
         public string UserToken { get; set; }
         
         public bool IsSuccess { get; set; }
-        public Exception Exception { get; set; }
+        public string ErrorMessage { get; set; }
 
+        public List<Claim> UserClaims { get; set; }
     }
 }

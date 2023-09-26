@@ -4,7 +4,8 @@ namespace CleanArchitecture.Application.Contracts.Identity
 {
     public interface IIdentityService
     {
-        Task<LoginResponse> LoginAsync(LoginRequest request);
         Task<RegisterResponse> RegisterAsync(RegisterRequest request);
+
+        Task<LoginResponse> LoginAsync(LoginRequest request);
     }
 }
