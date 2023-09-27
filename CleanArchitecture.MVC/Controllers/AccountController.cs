@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using CleanArchitecture.Application.Contracts.Identity;
 using CleanArchitecture.Application.Models.Identity;
 using CleanArchitecture.MVC.Services.Contracts;
 using CleanArchitecture.MVC.Services.Implement;
@@ -20,7 +19,7 @@ namespace CleanArchitecture.MVC.Controllers
             _identityService = identityService;
             this._localStorageService = _localStorageService;
         }
-
+        /*
         [HttpGet]
         public IActionResult Login(string? returnUrl)
         {
@@ -30,6 +29,7 @@ namespace CleanArchitecture.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVm)
         {
+            
             //Validate Model
             if (!ModelState.IsValid)
             {
@@ -64,20 +64,33 @@ namespace CleanArchitecture.MVC.Controllers
             _localStorageService.SetStorageValue<string>("token", loginResult.UserToken);
 
             //Redirect User to returnUrl
+            loginVm.ReturnUrl ??= Url.Content("~/");
             return LocalRedirect(loginVm.ReturnUrl);
+            
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        [HttpPost]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //    _localStorageService.ClearStorage("token");
+            _localStorageService.ClearStorage("token");
 
-        //    //return RedirectToAction(actionName: "Index",controllerName: "HomeController");
-        //}
+            //return RedirectToAction(actionName: "Index",controllerName: "HomeController");
+        }
 
-       
-
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel registerVm)
+        {
+            return View();
+        }
+    
+        */
     }
+
 }

@@ -10,12 +10,12 @@ namespace CleanArchitecture.API.Controllers.Identity
     [Route("api/[controller]")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    public class AccountController : ControllerBase
+    public class IdentityController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<IdentityController> _logger;
         private readonly IIdentityService _identityService;
 
-        public AccountController(IIdentityService identityService, ILogger<AccountController> logger)
+        public IdentityController(IIdentityService identityService, ILogger<IdentityController> logger)
         {
             _identityService = identityService;
             _logger = logger;

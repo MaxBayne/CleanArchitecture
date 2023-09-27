@@ -31,7 +31,7 @@ namespace CleanArchitecture.API.Controllers
 
 
         // GET: api/<BookController>
-        [Authorize]
+        
         [HttpGet]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
@@ -68,6 +68,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // GET api/<BookController>/5
+        [Authorize]
         [HttpGet("{id}")]
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
