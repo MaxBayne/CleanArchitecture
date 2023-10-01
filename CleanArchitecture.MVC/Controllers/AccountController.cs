@@ -1,10 +1,5 @@
-﻿using System.Security.Claims;
-using CleanArchitecture.Application.Models.Identity;
-using CleanArchitecture.MVC.Services.Contracts;
-using CleanArchitecture.MVC.Services.Implement;
+﻿using CleanArchitecture.MVC.Services.Contracts;
 using CleanArchitecture.MVC.ViewModels.Account;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.MVC.Controllers
@@ -12,14 +7,13 @@ namespace CleanArchitecture.MVC.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityService _identityService;
-        private readonly ILocalStorageService _localStorageService;
+        
 
-        public AccountController(IIdentityService identityService,ILocalStorageService _localStorageService)
+        public AccountController(IIdentityService identityService)
         {
             _identityService = identityService;
-            this._localStorageService = _localStorageService;
         }
-        /*
+        
         [HttpGet]
         public IActionResult Login(string? returnUrl)
         {
@@ -29,68 +23,57 @@ namespace CleanArchitecture.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVm)
         {
-            
-            //Validate Model
-            if (!ModelState.IsValid)
+            try
             {
-                return View();
+                //Validate Model
+                if (!ModelState.IsValid)
+                {
+                    return View(loginVm);
+                }
+
+                //Try To Login using Api and Identity Service
+                var loginResult = await _identityService.Login(loginVm.UserName, loginVm.UserPassword, loginVm.SecurityStamp);
+
+                //if login failed ----------------------
+                if (!loginResult)
+                {
+                    ModelState.AddModelError("", "Login Attempt Failed . Please try again");
+                    return View(loginVm);
+                }
+
+                //if login Success ---------------------
+
+                //Redirect User to returnUrl
+                return LocalRedirect(loginVm.ReturnUrl);
             }
-
-            //Try To Login using Api and Identity Service
-            var loginResult = await _identityService.LoginAsync(new LoginRequest
+            catch (Exception e)
             {
-                UserName = loginVm.UserName,
-                UserPassword = loginVm.UserPassword,
-                SecurityStamp = loginVm.SecurityStamp
-            });
-
-            //if login failed ----------------------
-            if (!loginResult.IsSuccess)
-            {
-                ModelState.AddModelError("","Login Attempt Failed . Please try again");
+                ModelState.AddModelError("", e.Message);
                 return View(loginVm);
             }
-
-            //if login Success ---------------------
-
-            //create user Principal that contain its claims
-            var claimsIdentity = new ClaimsIdentity(loginResult.UserClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-            //sign-in user Principal inside httpContext
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
-
-            //store user Token inside LocalStorage
-            _localStorageService.SetStorageValue<string>("token", loginResult.UserToken);
-
-            //Redirect User to returnUrl
-            loginVm.ReturnUrl ??= Url.Content("~/");
-            return LocalRedirect(loginVm.ReturnUrl);
             
         }
 
         [HttpPost]
-        public async Task Logout()
+        public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //Try To Login using Api and Identity Service
+            await _identityService.Logout();
 
-            _localStorageService.ClearStorage("token");
-
-            //return RedirectToAction(actionName: "Index",controllerName: "HomeController");
+            return RedirectToAction(actionName: "Index",controllerName: "Home");
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Register(RegisterViewModel registerVm)
-        {
-            return View();
-        }
-    
-        */
+        //[HttpGet]
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Register(RegisterViewModel registerVm)
+        //{
+        //    return View();
+        //}
+
+
     }
-
 }

@@ -22,6 +22,9 @@ namespace CleanArchitecture.MVC
                 app.UseHsts();
             }
 
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

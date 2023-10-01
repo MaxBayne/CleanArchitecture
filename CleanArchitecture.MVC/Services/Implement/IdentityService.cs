@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using CleanArchitecture.Application.Models.Identity;
 using CleanArchitecture.MVC.Services.Abstract;
 using CleanArchitecture.MVC.Services.Contracts;
-using CleanArchitecture.MVC.ViewModels.Account;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CleanArchitecture.MVC.Services.Implement
 {
@@ -22,34 +23,41 @@ namespace CleanArchitecture.MVC.Services.Implement
 
             try
             {
-                /*
+                
                 //Try To Login using Api and Identity Service
-                var loginResult = await PostAsync<,LoginViewModel>("Identity/login", new LoginRequest
+                var data = new LoginRequest
                 {
                     UserName = username,
                     UserPassword = password,
                     SecurityStamp = securityStamp
-                });
+                };
 
+                var serviceResult = await PostAsync<LoginResponse>("Identity/login", data);
+
+                var loginResponse = serviceResult.Data;
+
+                
                 //if login failed ----------------------
-                if (!loginResult.IsSuccess)
-                {
-                    ModelState.AddModelError("", "Login Attempt Failed . Please try again");
-                    return View(loginVm);
-                }
+
+
+                if (serviceResult.IsSuccess==false || string.IsNullOrEmpty(loginResponse.UserToken))
+                    return false;
+
 
                 //if login Success ---------------------
 
                 //create user Principal that contain its claims
-                var claimsIdentity = new ClaimsIdentity(loginResult.UserClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsIdentity = new ClaimsIdentity(loginResponse.UserClaims, CookieAuthenticationDefaults.AuthenticationScheme,"name","role");
+                
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                 //sign-in user Principal inside httpContext
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+                await _httpContextAccessor.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+                
 
                 //store user Token inside LocalStorage
-                _localStorageService.SetStorageValue<string>("token", loginResult.UserToken);
-                */
+                LocalStorage.SetStorageValue("token", loginResponse.UserToken);
+                
                 return true;
             }
             catch (Exception)
@@ -60,12 +68,40 @@ namespace CleanArchitecture.MVC.Services.Implement
 
         public async Task Logout()
         {
-            throw new NotImplementedException();
+            await _httpContextAccessor.HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            LocalStorage.ClearStorage("token");
         }
 
         public async Task<bool> Register(string username, string password, string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                //Try To Register using Api and Identity Service
+                var data = new RegisterRequest
+                {
+                    UserName = username,
+                    UserPassword = password,
+                    Email = email
+                };
+
+                var serviceResult = await PostAsync<RegisterResponse>("Identity/register", data);
+
+                var registerResponse = serviceResult.Data;
+
+                //if register failed ----------------------
+                if (registerResponse.IsSuccess == false && string.IsNullOrEmpty(registerResponse.UserId))
+                    return false;
+
+
+                //if register Success ---------------------
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

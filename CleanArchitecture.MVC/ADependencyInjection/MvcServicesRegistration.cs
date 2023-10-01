@@ -2,6 +2,7 @@
 using CleanArchitecture.MVC.Services.Abstract;
 using CleanArchitecture.MVC.Services.Contracts;
 using CleanArchitecture.MVC.Services.Implement;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CleanArchitecture.MVC.ADependencyInjection
 {
@@ -13,9 +14,17 @@ namespace CleanArchitecture.MVC.ADependencyInjection
 
             var apiUrl = configuration.GetSection("api").Value;
 
+            services.Configure<CookiePolicyOptions>(cookieOptions =>
+            {
+                cookieOptions.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+
             services.AddControllersWithViews();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddHttpClient<IApiClient, ApiClient>(c=>c.BaseAddress=new Uri(apiUrl!));
+            services.AddHttpContextAccessor();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 
             services.AddSingleton<ILocalStorageService, LocalStorageService>();
@@ -23,7 +32,6 @@ namespace CleanArchitecture.MVC.ADependencyInjection
             services.AddScoped<IBooksService, BooksService>();
 
             services.AddTransient<IIdentityService, IdentityService>();
-
 
 
             return services;

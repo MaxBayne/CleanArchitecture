@@ -1,11 +1,15 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using AutoMapper;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.MVC.Services.Contracts;
-using System.Text.Json;
-using System.Text;
+//using System.Text.Json;
+//using System.Text;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
+using CleanArchitecture.Application.Serialization.JsonConverters;
+using Newtonsoft.Json;
+
 // ReSharper disable InconsistentNaming
 
 namespace CleanArchitecture.MVC.Services.Abstract
@@ -24,8 +28,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
             Mapper=mapper;
         }
 
-
-        void IApiService.AddBearerTokenInRequestHeader()
+        protected void AddBearerTokenInRequestHeader()
         {
             if (LocalStorage.Exist("token"))
             {
@@ -33,12 +36,16 @@ namespace CleanArchitecture.MVC.Services.Abstract
             }
         }
 
-
         #region Rest API Helper
+
+
 
         public async Task<ApiResponse<Tvm>> GetAsync<Tdto,Tvm>(string uriPath)
         {
             var requestUri = $"{ApiClient.Client.BaseAddress}/{uriPath}";
+
+            //Add Authentication Token to Header Request if exist
+            AddBearerTokenInRequestHeader();
 
             // Send the request and get the response.
             var responseMessage = await ApiClient.Client.GetAsync(requestUri);
@@ -53,7 +60,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var queryResponse = JsonSerializer.Deserialize<QueryResponse<Tdto>>(responseContent);
+                    var queryResponse = JsonConvert.DeserializeObject<QueryResponse<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(queryResponse!.QueriedData);
@@ -88,10 +95,13 @@ namespace CleanArchitecture.MVC.Services.Abstract
             var requestUri = $"{ApiClient.Client.BaseAddress}/{uriPath}";
 
             //Serialize data object to string
-            var jsonText = JsonSerializer.Serialize(data);
+            var jsonText = JsonConvert.SerializeObject(data);
 
             // Create a StringContent object.
             var content = new StringContent(jsonText, Encoding.UTF8, "application/json");
+
+            //Add Authentication Token to Header Request if exist
+            AddBearerTokenInRequestHeader();
 
             // Send the request and get the response.
             var responseMessage = await ApiClient.Client.PostAsync(requestUri, content);
@@ -106,7 +116,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.Created:
 
                     // Deserialize string To Object
-                    var queryResponse = JsonSerializer.Deserialize<CreateCommandResponse<Tdto>>(responseContent);
+                    var queryResponse = JsonConvert.DeserializeObject<CreateCommandResponse<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(queryResponse!.CreatedData);
@@ -130,15 +140,76 @@ namespace CleanArchitecture.MVC.Services.Abstract
             return result;
         }
 
+        public async Task<ApiResponse<TServiceResponse>> PostAsync<TServiceResponse>(string uriPath, object data)
+        {
+            var requestUri = $"{ApiClient.Client.BaseAddress}/{uriPath}";
+
+            //Serialize data object to string
+            var jsonText = JsonConvert.SerializeObject(data);
+
+            // Create a StringContent object.
+            var content = new StringContent(jsonText, Encoding.UTF8, "application/json");
+
+            //Add Authentication Token to Header Request if exist
+            AddBearerTokenInRequestHeader();
+
+            // Send the request and get the response.
+            var responseMessage = await ApiClient.Client.PostAsync(requestUri, content);
+
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+
+            //result of function
+            var result = new ApiResponse<TServiceResponse>();
+
+            switch (responseMessage.StatusCode)
+            {
+                case HttpStatusCode.OK:
+
+                    result.Data = JsonConvert.DeserializeObject<TServiceResponse>(responseContent, new ClaimJsonConverter())!;
+                    result.IsSuccess = true;
+                    result.HasData = true;
+                    result.Message = responseContent;
+
+                    break;
+
+                case HttpStatusCode.Created:
+
+                    result.Data = JsonConvert.DeserializeObject<TServiceResponse>(responseContent, new ClaimJsonConverter())!;
+                    result.IsSuccess = true;
+                    result.HasData = true;
+                    result.Message = responseContent;
+
+
+                    break;
+
+                case HttpStatusCode.BadRequest:
+                    result.IsSuccess = false;
+                    result.HasData = false;
+                    result.Message = responseContent;
+                    break;
+
+                default:
+                    result.IsSuccess = false;
+                    result.HasData = false;
+                    result.Message = responseContent;
+                    break;
+            }
+
+            return result;
+        }
+
         public async Task<ApiResponse<Tvm>> PutAsync<Tdto, Tvm>(string uriPath, object data)
         {
             var requestUri = $"{ApiClient.Client.BaseAddress}/{uriPath}";
 
             //Serialize data object to string
-            var jsonText = JsonSerializer.Serialize(data);
+            var jsonText = JsonConvert.SerializeObject(data);
 
             // Create a StringContent object.
             var content = new StringContent(jsonText, Encoding.UTF8, "application/json");
+
+            //Add Authentication Token to Header Request if exist
+            AddBearerTokenInRequestHeader();
 
             // Send the request and get the response.
             var responseMessage = await ApiClient.Client.PutAsync(requestUri, content);
@@ -153,7 +224,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var commandResponseDto = JsonSerializer.Deserialize<UpdateCommandResponse<Tdto>>(responseContent);
+                    var commandResponseDto = JsonConvert.DeserializeObject<UpdateCommandResponse<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(commandResponseDto!.UpdatedData);
@@ -165,9 +236,9 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.NoContent:
 
                     // Deserialize string To Object
-                    var responseDto = JsonSerializer.Deserialize<UpdateCommandResponse<Tdto>>(responseContent);
+                    var responseDto = JsonConvert.DeserializeObject<UpdateCommandResponse<Tdto>>(responseContent);
 
-                    //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
+                    // Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(responseDto!.UpdatedData);
                     result.IsSuccess = true;
                     result.HasData = true;
@@ -193,6 +264,9 @@ namespace CleanArchitecture.MVC.Services.Abstract
         {
             var requestUri = $"{ApiClient.Client.BaseAddress}/{uriPath}";
 
+            //Add Authentication Token to Header Request if exist
+            AddBearerTokenInRequestHeader();
+
             // Send the request and get the response.
             var responseMessage = await ApiClient.Client.DeleteAsync(requestUri);
 
@@ -206,7 +280,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var commandResponseDto = JsonSerializer.Deserialize<DeleteCommandResponse<Tdto>>(responseContent);
+                    var commandResponseDto = JsonConvert.DeserializeObject<DeleteCommandResponse<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(commandResponseDto!.DeletedData);
@@ -218,7 +292,7 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.NoContent:
 
                     // Deserialize string To Object
-                    var responseDto = JsonSerializer.Deserialize<DeleteCommandResponse<Tdto>>(responseContent);
+                    var responseDto = JsonConvert.DeserializeObject<DeleteCommandResponse<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
                     result.Data = Mapper.Map<Tvm>(responseDto!.DeletedData);
@@ -245,5 +319,4 @@ namespace CleanArchitecture.MVC.Services.Abstract
         #endregion
 
     }
-
 }
