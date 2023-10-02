@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using CleanArchitecture.MVC.ViewModels.Abstract;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace CleanArchitecture.MVC.ViewModels.Account
 {
@@ -16,6 +16,15 @@ namespace CleanArchitecture.MVC.ViewModels.Account
         [DisplayName("Password")]
         public string UserPassword { get; set; }
 
-      
+        [Required]
+        [DataType(DataType.Password)]
+        [DisplayName("Confirm Password")]
+        [Compare(nameof(UserPassword),ErrorMessage = "Not Matched Password")]
+        public string ConfirmPassword { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        [DisplayName("Email")]
+        public string UserEmail { get; set; }
+
     }
 }

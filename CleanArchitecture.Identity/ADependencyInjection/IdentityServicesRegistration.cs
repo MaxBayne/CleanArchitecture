@@ -56,6 +56,7 @@ namespace CleanArchitecture.Identity.ADependencyInjection
 
 
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IUserService, UserService>();
 
             return services;
         }

@@ -25,9 +25,72 @@ namespace CleanArchitecture.Identity.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                //find User by username
+                var userNameExist = await _userManager.FindByNameAsync(registerRequest.UserName);
+
+                //if username exist
+                if (userNameExist != null)
+                {
+                    throw new Exception($"UserName ({registerRequest.UserName}) already Exist");
+                }
+
+                //find user by email
+                var userEmailExist = await _userManager.FindByEmailAsync(registerRequest.Email);
+
+                //if email exist
+                if (userEmailExist != null)
+                {
+                    throw new Exception($"Email ({registerRequest.Email}) already Exist");
+                }
+
+                //if username and email not exit then try to register it
+
+                var newUser = new ApplicationUser<Guid>()
+                {
+                    UserName = registerRequest.UserName,
+                    NormalizedUserName = registerRequest.UserName.ToUpper(),
+
+                    Email = registerRequest.Email,
+                    NormalizedEmail = registerRequest.Email.ToUpper(),
+
+                    EmailConfirmed = true
+                };
+
+                var registeredUser = await _userManager.CreateAsync(newUser,registerRequest.UserPassword);
+
+                if (registeredUser.Succeeded)
+                {
+                    return new RegisterResponse
+                    {
+                        IsSuccess = true,
+                        UserId = newUser.Id.ToString()
+                    };
+                }
+                else
+                {
+                    return new RegisterResponse
+                    {
+                        IsSuccess = false,
+                        UserId = string.Empty,
+                        ErrorMessage = registeredUser.Errors.ToList().ToString()!
+                    };
+                }
+
+                
+            }
+            catch (Exception e)
+            {
+                return new RegisterResponse()
+                {
+                    IsSuccess = false,
+                    ErrorMessage = e.Message
+                };
+            }
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
@@ -82,7 +145,6 @@ namespace CleanArchitecture.Identity.Services
                     ErrorMessage = e.Message
                 };
             }
-            
         }
        
 
