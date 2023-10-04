@@ -3,11 +3,11 @@ using CleanArchitecture.Infrastructure.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Infrastructure.ADependencyInjection
+namespace CleanArchitecture.Infrastructure
 {
     public static class InfrastructureServicesRegistration
     {
-        public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,IConfiguration configuration)
         {
             //Register Services inside Dependency Injection System
 

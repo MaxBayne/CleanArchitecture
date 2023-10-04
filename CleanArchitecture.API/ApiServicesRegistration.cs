@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.OpenApi.Models;
 
-namespace CleanArchitecture.API.ADependencyInjection
+namespace CleanArchitecture.API
 {
     public static class ApiServicesRegistration
     {
-        public static IServiceCollection ConfigureApiServices(this IServiceCollection services)
+        public static IServiceCollection AddApiServices(this IServiceCollection services)
         {
             //Register Services inside Dependency Injection System
 

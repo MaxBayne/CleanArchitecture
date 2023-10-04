@@ -1,12 +1,31 @@
-﻿using CleanArchitecture.Domain.Bases;
+﻿using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.ObjectValues
 {
+    /// <summary>
+    ///العنوان
+    /// </summary>
     public class Address: BaseObjectValue
     {
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Region { get; set; }
-        public string Street { get; set; }  
+        public string Country { get; private set; }
+        public string City { get; private set; }
+        public string Region { get; private set; }
+        public string Street { get; private set; }
+
+        public Address()
+        {
+            Country = string.Empty;
+            City = string.Empty;
+            Region = string.Empty;
+            Street = string.Empty;
+        }
+        public Address(string country, string city, string region, string street)
+        {
+            Country = country;
+            City = city;
+            Region = region;
+            Street = street;
+        }
+        
     }
 }

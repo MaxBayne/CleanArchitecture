@@ -1,8 +1,8 @@
-using CleanArchitecture.API.ADependencyInjection;
-using CleanArchitecture.Application.ADependencyInjection;
-using CleanArchitecture.Infrastructure.ADependencyInjection;
-using CleanArchitecture.Persistence.ADependencyInjection;
-using CleanArchitecture.Identity.ADependencyInjection;
+using CleanArchitecture.API.Infrastructure;
+using CleanArchitecture.Application;
+using CleanArchitecture.Identity;
+using CleanArchitecture.Infrastructure;
+using CleanArchitecture.Persistence;
 
 
 namespace CleanArchitecture.API
@@ -14,11 +14,11 @@ namespace CleanArchitecture.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Config services to the container.
-            builder.Services.ConfigureApplicationServices();
-            builder.Services.ConfigureInfrastructureServices(builder.Configuration);
-            builder.Services.ConfigurePersistenceServices(builder.Configuration);
-            builder.Services.ConfigureIdentityServices(builder.Configuration);
-            builder.Services.ConfigureApiServices();
+            builder.Services.AddApplicationServices()
+                            .AddInfrastructureServices(builder.Configuration)
+                            .AddPersistenceServices(builder.Configuration)
+                            .AddIdentityServices(builder.Configuration)
+                            .AddApiServices();
 
             // Build Application
             var app = builder.Build();
@@ -35,11 +35,13 @@ namespace CleanArchitecture.API
             app.UseCors("CorsPolicy");
 
             //Configure Security
-            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.MapControllers();
 
+            //Map Endpoints
+            app.UseRouting();
+            app.MapControllers(); //Endpoints over Controller classes
+            app.MapEndpoints(); //Endpoints inside files
 
             //Start Application
             app.Run();

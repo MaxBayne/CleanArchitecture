@@ -1,24 +1,31 @@
 ﻿using CleanArchitecture.Application.HandleExceptions.Abstract;
 using FluentValidation.Results;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CleanArchitecture.Application.HandleExceptions.Exceptions
 {
     public class ValidationException : BaseException
     {
         public List<ValidationFailure> Failures { get; private set; } = new List<ValidationFailure>();
-        public List<string> Errors { get; private set; } = new List<string>();
+        public List<string> ErrorsList { get; private set; } = new List<string>();
+        public IDictionary<string, string[]> Errors { get; }
 
         public ValidationException(string errorMessage)
         {
-            Errors.Add(errorMessage);
+            ErrorsList.Add(errorMessage);
+            Errors = new Dictionary<string, string[]>();
         }
 
         public ValidationException(ValidationResult validationResult)
         {
             Failures= validationResult.Errors;
 
-            validationResult.Errors.ForEach((error) => {Errors.Add(error.ErrorMessage);});
+            validationResult.Errors.ForEach((error) => {ErrorsList.Add(error.ErrorMessage);});
+
+            Errors = Failures
+                .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+                .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
         }
+
+       
     }
 }

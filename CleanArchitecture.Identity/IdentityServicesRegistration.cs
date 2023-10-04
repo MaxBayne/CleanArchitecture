@@ -11,12 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-
-namespace CleanArchitecture.Identity.ADependencyInjection
+namespace CleanArchitecture.Identity
 {
     public static class IdentityServicesRegistration
     {
-        public static IServiceCollection ConfigureIdentityServices(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services,IConfiguration configuration)
         {
             services.Configure<JWTSettings>(configuration.GetSection("JwtSettings"));
             var identityConnectionString = configuration.GetConnectionString("IdentityConnectionString");

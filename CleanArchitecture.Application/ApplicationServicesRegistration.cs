@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Application.ADependencyInjection
+namespace CleanArchitecture.Application
 {
     public static class ApplicationServicesRegistration
     {
-        public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //Register All AutoMapper Profiles (MappingProfile) inside Dependency Injection System
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

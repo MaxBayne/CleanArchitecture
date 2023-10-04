@@ -1,5 +1,3 @@
-using CleanArchitecture.MVC.ADependencyInjection;
-
 namespace CleanArchitecture.MVC
 {
     public class Program
@@ -9,7 +7,7 @@ namespace CleanArchitecture.MVC
             var builder = WebApplication.CreateBuilder(args);
 
             // Config App Services
-            builder.Services.ConfigureMvcServices(builder.Configuration);
+            builder.Services.AddMvcServices(builder.Configuration);
 
             //Build Application
             var app = builder.Build();

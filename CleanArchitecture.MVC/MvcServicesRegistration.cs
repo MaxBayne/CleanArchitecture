@@ -4,11 +4,11 @@ using CleanArchitecture.MVC.Services.Contracts;
 using CleanArchitecture.MVC.Services.Implement;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace CleanArchitecture.MVC.ADependencyInjection
+namespace CleanArchitecture.MVC
 {
     public static class MvcServicesRegistration
     {
-        public static IServiceCollection ConfigureMvcServices(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddMvcServices(this IServiceCollection services,IConfiguration configuration)
         {
             //Register Services inside Dependency Injection System
 
