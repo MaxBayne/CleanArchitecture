@@ -2,13 +2,13 @@
 
 public abstract class BaseEntity<TId>
 {
-    public TId Id { get; } = default!;
+    public TId Id { get; set; } = default!;
 
-    public DateTime CreatedDate { get; set; }
-    public DateTime UpdatedDate { get; set; }
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get;private set; }
 
-    public int CreatedBy {get;set;}
-    public int UpdatedBy { get; set; }
+    public int CreatedBy {get;private set;}
+    public int UpdatedBy { get;private set; }
 
         
     public override bool Equals(object? obj)

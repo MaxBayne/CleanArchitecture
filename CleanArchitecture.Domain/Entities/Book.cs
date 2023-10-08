@@ -23,6 +23,14 @@ namespace CleanArchitecture.Domain.Entities
             Category = category;
             IsActive = isActive;
         }
+        public Book(int id,string title, string description, string category, bool isActive)
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            Category = category;
+            IsActive = isActive;
+        }
 
 
         public void ChangeTitle(string title)

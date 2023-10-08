@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Domain.Aggregates;
+using CleanArchitecture.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 #pragma warning disable CS8618
 
@@ -26,6 +27,8 @@ namespace CleanArchitecture.Persistence.Contexts
         #region DbSets
 
         public DbSet<Book> Books { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
 
         #endregion
     }
