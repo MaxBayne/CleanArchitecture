@@ -52,11 +52,19 @@ public class Order:BaseAggregateRoot<int>
 
     public void AddItem(string description, decimal unitPrice, decimal quantity)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity));
+        _orderItems.Add(new OrderItem(description, unitPrice, quantity,Id));
     }
-    public void AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal taxValue, decimal discountValue)
+    public void AddItem(string description, decimal unitPrice, decimal quantity,List<Tax> taxes)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity,additionsValue,taxValue,discountValue));
+        _orderItems.Add(new OrderItem(description, unitPrice, quantity, taxes, Id));
+    }
+    public void AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue)
+    {
+        _orderItems.Add(new OrderItem(description, unitPrice, quantity,additionsValue, discountValue, Id));
+    }
+    public void AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue,List<Tax> taxes)
+    {
+        _orderItems.Add(new OrderItem(description, unitPrice, quantity, additionsValue, discountValue,taxes, Id));
     }
     public void AddItem(OrderItem item)
     {

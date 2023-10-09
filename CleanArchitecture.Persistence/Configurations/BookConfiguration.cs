@@ -8,13 +8,33 @@ namespace CleanArchitecture.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
+            //Config Tables
+            ConfigureBooksTable(builder);
+
+            //Seeds Data
+            SeedsBooksTable(builder);
+        }
+
+
+        #region Configure
+
+        private void ConfigureBooksTable(EntityTypeBuilder<Book> builder)
+        {
             //Config Table Schema ------------------------------------------------
-            builder.ToTable("Library.Books");
-            builder.HasKey(u => u.Id);
 
+            builder.ToTable("Library.Books")
+                .HasKey(u => u.Id);
+
+            builder.Property(c => c.Id).ValueGeneratedOnAdd();
+        }
+
+        #endregion
+
+        #region Seeds
+
+        private void SeedsBooksTable(EntityTypeBuilder<Book> builder)
+        {
             //Seeding Data ------------------------------------------------
-
-
 
             //Seed books
             builder.HasData(new List<Book>()
@@ -27,5 +47,8 @@ namespace CleanArchitecture.Persistence.Configurations
                 new Book(-6,"EntityFrameworkCore","Lean EntityFrameworkCore","DataAccess",false)
             });
         }
+
+        #endregion
+
     }
 }
