@@ -1,5 +1,5 @@
-﻿using CleanArchitecture.Application.Contracts.Infrastructure;
-using CleanArchitecture.Infrastructure.Email;
+﻿using CleanArchitecture.Application.Interfaces.Infrastructure;
+using CleanArchitecture.Infrastructure.Services.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

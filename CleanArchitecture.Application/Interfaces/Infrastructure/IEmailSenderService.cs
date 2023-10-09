@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Models.Infrastructure;
 
-namespace CleanArchitecture.Application.Contracts.Infrastructure
+namespace CleanArchitecture.Application.Interfaces.Infrastructure
 {
     public interface IEmailSenderService
     {

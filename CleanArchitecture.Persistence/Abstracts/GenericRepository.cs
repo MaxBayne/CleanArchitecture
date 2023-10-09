@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitecture.Application.Contracts.Persistence.Abstract;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.Persistence.Bases
+namespace CleanArchitecture.Persistence.Abstracts
 {
     public abstract class GenericRepository<TContext,TEntity, TKey> :IGenericRepository<TEntity, TKey> where TContext : DbContext where TEntity : class
     {

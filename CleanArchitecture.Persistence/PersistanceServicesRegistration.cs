@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Contracts.Persistence.Repositories;
+﻿using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using CleanArchitecture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ namespace CleanArchitecture.Persistence
     {
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
         {
-            //Register DbContexts inside Dependency Injection System as Scoped LifeTime
+            //Register DbContexts inside Dependency Injection System as Scoped LifeTime mean only one connection for every client
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("AppConnectionString"));
@@ -19,7 +19,7 @@ namespace CleanArchitecture.Persistence
 
 
             //Register Repositories inside Dependency Injection System as Scoped
-            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddTransient<IBookRepository, BookRepository>();
 
             return services;
         }

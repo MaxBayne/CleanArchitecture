@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Models.Identity;
 
-namespace CleanArchitecture.Application.Contracts.Identity;
+namespace CleanArchitecture.Application.Interfaces.Identity;
 
 public interface IUserService
 {

@@ -1,9 +1,8 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitecture.Application.Contracts.Persistence.Abstract;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using CleanArchitecture.Domain.Aggregates;
 
-
-namespace CleanArchitecture.Application.Contracts.Persistence.Repositories;
+namespace CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 
 public interface IOrderRepository: IGenericRepository<Order, int>
 {

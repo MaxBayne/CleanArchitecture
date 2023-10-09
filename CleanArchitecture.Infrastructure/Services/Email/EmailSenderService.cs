@@ -2,12 +2,12 @@
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Microsoft.Extensions.Options;
-using CleanArchitecture.Application.Contracts.Infrastructure;
+using CleanArchitecture.Application.Interfaces.Infrastructure;
 using CleanArchitecture.Application.Models.Infrastructure;
 
-namespace CleanArchitecture.Infrastructure.Email
+namespace CleanArchitecture.Infrastructure.Services.Email
 {
-    public class EmailSenderService: IEmailSenderService
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly EmailSettings _emailSettings;
 
@@ -19,7 +19,7 @@ namespace CleanArchitecture.Infrastructure.Email
         public async Task<bool> SendEmailAsync(Application.Models.Infrastructure.Email email)
         {
             var fromAddress = new EmailAddress(_emailSettings.SenderAddress, _emailSettings.SenderName);
-            var toAddress = new EmailAddress(email.To,email.Name);
+            var toAddress = new EmailAddress(email.To, email.Name);
             var contentMessage = MailHelper.CreateSingleEmail(fromAddress, toAddress, email.Subject, email.Body, email.Body);
 
             var response = await new SendGridClient(_emailSettings.ApiKey).SendEmailAsync(contentMessage);

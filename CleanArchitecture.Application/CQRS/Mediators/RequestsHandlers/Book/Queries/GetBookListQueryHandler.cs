@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using AutoMapper;
-using CleanArchitecture.Application.Contracts.Persistence.Repositories;
 using CleanArchitecture.Application.CQRS.Mediators.Abstract;
 using CleanArchitecture.Application.CQRS.Mediators.Requests.Book.Queries;
 using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.Application.HandleExceptions.Exceptions;
+using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 
 

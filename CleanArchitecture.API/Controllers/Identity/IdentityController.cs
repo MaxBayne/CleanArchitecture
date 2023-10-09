@@ -1,8 +1,8 @@
 ﻿using CleanArchitecture.API.Attributes;
-using CleanArchitecture.Application.Contracts.Identity;
 using CleanArchitecture.Application.Models.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using CleanArchitecture.Application.Interfaces.Identity;
 
 namespace CleanArchitecture.API.Controllers.Identity
 {

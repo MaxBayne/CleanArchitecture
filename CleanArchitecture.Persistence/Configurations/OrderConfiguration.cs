@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Persistence.Configurations.Entities
+namespace CleanArchitecture.Persistence.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
@@ -25,7 +25,7 @@ namespace CleanArchitecture.Persistence.Configurations.Entities
 
             //Seeding Data ------------------------------------------------
 
-           
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Contracts.Identity;
+﻿using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Application.Models.Identity;
 using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity;

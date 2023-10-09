@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using CleanArchitecture.Application.Contracts.Identity;
+using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Application.Models.Identity;
 using CleanArchitecture.Identity.Contexts;
 using CleanArchitecture.Identity.Entities;

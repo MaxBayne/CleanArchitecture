@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Contracts.Infrastructure;
+﻿using CleanArchitecture.Application.Interfaces.Infrastructure;
 
 namespace CleanArchitecture.Application.Models.Infrastructure
 {
