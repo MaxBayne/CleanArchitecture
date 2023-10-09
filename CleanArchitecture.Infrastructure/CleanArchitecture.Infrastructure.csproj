@@ -15,4 +15,9 @@
     <ProjectReference Include="..\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\MessageQueues\" />
+    <Folder Include="Services\Notifications\" />
+  </ItemGroup>
+
 </Project>

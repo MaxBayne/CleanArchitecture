@@ -1,1 +1,8 @@
-﻿- where all third party services will live
+﻿- where all third party services will be used like
+
+- Email Services
+- Notifications Services
+- MessageQueues
+
+
+
