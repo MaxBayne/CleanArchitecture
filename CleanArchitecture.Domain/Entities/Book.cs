@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Domain.Entities
 {
-    public class Book:BaseEntity<int>
+    public class Book:Entity<int>
     {
         public string Title { get;private set; }
         public string Description { get;private set; }
@@ -23,9 +23,8 @@ namespace CleanArchitecture.Domain.Entities
             Category = category;
             IsActive = isActive;
         }
-        public Book(int id,string title, string description, string category, bool isActive)
+        public Book(int id,string title, string description, string category, bool isActive):base(id)
         {
-            Id = id;
             Title = title;
             Description = description;
             Category = category;

@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.HandleExceptions.Exceptions;
+﻿namespace CleanArchitecture.Application.Exceptions.Concretes;
 
 public class ForbiddenAccessException : Exception
 {

@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Domain.Entities;
 
-public class Unit: BaseEntity<int>
+public class Unit: Entity<int>
 {
     public string Name { get; private set; }
 

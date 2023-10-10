@@ -1,11 +1,11 @@
 ﻿using CleanArchitecture.Domain.Abstract;
 
-namespace CleanArchitecture.Domain.ObjectValues
+namespace CleanArchitecture.Domain.ValueObjects
 {
     /// <summary>
     ///العنوان
     /// </summary>
-    public class Address: BaseObjectValue
+    public class Address: ValueObject
     {
         public string Country { get; private set; }
         public string City { get; private set; }

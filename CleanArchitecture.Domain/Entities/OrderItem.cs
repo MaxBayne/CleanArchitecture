@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Domain.Entities;
 
-public class OrderItem:BaseEntity<int>
+public class OrderItem:Entity<int>
 {
     #region Fields
 

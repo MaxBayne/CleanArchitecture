@@ -1,11 +1,11 @@
 ﻿using CleanArchitecture.Domain.Abstract;
 
-namespace CleanArchitecture.Domain.ObjectValues;
+namespace CleanArchitecture.Domain.ValueObjects;
 
 /// <summary>
 /// عنوان الشحن
 /// </summary>
-public class ShippingAddress:BaseObjectValue
+public class ShippingAddress:ValueObject
 {
     public string Country { get; private set; }
     public string City { get; private set; }

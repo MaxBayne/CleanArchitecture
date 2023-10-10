@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Application.HandleExceptions.Abstract;
+﻿using CleanArchitecture.Application.Exceptions.Abstract;
 
-namespace CleanArchitecture.Application.HandleExceptions.Exceptions
+namespace CleanArchitecture.Application.Exceptions.Concretes
 {
-    public class BadRequestException:BaseException
+    public sealed class BadRequestException:BaseException
     {
         public BadRequestException(string message):base(message)
         {

@@ -1,5 +1,5 @@
 ﻿
-using CleanArchitecture.Application.HandleExceptions.Exceptions;
+using CleanArchitecture.Application.Exceptions.Concretes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Diagnostics;
 

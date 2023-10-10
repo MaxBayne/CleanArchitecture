@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Application.HandleExceptions.Exceptions;
-using CleanArchitecture.Application.Models.Identity;
+﻿using CleanArchitecture.Application.Models.Identity;
 using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -8,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
+using CleanArchitecture.Application.Exceptions.Concretes;
 using CleanArchitecture.Application.Interfaces.Identity;
 
 namespace CleanArchitecture.Identity.Services

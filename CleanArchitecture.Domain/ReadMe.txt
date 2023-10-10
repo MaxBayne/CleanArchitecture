@@ -9,4 +9,4 @@ Value Object
 
 Aggregate Roots
 ===============
-- represent any entity that hold multi entity as its children like Order
+- represent any entity that hold multi entity as its children like Order with OrderItems

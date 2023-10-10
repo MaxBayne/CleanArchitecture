@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Domain.Entities
 {
-    public class Tax:BaseEntity<int>
+    public class Tax:Entity<int>
     {
         #region Properites
 

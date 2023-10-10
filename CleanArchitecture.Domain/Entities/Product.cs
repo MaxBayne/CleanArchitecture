@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Domain.Entities;
 
-public class Product : BaseEntity<int>
+public class Product : Entity<int>
 {
     public string Name { get; private set; }
     public string Category { get; private set; }

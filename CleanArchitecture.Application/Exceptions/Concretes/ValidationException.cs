@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Application.HandleExceptions.Abstract;
+﻿using CleanArchitecture.Application.Exceptions.Abstract;
 using FluentValidation.Results;
 
-namespace CleanArchitecture.Application.HandleExceptions.Exceptions
+namespace CleanArchitecture.Application.Exceptions.Concretes
 {
     public class ValidationException : BaseException
     {

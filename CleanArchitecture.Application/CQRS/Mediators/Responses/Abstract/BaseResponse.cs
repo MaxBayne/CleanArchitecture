@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json.Serialization;
-using CleanArchitecture.Application.HandleExceptions.Abstract;
+using CleanArchitecture.Application.Exceptions.Abstract;
 using FluentValidation.Results;
 
 namespace CleanArchitecture.Application.CQRS.Mediators.Responses.Abstract

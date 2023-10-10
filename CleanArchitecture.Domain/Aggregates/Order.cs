@@ -1,10 +1,10 @@
 ﻿using CleanArchitecture.Domain.Abstract;
 using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Domain.ObjectValues;
+using CleanArchitecture.Domain.ValueObjects;
 
 namespace CleanArchitecture.Domain.Aggregates;
 
-public class Order:BaseAggregateRoot<int>
+public class Order:AggregateRoot<int>
 {
     #region Fields
 
