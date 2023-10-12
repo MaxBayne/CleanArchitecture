@@ -21,7 +21,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
 
                 if (validator.IsValid == false)
                 {
-                    return Result.Failure(new ViewBookDto(), validator.Errors);
+                    return Result.Failure<ViewBookDto>(validator.Errors);
                 }
 
                 //Convert Dto To Domain Entity to can send it to database
@@ -38,10 +38,8 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
             }
             catch (Exception e)
             {
-                return Result.Failure(new ViewBookDto(), e);
+                return Result.Failure<ViewBookDto>(e);
             }
-
-           
         }
         
 

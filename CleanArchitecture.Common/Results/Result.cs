@@ -108,31 +108,75 @@ public class Result
     {
         return new(false, validationFailures);
     }
+    public static Result Failure(List<ValidationFailure> validationFailures)
+    {
+        return new(false, validationFailures);
+    }
+    
+    
+    
+    public static Result<TValue> Failure<TValue>(string errorMessage)
+    {
+        return new(false, errorMessage);
+    }
+    public static Result<TValue> Failure<TValue>(string errorCode, string errorMessage)
+    {
+        return new(false, errorCode, errorMessage);
+    }
+    public static Result<TValue> Failure<TValue>(Error error)
+    {
+        return new(false, error);
+    }
+    public static Result<TValue> Failure<TValue>(Exception exception)
+    {
+        return new(false, exception);
+    }
+    public static Result<TValue> Failure<TValue>(IList<Error> errors)
+    {
+        return new(false, errors);
+    }
+    public static Result<TValue> Failure<TValue>(IList<ValidationFailure> validationFailures)
+    {
+        return new(false, validationFailures);
+    }
+    public static Result<TValue> Failure<TValue>(List<ValidationFailure> validationFailures)
+    {
+        return new(false, validationFailures);
+    }
 
-    public static Result<TValue> Failure<TValue>(TValue value, string errorMessage)
+
+    public static Result<TValue> Failure<TValue>(TValue? value, string errorMessage)
     {
         return new(value, false, errorMessage);
     }
-    public static Result<TValue> Failure<TValue>(TValue value, string errorCode,string errorMessage)
+    public static Result<TValue> Failure<TValue>(TValue? value, string errorCode,string errorMessage)
     {
         return new(value, false, errorCode,errorMessage);
     }
-    public static Result<TValue> Failure<TValue>(TValue value, Error error)
+    public static Result<TValue> Failure<TValue>(TValue? value, Error error)
     {
         return new(value, false, error);
     }
-    public static Result<TValue> Failure<TValue>(TValue value, Exception exception)
+    public static Result<TValue> Failure<TValue>(TValue? value, Exception exception)
     {
         return new(value, false, exception);
     }
-    public static Result<TValue> Failure<TValue>(TValue value, IList<Error> errors)
+    public static Result<TValue> Failure<TValue>(TValue? value, IList<Error> errors)
     {
         return new(value, false, errors);
     }
-    public static Result<TValue> Failure<TValue>(TValue value, IList<ValidationFailure> validationFailures)
+    public static Result<TValue> Failure<TValue>(TValue? value, IList<ValidationFailure> validationFailures)
     {
         return new(value, false, validationFailures);
     }
+    public static Result<TValue> Failure<TValue>(TValue? value, List<ValidationFailure> validationFailures)
+    {
+        return new(value, false, validationFailures);
+    }
+
+
+    
+  
 
     #endregion
 
@@ -156,6 +200,10 @@ public class Result
             return new Result<TValue>(value, true, Error.None);
         }
     }
+
+   
+
+
 
     #endregion
 }
@@ -194,6 +242,31 @@ public class Result<TValue> : Result
     {
         _value = value;
     }
+    protected internal Result(bool isSuccess, IList<ValidationFailure> validationFailures) : base(isSuccess, validationFailures)
+    {
+        _value = default;
+    }
+
+    protected internal Result(bool isSuccess, IList<Error> errors) : base(isSuccess, errors)
+    {
+        _value = default;
+    }
+
+    protected internal Result(bool isSuccess, Exception exception) : base(isSuccess, exception)
+    {
+        _value = default;
+    }
+
+    protected internal Result(bool isSuccess, string errorMessage) : base(isSuccess, errorMessage)
+    {
+        _value = default;
+    }
+
+    protected internal Result(bool isSuccess, string errorCode, string errorMessage) : base(isSuccess, errorCode, errorMessage)
+    {
+        _value = default;
+    }
+
     #endregion
 
     #region Properites
