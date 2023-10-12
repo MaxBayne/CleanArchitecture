@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.Entities
 {
@@ -50,19 +52,37 @@ namespace CleanArchitecture.Domain.Entities
 
         #region Methods
 
-        public void ChangeTaxName(string taxName)
+        public Result ChangeTaxName(string taxName)
         {
+            //Validation
+            if(string.IsNullOrEmpty(taxName)) 
+                return Result.Failure(TaxErrors.EmptyName);
+
             TaxName = taxName;
+
+            return Result.Success();
         }
 
-        public void SetTaxValue(decimal taxValue)
+        public Result SetTaxValue(decimal taxValue)
         {
+            //Validation
+            if (taxValue<0)
+                return Result.Failure(TaxErrors.InvalidTaxValue);
+
             TaxValue = taxValue;
+
+            return Result.Success();
         }
 
-        public void SetTaxPercent(decimal taxPercent)
+        public Result SetTaxPercent(decimal taxPercent)
         {
+            //Validation
+            if (taxPercent < 0)
+                return Result.Failure(TaxErrors.InvalidTaxPercent);
+
             TaxPercent = taxPercent;
+
+            return Result.Success();
         }
 
         public void SetTaxActive()

@@ -6,23 +6,23 @@ namespace CleanArchitecture.Persistence.Abstracts
 {
     public abstract class GenericRepository<TContext,TEntity, TKey> :IGenericRepository<TEntity, TKey> where TContext : DbContext where TEntity : class
     {
-        protected readonly TContext _dbContext;
+        protected readonly TContext DbContext;
 
         protected GenericRepository(TContext dbContext)
         {
-            _dbContext= dbContext;
+            DbContext= dbContext;
         }
 
         #region Select Single
 
-        public async Task<TEntity?> GetAsync(TKey id)
+        public async Task<TEntity?> GetAsync(TKey id, bool readOnly = false)
         {
-            return await _dbContext.Set<TEntity>().FindAsync(id);
+            return await DbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, bool readOnly = false)
         {
-            return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         
@@ -41,14 +41,15 @@ namespace CleanArchitecture.Persistence.Abstracts
 
         #region Select Multi
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(bool readOnly = false)
         {
-            return await _dbContext.Set<TEntity>().ToListAsync();
+            return readOnly ? await DbContext.Set<TEntity>().AsNoTracking().ToListAsync() : await DbContext.Set<TEntity>().ToListAsync();
+         
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate,bool readOnly = false)
         {
-            return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
+            return readOnly ? await DbContext.Set<TEntity>().AsNoTracking().Where(predicate).ToListAsync() : await DbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
 
@@ -56,10 +57,13 @@ namespace CleanArchitecture.Persistence.Abstracts
 
         #region Insert
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity, bool saveChanges = false)
         {
-            await _dbContext.Set<TEntity>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            await DbContext.Set<TEntity>().AddAsync(entity);
+         
+            if(saveChanges)
+                await DbContext.SaveChangesAsync();
+            
             return entity;
         }
 
@@ -67,51 +71,70 @@ namespace CleanArchitecture.Persistence.Abstracts
 
         #region Update
 
-        public async Task UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity, bool saveChanges = false)
         {
-            _dbContext.Set<TEntity>().Update(entity);
-            await _dbContext.SaveChangesAsync();
+            DbContext.Set<TEntity>().Update(entity);
+
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TKey id,TEntity entity)
+        public async Task UpdateAsync(TKey id,TEntity entity, bool saveChanges = false)
         {
             var original = await GetAsync(id);
 
-            _dbContext.Entry(original!).CurrentValues.SetValues(entity);
-          
-            await _dbContext.SaveChangesAsync();
+            DbContext.Entry(original!).CurrentValues.SetValues(entity);
+
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
         }
         #endregion
 
         #region Delete
 
-        public async Task DeleteAsync(TKey id)
+        public async Task DeleteAsync(TKey id, bool saveChanges = false)
         {
-            var entity = await GetAsync(id);
+            var entity = await GetAsync(id,true);
 
-            _dbContext.Set<TEntity>().Remove(entity!);
+            DbContext.Set<TEntity>().Remove(entity!);
 
-            await _dbContext.SaveChangesAsync();
-
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity, bool saveChanges = false)
         {
-            _dbContext.Set<TEntity>().Remove(entity);
+            DbContext.Set<TEntity>().Remove(entity);
 
-            await _dbContext.SaveChangesAsync();
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAllAsync()
+        public async Task DeleteAllAsync(bool saveChanges = false)
         {
-            var entities = await GetAllAsync();
-            _dbContext.Set<TEntity>().RemoveRange(entities);
+            var entities = await GetAllAsync(true);
+            DbContext.Set<TEntity>().RemoveRange(entities);
+
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task DeleteAllAsync(Expression<Func<TEntity, bool>> predicate, bool saveChanges = false)
         {
-            var entities = await GetAllAsync(predicate);
-            _dbContext.Set<TEntity>().RemoveRange(entities);
+            var entities = await GetAllAsync(predicate,true);
+            DbContext.Set<TEntity>().RemoveRange(entities);
+
+            if (saveChanges)
+                await DbContext.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region Save Changes
+
+        public async Task SaveChangesAsync()
+        {
+            await DbContext.SaveChangesAsync();
         }
 
         #endregion

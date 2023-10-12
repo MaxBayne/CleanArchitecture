@@ -13,17 +13,17 @@ namespace CleanArchitecture.Persistence.Repositories
 
         public async Task<List<Book>> GetActiveBooks()
         {
-            return await _dbContext.Books.Where(c => c.IsActive == true).ToListAsync();
+            return await DbContext.Books.Where(c => c.IsActive == true).ToListAsync();
         }
 
         public async Task<List<Book>> GetDeActiveBooks()
         {
-            return await _dbContext.Books.Where(c => c.IsActive != true ).ToListAsync();
+            return await DbContext.Books.Where(c => c.IsActive != true ).ToListAsync();
         }
 
         public async Task<List<Book>> GetBooksInsideCategory(string category)
         {
-            return await _dbContext.Books.Where(c => c.Category == category).ToListAsync();
+            return await DbContext.Books.Where(c => c.Category == category).ToListAsync();
         }
     }
 }

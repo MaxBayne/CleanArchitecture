@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using CleanArchitecture.API.Attributes;
-using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
-using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
-using CleanArchitecture.Application.CQRS.Mediators.Requests.Book.Commands;
-using CleanArchitecture.Application.CQRS.Mediators.Requests.Book.Queries;
+using CleanArchitecture.Application.Mediators.CQRS.Books.Commands;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
+using CleanArchitecture.Common.Results;
 using Microsoft.AspNetCore.Authorization;
+using CleanArchitecture.Application.Mediators.CQRS.Books.Queries;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -36,24 +35,24 @@ namespace CleanArchitecture.API.Controllers
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<QueryResponse<List<ViewBookDto>>>> Get()
+        public async Task<ActionResult<Result<List<ViewBookDto>>>> Get()
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var request = new GetBookListQueryRequest();
+                var request = new GetBookListQuery();
                 var response = await _mediator.Send(request);
 
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Message);
+                    return BadRequest(response.Value);
                 }
                 else
                 {
                     //On Response Success
 
-                    if (!response.QueriedData!.Any())
+                    if (!response.Value!.Any())
                     {
                         return NoContent();
                     }
@@ -73,12 +72,12 @@ namespace CleanArchitecture.API.Controllers
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<QueryResponse<ViewBookDto>>> Get(int id)
+        public async Task<ActionResult<Result<ViewBookDto>>> Get(int id)
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var request = new GetBookQueryRequest() 
+                var request = new GetBookQuery() 
                 {
                     BookId= id 
                 };
@@ -88,13 +87,13 @@ namespace CleanArchitecture.API.Controllers
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Message);
+                    return BadRequest(response.Value);
                 }
                 else
                 {
                     //On Response Success
 
-                    if (response.QueriedData==null)
+                    if (response.Value==null)
                     {
                         return NotFound();
                     }
@@ -113,12 +112,12 @@ namespace CleanArchitecture.API.Controllers
         [HttpPost]
         [ResponseType(StatusCodes.Status201Created)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CreateCommandResponse<ViewBookDto>>> Post([FromBody] CreateBookDto newBook)
+        public async Task<ActionResult<Result<ViewBookDto>>> Post([FromBody] CreateBookDto newBook)
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var command = new CreateBookCommandRequest()
+                var command = new CreateBookCommand()
                 {
                     CreateBookDto = newBook
                 };
@@ -128,12 +127,12 @@ namespace CleanArchitecture.API.Controllers
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Message);
+                    return BadRequest(response.Value);
                 }
                 else
                 {
                     //On Response Success
-                    return CreatedAtAction(nameof(Get),new {id=response.CreatedData!.Id},response);
+                    return CreatedAtAction(nameof(Get),new {id=response.Value!.Id},response);
                 }
             }
             catch (Exception ex)
@@ -148,12 +147,12 @@ namespace CleanArchitecture.API.Controllers
         [HttpPut("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UpdateCommandResponse<ViewBookDto>>> Put(int id, [FromBody] UpdateBookDto updatedBook)
+        public async Task<ActionResult<Result<ViewBookDto>>> Put(int id, [FromBody] UpdateBookDto updatedBook)
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var command = new UpdateBookCommandRequest()
+                var command = new UpdateBookCommand()
                 {
                     BookId = id,
                     UpdatedBookDto= updatedBook
@@ -164,7 +163,7 @@ namespace CleanArchitecture.API.Controllers
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Message);
+                    return BadRequest(response.Errors);
                 }
                 else
                 {
@@ -183,12 +182,12 @@ namespace CleanArchitecture.API.Controllers
         [HttpDelete("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<DeleteCommandResponse<ViewBookDto>>> Delete(int id)
+        public async Task<ActionResult<Result<ViewBookDto>>> Delete(int id)
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var command = new DeleteBookCommandRequest()
+                var command = new DeleteBookCommand()
                 {
                     BookId = id
                 };
@@ -198,7 +197,7 @@ namespace CleanArchitecture.API.Controllers
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Message);
+                    return BadRequest(response.Errors);
                 }
                 else
                 {

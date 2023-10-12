@@ -36,7 +36,7 @@ namespace CleanArchitecture.API.Controllers.Identity
 
             _logger.LogInformation($"User ({loginRequest.UserName}) failed login");
 
-            return BadRequest(loginResponse.ErrorMessage);
+            return BadRequest(loginResponse.Errors);
         }
 
         
@@ -52,7 +52,7 @@ namespace CleanArchitecture.API.Controllers.Identity
                 return Ok(registerResponse);
             }
 
-            return BadRequest(registerResponse.ErrorMessage);
+            return BadRequest(registerResponse.Errors);
         }
         
     }

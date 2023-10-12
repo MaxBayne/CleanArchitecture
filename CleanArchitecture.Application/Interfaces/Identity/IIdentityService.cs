@@ -1,11 +1,12 @@
 ﻿using CleanArchitecture.Application.Models.Identity;
+using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Interfaces.Identity
 {
     public interface IIdentityService
     {
-        Task<RegisterResponse> RegisterAsync(RegisterRequest request);
+        Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request);
 
-        Task<LoginResponse> LoginAsync(LoginRequest request);
+        Task<Result<LoginResponse>> LoginAsync(LoginRequest request);
     }
 }

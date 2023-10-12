@@ -1,4 +1,6 @@
-﻿namespace CleanArchitecture.Domain.Abstract;
+﻿using MediatR;
+
+namespace CleanArchitecture.Domain.Abstract;
 
 /// <summary>
 /// Any thing has Id
@@ -6,6 +8,14 @@
 /// <typeparam name="TId"></typeparam>
 public abstract class Entity<TId>
 {
+
+    #region Fields
+
+    private readonly List<INotification> _notifications = new();
+
+    #endregion
+
+
     #region Properites
 
     public TId Id { get; private init; }
@@ -16,6 +26,8 @@ public abstract class Entity<TId>
     public int CreatedBy { get; private set; }
     public int UpdatedBy { get; private set; }
 
+
+    public IReadOnlyCollection<INotification> Notifications => _notifications;
 
     #endregion
 
@@ -79,6 +91,15 @@ public abstract class Entity<TId>
     public static bool operator !=(Entity<TId>? obj1, Entity<TId>? obj2)
     {
         return !(obj1 == obj2);
+    }
+
+    #endregion
+
+    #region Notifications
+
+    public void RaiseNotification(INotification notification)
+    {
+        _notifications.Add(notification);
     }
 
     #endregion

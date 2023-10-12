@@ -1,11 +1,13 @@
 ﻿
-using CleanArchitecture.Application.Exceptions.Concretes;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Diagnostics;
+using CleanArchitecture.Common.Exceptions.ApiExceptions;
+using CleanArchitecture.Common.Exceptions.DomainExceptions;
 
 namespace CleanArchitecture.API.Infrastructure;
 
-
+/*
 public class CustomExceptionHandler : IExceptionHandler
 {
     private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers;
@@ -87,3 +89,4 @@ public class CustomExceptionHandler : IExceptionHandler
         });
     }
 }
+*/

@@ -7,8 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-using CleanArchitecture.Application.Exceptions.Concretes;
 using CleanArchitecture.Application.Interfaces.Identity;
+using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Identity.Services
 {
@@ -25,7 +25,7 @@ namespace CleanArchitecture.Identity.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
+        public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest registerRequest)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace CleanArchitecture.Identity.Services
             }
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+        public async Task<Result<LoginResponse>> LoginAsync(LoginRequest loginRequest)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace CleanArchitecture.Identity.Services
                 //if username not exist
                 if (user == null)
                 {
-                    throw new NotFoundException($"UserName ({loginRequest.UserName}) not found");
+                    return Result.Failure(new LoginResponse(),$"UserName ({loginRequest.UserName}) not found");
                 }
 
                 //Compare Security Stamp

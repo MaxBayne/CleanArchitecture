@@ -1,13 +1,21 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.Entities
 {
     public class Book:Entity<int>
     {
-        public string Title { get;private set; }
-        public string Description { get;private set; }
-        public string Category { get;private set; }
-        public bool IsActive { get;private set; }
+        #region Properites
+
+        public string Title { get; private set; }
+        public string Description { get; private set; }
+        public string Category { get; private set; }
+        public bool IsActive { get; private set; }
+
+        #endregion
+
+        #region Constructors
 
         public Book()
         {
@@ -23,7 +31,7 @@ namespace CleanArchitecture.Domain.Entities
             Category = category;
             IsActive = isActive;
         }
-        public Book(int id,string title, string description, string category, bool isActive):base(id)
+        public Book(int id, string title, string description, string category, bool isActive) : base(id)
         {
             Title = title;
             Description = description;
@@ -32,28 +40,61 @@ namespace CleanArchitecture.Domain.Entities
         }
 
 
-        public void ChangeTitle(string title)
+        #endregion
+
+        #region Methods
+
+        public Result ChangeTitle(string title)
         {
-            Title=title;
+            //validate
+            if (string.IsNullOrEmpty(title))
+            {
+                return Result.Failure(BookErrors.EmptyTitle);
+            }
+
+            Title = title;
+
+            return Result.Success();
         }
 
-        public void ChangeDescription(string description)
+        public Result ChangeDescription(string description)
         {
-            Description=description;
+            //validate
+
+            if (string.IsNullOrEmpty(description))
+            {
+                return Result.Failure(BookErrors.EmptyDescription);
+            }
+
+            Description = description;
+
+            return Result.Success();
         }
 
-        public void ChangeCategory(string category)
+        public Result ChangeCategory(string category)
         {
-            Category=category;
+            //validate
+
+            if (string.IsNullOrEmpty(category))
+            {
+                return Result.Failure(BookErrors.EmptyCategory);
+            }
+
+            Category = category;
+
+            return Result.Success();
         }
 
         public void EnableBook()
         {
-            IsActive=true;
+            IsActive = true;
         }
         public void DisableBook()
         {
             IsActive = false;
         }
+
+        #endregion
+
     }
 }

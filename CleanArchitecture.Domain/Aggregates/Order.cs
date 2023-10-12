@@ -1,5 +1,9 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Abstract;
+using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 using CleanArchitecture.Domain.Entities;
+using CleanArchitecture.Domain.Notifications.Order;
 using CleanArchitecture.Domain.ValueObjects;
 
 namespace CleanArchitecture.Domain.Aggregates;
@@ -41,42 +45,168 @@ public class Order:AggregateRoot<int>
     #region Methods
 
 
-    public void ChangeDescription(string description)
+    public Result ChangeDescription(string description)
     {
+        //Validation
+        if(string.IsNullOrEmpty(description))
+            return Result.Failure(OrderErrors.EmptyDescription);
+
+        //Raise Notification
+        RaiseNotification(new DescriptionChangedForOrderNotification(OrderDescription, description,Id));
+
         OrderDescription = description;
+
+        return Result.Success();
     }
     public void UpdateShippingAddress(string country, string city, string region, string street, string building, string floor, string apartment)
     {
         ShippingAddress = new ShippingAddress(country, city, region, street, building, floor, apartment);
     }
 
-    public void AddItem(string description, decimal unitPrice, decimal quantity)
+    public Result AddItem(string description, decimal unitPrice, decimal quantity)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity,Id));
+        //Validation
+        var errors = new List<Error>();
+
+        if(string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if(unitPrice<0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if(errors.Any())
+            return Result.Failure(errors);
+
+        var newOrderItem = new OrderItem(description, unitPrice, quantity, Id);
+        _orderItems.Add(newOrderItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
+
+        return Result.Success();
     }
-    public void AddItem(string description, decimal unitPrice, decimal quantity,List<Tax> taxes)
+    public Result AddItem(string description, decimal unitPrice, decimal quantity,List<Tax> taxes)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity, taxes, Id));
+        //Validation
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (!taxes.Any())
+            errors.Add(OrderItemErrors.EmptyTaxes);
+
+        if (errors.Any())
+            return Result.Failure(errors);
+
+        var newOrderItem = new OrderItem(description, unitPrice, quantity, taxes, Id);
+
+        _orderItems.Add(newOrderItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
+
+        return Result.Success();
     }
-    public void AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue)
+    public Result AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity,additionsValue, discountValue, Id));
+        //Validation
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (additionsValue < 0)
+            errors.Add(OrderItemErrors.InvalidAdditionsValue);
+
+        if (discountValue < 0)
+            errors.Add(OrderItemErrors.InvalidDiscountValue);
+
+        if (errors.Any())
+            return Result.Failure(errors);
+
+        var newOrderItem = new OrderItem(description, unitPrice, quantity, additionsValue, discountValue, Id);
+
+        _orderItems.Add(newOrderItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
+
+        return Result.Success();
     }
-    public void AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue,List<Tax> taxes)
+    public Result AddItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue,List<Tax> taxes)
     {
-        _orderItems.Add(new OrderItem(description, unitPrice, quantity, additionsValue, discountValue,taxes, Id));
+        //Validation
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (additionsValue < 0)
+            errors.Add(OrderItemErrors.InvalidAdditionsValue);
+
+        if (discountValue < 0)
+            errors.Add(OrderItemErrors.InvalidDiscountValue);
+
+        if (!taxes.Any())
+            errors.Add(OrderItemErrors.EmptyTaxes);
+
+        if (errors.Any())
+            return Result.Failure(errors);
+
+        var newOrderItem = new OrderItem(description, unitPrice, quantity, additionsValue, discountValue, taxes, Id);
+
+        _orderItems.Add(newOrderItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
+
+        return Result.Success();
     }
-    public void AddItem(OrderItem item)
+    public void AddItem(OrderItem newItem)
     {
-        _orderItems.Add(item);
+        _orderItems.Add(newItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(newItem.Id, Id));
+
     }
 
 
-    public void RemoveItem(OrderItem item)
+    public void RemoveItem(OrderItem removeItem)
     {
-        _orderItems.Remove(item);
+        var removedItemId = removeItem.Id;
+
+        _orderItems.Remove(removeItem);
+
+        //Raise Notification
+        RaiseNotification(new ItemAddedToOrderNotification(removedItemId, Id));
+
     }
-    
+
 
     #endregion
 }

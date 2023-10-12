@@ -1,15 +1,25 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 using CleanArchitecture.Domain.Enums;
 
 namespace CleanArchitecture.Domain.Entities
 {
     public class Employee : Entity<int>
     {
-        public string Name { get;private set; }
+        #region Properites
+
+        public string Name { get; private set; }
         public string Job { get; private set; }
         public decimal Salary { get; private set; }
         public bool IsActive { get; private set; }
         public EmployeeType Type { get; private set; }
+
+
+        #endregion
+
+
+        #region Constructors
 
         public Employee()
         {
@@ -19,12 +29,12 @@ namespace CleanArchitecture.Domain.Entities
             IsActive = true;
             Type = EmployeeType.Regular;
         }
-        public Employee(string name, string job,EmployeeType type, decimal salary)
+        public Employee(string name, string job, EmployeeType type, decimal salary)
         {
             Name = name;
             Job = job;
             Salary = salary;
-            Type=type;
+            Type = type;
             IsActive = true;
         }
         public Employee(string name, string job, EmployeeType type, decimal salary, bool isActive)
@@ -36,19 +46,53 @@ namespace CleanArchitecture.Domain.Entities
             IsActive = isActive;
         }
 
-        public void ChangeName(string name)
+        #endregion
+
+
+        #region Methods
+
+        public Result ChangeName(string name)
         {
-            Name=name;
+            //Validation
+            if (string.IsNullOrEmpty(name))
+            {
+                return Result.Failure(EmployeeErrors.EmptyName);
+            }
+
+            Name = name;
+
+            return Result.Success();
         }
 
-        public void ChangeJob(string job)
+        public Result ChangeJob(string job)
         {
-            Job=job;
+            //Validation
+            if (string.IsNullOrEmpty(job))
+            {
+                return Result.Failure(EmployeeErrors.EmptyJob);
+            }
+
+            Job = job;
+
+            return Result.Success();
         }
 
-        public void ChangeSalary(decimal salary)
+        public Result ChangeSalary(decimal salary)
         {
+            //Validation
+            if (salary <= 0)
+            {
+                return Result.Failure(EmployeeErrors.InvalidSalary);
+            }
+
             Salary = salary;
+
+            return Result.Success();
+        }
+
+        public void ChangeType(EmployeeType type)
+        {
+            Type = type;
         }
 
         public void EnableEmployee()
@@ -61,9 +105,6 @@ namespace CleanArchitecture.Domain.Entities
             IsActive = false;
         }
 
-        public void ChangeType(EmployeeType type)
-        {
-            Type=type;
-        }
+        #endregion
     }
 }

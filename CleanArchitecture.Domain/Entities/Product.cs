@@ -1,15 +1,22 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.Entities;
 
 public class Product : Entity<int>
 {
+    #region Properties
+
     public string Name { get; private set; }
     public string Category { get; private set; }
     public decimal UnitPrice { get; private set; }
     public bool IsActive { get; private set; }
     public Unit Unit { get; private set; }
 
+    #endregion
+
+    #region Constructors
 
     public Product()
     {
@@ -28,19 +35,46 @@ public class Product : Entity<int>
         Unit = unit;
     }
 
-    public void ChangeName(string name)
+    #endregion
+
+    #region Methods
+
+    public Result ChangeName(string name)
     {
-        Name=name;
+        //Validation
+        if(string.IsNullOrEmpty(name))
+            return Result.Failure(ProductErrors.EmptyName);
+
+        Name = name;
+
+        return Result.Success();
     }
 
-    public void ChangeCategory(string category)
+    public Result ChangeCategory(string category)
     {
-        Category=category;
+        //Validation
+        if (string.IsNullOrEmpty(category))
+            return Result.Failure(ProductErrors.EmptyCategory);
+
+        Category = category;
+
+        return Result.Success();
     }
 
-    public void ChangeUnitPrice(decimal price)
+    public Result ChangeUnitPrice(decimal price)
     {
-        UnitPrice=price;
+        //Validation
+        if(price<0)
+            return Result.Failure(ProductErrors.InvalidUnitPrice);
+
+        UnitPrice = price;
+
+        return Result.Success();
+    }
+
+    public void ChangeUnit(Unit unit)
+    {
+        Unit = unit;
     }
 
     public void EnableProduct()
@@ -53,10 +87,5 @@ public class Product : Entity<int>
         IsActive = false;
     }
 
-    public void ChangeUnit(Unit unit)
-    {
-        Unit=unit;
-    }
-    
-    
+    #endregion
 }

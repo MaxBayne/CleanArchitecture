@@ -28,4 +28,10 @@
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mediators\CQRS\Books\Notifications\" />
+    <Folder Include="Mediators\CQRS\Orders\Commands\" />
+    <Folder Include="Mediators\CQRS\Orders\Queries\" />
+  </ItemGroup>
+
 </Project>

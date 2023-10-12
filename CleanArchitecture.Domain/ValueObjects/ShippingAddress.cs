@@ -7,6 +7,8 @@ namespace CleanArchitecture.Domain.ValueObjects;
 /// </summary>
 public class ShippingAddress:ValueObject
 {
+    #region Properties
+
     public string Country { get; private set; }
     public string City { get; private set; }
     public string Region { get; private set; }
@@ -15,6 +17,9 @@ public class ShippingAddress:ValueObject
     public string Floor { get; private set; }
     public string Apartment { get; private set; }
 
+    #endregion
+
+    #region Constructors
 
     public ShippingAddress()
     {
@@ -36,4 +41,22 @@ public class ShippingAddress:ValueObject
         Floor = floor;
         Apartment = apartment;
     }
+
+    #endregion
+
+    #region Overrides
+
+    public override IEnumerable<object> GetAtomicValues()
+    {
+        yield return Country;
+        yield return City;
+        yield return Region;
+        yield return Street;
+        yield return Building;
+        yield return Floor;
+        yield return Apartment;
+
+    }
+
+    #endregion
 }

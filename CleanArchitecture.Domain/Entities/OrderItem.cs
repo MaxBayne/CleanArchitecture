@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Errors.Domain;
+using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.Entities;
 
@@ -101,55 +103,118 @@ public class OrderItem:Entity<int>
 
     #region Methods
 
-    public void ChangeDescription(string description)
+    public Result ChangeDescription(string description)
     {
+        //Validation
+        if(string.IsNullOrEmpty(description))
+            return Result.Failure(OrderItemErrors.EmptyDescription);
+
         Description = description;
+
+        return Result.Success();
     }
 
-    public void ChangeUnitPrice(decimal unitPrice)
+    public Result ChangeUnitPrice(decimal unitPrice)
     {
+        //Validation
+        if (unitPrice < 0)
+            return Result.Failure(OrderItemErrors.InvalidUnitPrice);
+
         UnitPrice = unitPrice;
+
+        return Result.Success();
     }
 
-    public void UpdateQuantity(decimal quantity)
+    public Result UpdateQuantity(decimal quantity)
     {
+        //Validation
+        if (quantity <= 0)
+            return Result.Failure(OrderItemErrors.InvalidQuantity);
+
         Quantity = quantity;
+
+        return Result.Success();
     }
 
-    public void SetAdditionsValue(decimal additionsValue)
+    public Result SetAdditionsValue(decimal additionsValue)
     {
+        //Validation
+        if (additionsValue <= 0)
+            return Result.Failure(OrderItemErrors.InvalidAdditionsValue);
+
         AdditionsValue = additionsValue;
+
+        return Result.Success();
     }
 
-    public void SetAdditionsPercent(decimal additionsPercent)
+    public Result SetAdditionsPercent(decimal additionsPercent)
     {
+        //Validation
+        if (additionsPercent <= 0)
+            return Result.Failure(OrderItemErrors.InvalidAdditionsPercent);
+
+
         AdditionsPercent = additionsPercent;
+
+        return Result.Success();
     }
 
-    public void SetDiscountPercent(decimal discountPercent)
+    public Result SetDiscountPercent(decimal discountPercent)
     {
+        //Validation
+        if (discountPercent <= 0)
+            return Result.Failure(OrderItemErrors.InvalidDiscountPercent);
+
         DiscountPercent = discountPercent;
+
+        return Result.Success();
     }
 
-    public void SetDiscountValue(decimal discountValue)
+    public Result SetDiscountValue(decimal discountValue)
     {
+        //Validation
+        if (discountValue <= 0)
+            return Result.Failure(OrderItemErrors.InvalidDiscountValue);
+
         DiscountValue = discountValue;
+
+        return Result.Success();
     }
 
 
 
 
-    public void AddTaxValue(string taxName,decimal taxValue)
+    public Result AddTaxValue(string taxName,decimal taxValue)
     {
+        //Validation
+        if(string.IsNullOrEmpty(taxName))
+            return Result.Failure(TaxErrors.EmptyName);
+
+        if(taxValue < 0)
+            return Result.Failure(TaxErrors.InvalidTaxValue);
+
+
         _itemTaxes.Add(new Tax(taxName, taxValue,true,Id,OrderId));
 
         CalcTaxesValue();
+
+        return Result.Success();
     }
-    public void AddTaxPercent(string taxName, decimal taxPercent)
+    public Result AddTaxPercent(string taxName, decimal taxPercent)
     {
+        //Validation
+        if (string.IsNullOrEmpty(taxName))
+            return Result.Failure(TaxErrors.EmptyName);
+
+        if (taxPercent < 0)
+            return Result.Failure(TaxErrors.InvalidTaxPercent);
+
+
         _itemTaxes.Add(new Tax(taxName, taxPercent,Id,OrderId));
 
         CalcTaxesPercent();
+
+        return Result.Success();
     }
 
     public void RemoveTax(Tax tax)

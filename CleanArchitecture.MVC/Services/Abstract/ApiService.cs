@@ -2,12 +2,11 @@
 using System.Net.Http.Headers;
 using System.Text;
 using AutoMapper;
-using CleanArchitecture.Application.CQRS.Mediators.Responses.Queries;
 using CleanArchitecture.MVC.Services.Contracts;
 //using System.Text.Json;
 //using System.Text;
-using CleanArchitecture.Application.CQRS.Mediators.Responses.Commands;
 using CleanArchitecture.Application.Serialization.JsonConverters;
+using CleanArchitecture.Common.Results;
 using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming
@@ -60,10 +59,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var queryResponse = JsonConvert.DeserializeObject<QueryResponse<Tdto>>(responseContent);
+                    var queryResponse = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(queryResponse!.QueriedData);
+                    result.Data = Mapper.Map<Tvm>(queryResponse!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 
@@ -116,10 +115,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.Created:
 
                     // Deserialize string To Object
-                    var queryResponse = JsonConvert.DeserializeObject<CreateCommandResponse<Tdto>>(responseContent);
+                    var queryResponse = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(queryResponse!.CreatedData);
+                    result.Data = Mapper.Map<Tvm>(queryResponse!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 
@@ -224,10 +223,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var commandResponseDto = JsonConvert.DeserializeObject<UpdateCommandResponse<Tdto>>(responseContent);
+                    var commandResponseDto = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(commandResponseDto!.UpdatedData);
+                    result.Data = Mapper.Map<Tvm>(commandResponseDto!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 
@@ -236,10 +235,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.NoContent:
 
                     // Deserialize string To Object
-                    var responseDto = JsonConvert.DeserializeObject<UpdateCommandResponse<Tdto>>(responseContent);
+                    var responseDto = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     // Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(responseDto!.UpdatedData);
+                    result.Data = Mapper.Map<Tvm>(responseDto!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 
@@ -280,10 +279,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.OK:
 
                     // Deserialize string To Object
-                    var commandResponseDto = JsonConvert.DeserializeObject<DeleteCommandResponse<Tdto>>(responseContent);
+                    var commandResponseDto = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(commandResponseDto!.DeletedData);
+                    result.Data = Mapper.Map<Tvm>(commandResponseDto!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 
@@ -292,10 +291,10 @@ namespace CleanArchitecture.MVC.Services.Abstract
                 case HttpStatusCode.NoContent:
 
                     // Deserialize string To Object
-                    var responseDto = JsonConvert.DeserializeObject<DeleteCommandResponse<Tdto>>(responseContent);
+                    var responseDto = JsonConvert.DeserializeObject<Result<Tdto>>(responseContent);
 
                     //Convert List<UserDto> to List<UserViewModel> powered by autoMapper
-                    result.Data = Mapper.Map<Tvm>(responseDto!.DeletedData);
+                    result.Data = Mapper.Map<Tvm>(responseDto!.Value);
                     result.IsSuccess = true;
                     result.HasData = true;
 

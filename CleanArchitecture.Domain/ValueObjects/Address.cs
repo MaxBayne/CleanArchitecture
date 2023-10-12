@@ -2,15 +2,18 @@
 
 namespace CleanArchitecture.Domain.ValueObjects
 {
-    /// <summary>
-    ///العنوان
-    /// </summary>
     public class Address: ValueObject
     {
+        #region Properties
+
         public string Country { get; private set; }
         public string City { get; private set; }
         public string Region { get; private set; }
         public string Street { get; private set; }
+
+        #endregion
+
+        #region Constructors
 
         public Address()
         {
@@ -26,6 +29,20 @@ namespace CleanArchitecture.Domain.ValueObjects
             Region = region;
             Street = street;
         }
-        
+
+        #endregion
+
+        #region Overrides
+
+        public override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Country;
+            yield return City;
+            yield return Region;
+            yield return Street;
+        }
+
+        #endregion
+
     }
 }
