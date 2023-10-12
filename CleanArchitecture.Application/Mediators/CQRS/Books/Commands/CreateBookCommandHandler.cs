@@ -30,9 +30,11 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 //Send Entity to database via Repository
                 var newBookEntity = await Repository.AddAsync(bookEntity);
 
+                //save all changes of db context as unit of work
+                await Repository.SaveChangesAsync();
+
                 //Convert Entity To Dto
                 var bookDto = AutoMapper.Map<ViewBookDto>(newBookEntity);
-
 
                 return Result.Success(bookDto);
             }
@@ -41,8 +43,6 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 return Result.Failure<ViewBookDto>(e);
             }
         }
-        
-
 
     }
 }
