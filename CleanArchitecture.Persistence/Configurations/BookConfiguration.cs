@@ -39,12 +39,12 @@ namespace CleanArchitecture.Persistence.Configurations
             //Seed books
             builder.HasData(new List<Book>()
             {
-                new Book(-1,"OOP C#","Lean OOP inside C#","Programming",true),
-                new Book(-2,"Rust","Lean Rust Programming","Programming",true),
-                new Book(-3,"Android","Lean Android Programming","Mobile",true),
-                new Book(-4,"Flutter","Lean Flutter Programming","Mobile",true),
-                new Book(-5,"DevExpress","Lean DevExpress For Desktop Apps","Desktop",false),
-                new Book(-6,"EntityFrameworkCore","Lean EntityFrameworkCore","DataAccess",false)
+                Book.Create(-1,"OOP C#","Lean OOP inside C#","Programming",true),
+                Book.Create(-2,"Rust","Lean Rust Programming","Programming",true),
+                Book.Create(-3,"Android","Lean Android Programming","Mobile",true),
+                Book.Create(-4,"Flutter","Lean Flutter Programming","Mobile",true),
+                Book.Create(-5,"DevExpress","Lean DevExpress For Desktop Apps","Desktop",false),
+                Book.Create(-6,"EntityFrameworkCore","Lean EntityFrameworkCore","DataAccess",false)
             });
         }
 

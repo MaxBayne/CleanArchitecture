@@ -97,10 +97,19 @@ public abstract class Entity<TId>
 
     #region Notifications
 
-    public void RaiseNotification(INotification notification)
+    /// <summary>
+    /// Store Notification inside Notifications Array to be Published later using PublishNotifications Method
+    /// </summary>
+    /// <param name="notification"></param>
+    public void RegisterNotification(INotification notification)
     {
         _notifications.Add(notification);
     }
+
+    /// <summary>
+    /// Clear All Notifications inside Notifications Array
+    /// </summary>
+    public void ClearNotifications() => _notifications.Clear();
 
     #endregion
 

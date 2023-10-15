@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Orders.Notifications;
 
-public class ItemAddedToOrderNotificationHandler : INotificationHandler<ItemAddedToOrderNotification>
+public class BookCreatedNotificationHandler : INotificationHandler<ItemAddedToOrderNotification>
 {
     public async Task Handle(ItemAddedToOrderNotification notification, CancellationToken cancellationToken)
     {

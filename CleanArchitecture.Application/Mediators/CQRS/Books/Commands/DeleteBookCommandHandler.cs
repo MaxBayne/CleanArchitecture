@@ -6,9 +6,13 @@ using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
 {
-    public class DeleteBookCommandHandler : RequestHandler<DeleteBookCommand, Result,IBookRepository>
+    public class DeleteBookCommandHandler : RequestHandler<DeleteBookCommand, Result>
     {
-        public DeleteBookCommandHandler(IBookRepository repository, IMapper mapper) : base(repository, mapper) { }
+        private readonly IBookRepository _bookRepository;
+        public DeleteBookCommandHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
+        {
+            _bookRepository = bookRepository;
+        }
 
         public override async Task<Result> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
         {
@@ -22,14 +26,14 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
 
 
                 //check if original data exist or not
-                var isExist = await Repository.ExistAsync(request.BookId);
+                var isExist = await _bookRepository.ExistAsync(request.BookId);
                 if (isExist == false)
                 {
                     return Result.Failure($"Book with Id {request.BookId} Not Found");
                 }
 
                 //Delete Book From Database
-                await Repository.DeleteAsync(request.BookId);
+                await _bookRepository.DeleteAsync(request.BookId,true);
 
                 return Result.Success();
 

@@ -48,11 +48,14 @@ namespace CleanArchitecture.Domain.Abstract
 
         #region Notifications
 
-        public void RaiseEvent(INotification notification)
+        public void RaiseNotification(INotification notification)
         {
             _notifications.Add(notification);
         }
 
+        public void ClearNotifications() => _notifications.Clear();
+
+       
         #endregion
 
         #region Helper

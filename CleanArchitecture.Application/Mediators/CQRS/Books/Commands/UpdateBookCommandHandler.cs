@@ -6,9 +6,14 @@ using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
 {
-    public class UpdateBookCommandHandler : RequestHandler<UpdateBookCommand, Result, IBookRepository>
+    public class UpdateBookCommandHandler : RequestHandler<UpdateBookCommand, Result>
     {
-        public UpdateBookCommandHandler(IBookRepository repository, IMapper mapper) : base(repository, mapper) { }
+        private readonly IBookRepository _bookRepository;
+
+        public UpdateBookCommandHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
+        {
+            _bookRepository=bookRepository;
+        }
 
         public override async Task<Result> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
@@ -23,14 +28,14 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 }
 
                 //check if original data exist or not
-                var isExist = await Repository.ExistAsync(request.BookId);
+                var isExist = await _bookRepository.ExistAsync(request.BookId);
                 if (isExist == false)
                 {
                     return Result.Failure($"Book with Id {request.BookId} Not Found");
                 }
 
                 //Get Old Entity From Database via Repository
-                var oldBookEntity = await Repository.GetAsync(c => c.Id == request.BookId);
+                var oldBookEntity = await _bookRepository.GetAsync(c => c.Id == request.BookId);
                 //var oldBookDto = AutoMapper.Map<ViewBookDto>(oldBookEntity);
 
                 //Update OldBookEntity using UpdatedBookDto powered by auto mapper
@@ -38,7 +43,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 //var updatedBookDto = AutoMapper.Map<ViewBookDto>(updatedBookEntity);
 
                 //Save Updated Entity inside database
-                await Repository.UpdateAsync(updatedBookEntity!);
+                await _bookRepository.UpdateAsync(updatedBookEntity!,true);
 
                 return Result.Success();
 
@@ -48,7 +53,5 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 return Result.Failure(e);
             }
         }
-
-
     }
 }

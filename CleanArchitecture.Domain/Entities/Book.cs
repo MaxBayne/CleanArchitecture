@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Common.Errors.Domain;
 using CleanArchitecture.Common.Results;
 using CleanArchitecture.Domain.Abstract;
+using CleanArchitecture.Domain.Notifications.Book;
 
 namespace CleanArchitecture.Domain.Entities
 {
@@ -24,14 +25,14 @@ namespace CleanArchitecture.Domain.Entities
             Category = string.Empty;
             IsActive = true;
         }
-        public Book(string title, string description, string category, bool isActive)
+        private Book(string title, string description, string category, bool isActive)
         {
             Title = title;
             Description = description;
             Category = category;
             IsActive = isActive;
         }
-        public Book(int id, string title, string description, string category, bool isActive) : base(id)
+        private Book(int id, string title, string description, string category, bool isActive) : base(id)
         {
             Title = title;
             Description = description;
@@ -39,6 +40,30 @@ namespace CleanArchitecture.Domain.Entities
             IsActive = isActive;
         }
 
+
+        #endregion
+
+        #region Factory Method
+
+        public static Book Create(string title, string description, string category, bool isActive)
+        {
+            var newBook= new Book(title, description, category, isActive);
+
+            //Raise Event For Create Book
+            newBook.RegisterNotification(new BookCreatedNotification(newBook));
+
+            return newBook;
+        }
+
+        public static Book Create(int id, string title, string description, string category, bool isActive)
+        {
+            var newBook = new Book(id, title, description, category, isActive);
+
+            //Raise Event For Create Book
+            newBook.RegisterNotification(new BookCreatedNotification(newBook));
+
+            return newBook;
+        }
 
         #endregion
 

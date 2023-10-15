@@ -35,20 +35,15 @@ namespace CleanArchitecture.API.Controllers
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Result<List<ViewBookDto>>>> Get()
+        public async Task<ActionResult<Result<List<ViewBookDto>>>> Get(CancellationToken cancellationToken)
         {
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
                 var request = new GetBookListQuery();
-                var response = await _mediator.Send(request);
+                var response = await _mediator.Send(request, cancellationToken);
 
-                if (!response.IsSuccess)
-                {
-                    //On Response Failed
-                    return BadRequest(response.Value);
-                }
-                else
+                if (response.IsSuccess)
                 {
                     //On Response Success
 
@@ -56,8 +51,13 @@ namespace CleanArchitecture.API.Controllers
                     {
                         return NoContent();
                     }
-
+                    
                     return Ok(response);
+                }
+                else
+                {
+                    //On Response Failed
+                    return BadRequest(response.Value);
                 }
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace CleanArchitecture.API.Controllers
         [ResponseType(StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Result<ViewBookDto>>> Get(int id)
+        public async Task<ActionResult<Result<ViewBookDto>>> Get(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace CleanArchitecture.API.Controllers
                     BookId= id 
                 };
 
-                var response = await _mediator.Send(request);
+                var response = await _mediator.Send(request, cancellationToken);
 
                 if (!response.IsSuccess)
                 {
@@ -112,7 +112,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPost]
         [ResponseType(StatusCodes.Status201Created)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Result<ViewBookDto>>> Post([FromBody] CreateBookDto newBook)
+        public async Task<ActionResult<Result<ViewBookDto>>> Post([FromBody] CreateBookDto newBook, CancellationToken cancellationToken)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace CleanArchitecture.API.Controllers
                     CreateBookDto = newBook
                 };
 
-                var response = await _mediator.Send(command);
+                var response = await _mediator.Send(command, cancellationToken);
 
                 if (!response.IsSuccess)
                 {
@@ -147,7 +147,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPut("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Result<ViewBookDto>>> Put(int id, [FromBody] UpdateBookDto updatedBook)
+        public async Task<ActionResult<Result<ViewBookDto>>> Put(int id, [FromBody] UpdateBookDto updatedBook, CancellationToken cancellationToken)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace CleanArchitecture.API.Controllers
                     UpdatedBookDto= updatedBook
                 };
 
-                var response = await _mediator.Send(command);
+                var response = await _mediator.Send(command, cancellationToken);
 
                 if (!response.IsSuccess)
                 {
@@ -182,7 +182,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpDelete("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Result<ViewBookDto>>> Delete(int id)
+        public async Task<ActionResult<Result<ViewBookDto>>> Delete(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace CleanArchitecture.API.Controllers
                     BookId = id
                 };
 
-                var response = await _mediator.Send(command);
+                var response = await _mediator.Send(command, cancellationToken);
 
                 if (!response.IsSuccess)
                 {

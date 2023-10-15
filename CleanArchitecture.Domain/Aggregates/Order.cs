@@ -52,7 +52,7 @@ public class Order:AggregateRoot<int>
             return Result.Failure(OrderErrors.EmptyDescription);
 
         //Raise Notification
-        RaiseNotification(new DescriptionChangedForOrderNotification(OrderDescription, description,Id));
+        RegisterNotification(new DescriptionChangedForOrderNotification(OrderDescription, description,Id));
 
         OrderDescription = description;
 
@@ -84,7 +84,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Add(newOrderItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
+        RegisterNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
 
         return Result.Success();
     }
@@ -113,7 +113,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Add(newOrderItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
+        RegisterNotification(new ItemAddedToOrderNotification(newOrderItem.Id,Id));
 
         return Result.Success();
     }
@@ -146,7 +146,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Add(newOrderItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
+        RegisterNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
 
         return Result.Success();
     }
@@ -182,7 +182,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Add(newOrderItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
+        RegisterNotification(new ItemAddedToOrderNotification(newOrderItem.Id, Id));
 
         return Result.Success();
     }
@@ -191,7 +191,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Add(newItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(newItem.Id, Id));
+        RegisterNotification(new ItemAddedToOrderNotification(newItem.Id, Id));
 
     }
 
@@ -203,7 +203,7 @@ public class Order:AggregateRoot<int>
         _orderItems.Remove(removeItem);
 
         //Raise Notification
-        RaiseNotification(new ItemAddedToOrderNotification(removedItemId, Id));
+        RegisterNotification(new ItemAddedToOrderNotification(removedItemId, Id));
 
     }
 

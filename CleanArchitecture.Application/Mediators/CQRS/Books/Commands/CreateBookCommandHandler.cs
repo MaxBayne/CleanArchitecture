@@ -4,13 +4,20 @@ using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.Book;
 using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Entities;
+
+
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
 {
-    public class CreateBookCommandHandler : RequestHandler<CreateBookCommand, Result<ViewBookDto>,IBookRepository>
+    public class CreateBookCommandHandler : RequestHandler<CreateBookCommand, Result<ViewBookDto>>
     {
-       
-        public CreateBookCommandHandler(IBookRepository repository, IMapper mapper) : base(repository, mapper) { }
+        private readonly IBookRepository _bookRepository;
+
+        public CreateBookCommandHandler(IBookRepository bookRepository, IMapper mapper, INotificationPublisher notificationPublisher) : base(mapper, notificationPublisher)
+        {
+            _bookRepository = bookRepository;
+        }
         
         public override async Task<Result<ViewBookDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
@@ -24,14 +31,16 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                     return Result.Failure<ViewBookDto>(validator.Errors);
                 }
 
-                //Convert Dto To Domain Entity to can send it to database
-                var bookEntity = AutoMapper.Map<Domain.Entities.Book>(request.CreateBookDto);
+                //Create Book using Entity
+                var createBookDto = request.CreateBookDto;
+                
+                var newBookEntity = Book.Create(createBookDto.Title, createBookDto.Description, createBookDto.Category, createBookDto.IsActive);
 
-                //Send Entity to database via Repository
-                var newBookEntity = await Repository.AddAsync(bookEntity);
-
-                //save all changes of db context as unit of work
-                await Repository.SaveChangesAsync();
+                //Save Entity inside Database using Repository
+                await _bookRepository.AddAsync(newBookEntity,true);
+                
+                //Publish All Notifications to its Handlers
+                await NotificationPublisher.PublishNotificationsAsync(newBookEntity.Notifications, cancellationToken);
 
                 //Convert Entity To Dto
                 var bookDto = AutoMapper.Map<ViewBookDto>(newBookEntity);
@@ -43,6 +52,5 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 return Result.Failure<ViewBookDto>(e);
             }
         }
-
     }
 }
