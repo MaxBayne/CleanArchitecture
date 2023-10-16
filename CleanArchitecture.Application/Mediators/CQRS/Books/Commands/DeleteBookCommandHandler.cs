@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Common.Results;
@@ -9,9 +10,12 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
     public class DeleteBookCommandHandler : RequestHandler<DeleteBookCommand, Result>
     {
         private readonly IBookRepository _bookRepository;
-        public DeleteBookCommandHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public DeleteBookCommandHandler(IUnitOfWork unitOfWork,IBookRepository bookRepository, IMapper mapper) : base(mapper)
         {
             _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public override async Task<Result> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
@@ -33,7 +37,10 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 }
 
                 //Delete Book From Database
-                await _bookRepository.DeleteAsync(request.BookId,true);
+                await _bookRepository.DeleteAsync(request.BookId);
+
+                //Save Changes using Unit of Work Pattern
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 return Result.Success();
 

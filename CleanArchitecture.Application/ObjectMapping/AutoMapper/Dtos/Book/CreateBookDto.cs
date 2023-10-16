@@ -9,6 +9,5 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book
         public string Description { get; set; }
         public string Category { get; set; }
         public bool IsActive { get; set; }
-
     }
 }

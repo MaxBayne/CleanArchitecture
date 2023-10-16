@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using CleanArchitecture.Application.Mediators.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Application
@@ -14,9 +15,10 @@ namespace CleanArchitecture.Application
             services.AddMediatR((config) =>
             {
                 config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-
             });
-            
+
+            services.AddTransient<INotificationPublisher, NotificationPublisher>();
+
 
             return services;
         }

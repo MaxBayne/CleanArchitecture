@@ -1,5 +1,6 @@
 ﻿using Moq;
 using AutoMapper;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using FluentAssertions;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.Mediators.Abstract;
@@ -14,12 +15,14 @@ namespace CleanArchitecture.Application.UnitTests.CQRS.Books.Commands;
 
 public class CreateBookCommandHandlerTests
 {
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IBookRepository> _bookRepositoryMock;
     private readonly Mock<INotificationPublisher> _notificationPublisherMock;
     private readonly IMapper _mapper;
 
     public CreateBookCommandHandlerTests()
     {
+        _unitOfWorkMock=new();
         _bookRepositoryMock = new();
         _notificationPublisherMock = new();
          
@@ -39,7 +42,7 @@ public class CreateBookCommandHandlerTests
     {
         //Arrange
 
-        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object, _bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
 
         var command = new CreateBookCommand()
         {
@@ -63,7 +66,7 @@ public class CreateBookCommandHandlerTests
     {
         //Arrange
 
-        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object,_bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
 
         var command = new CreateBookCommand()
         {
@@ -92,7 +95,7 @@ public class CreateBookCommandHandlerTests
         //Setup BookRepository Methods
         _bookRepositoryMock.Setup(x => x.AddAsync(newBookEntity, true)).ReturnsAsync(newBookEntity);
 
-        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object, _bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
 
         var command = new CreateBookCommand() { CreateBookDto = newBookDto };
         

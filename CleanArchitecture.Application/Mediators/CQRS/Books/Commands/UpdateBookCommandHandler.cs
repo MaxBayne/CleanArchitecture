@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.Book;
@@ -9,10 +10,12 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
     public class UpdateBookCommandHandler : RequestHandler<UpdateBookCommand, Result>
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateBookCommandHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
+        public UpdateBookCommandHandler(IUnitOfWork unitOfWork,IBookRepository bookRepository, IMapper mapper) : base(mapper)
         {
             _bookRepository=bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public override async Task<Result> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
@@ -43,7 +46,10 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 //var updatedBookDto = AutoMapper.Map<ViewBookDto>(updatedBookEntity);
 
                 //Save Updated Entity inside database
-                await _bookRepository.UpdateAsync(updatedBookEntity!,true);
+                await _bookRepository.UpdateAsync(updatedBookEntity!);
+
+                //Save Changes using Unit of Work Pattern
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 return Result.Success();
 

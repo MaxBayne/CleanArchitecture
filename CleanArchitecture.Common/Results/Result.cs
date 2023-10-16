@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Common.Errors.Abstract;
 using FluentValidation.Results;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.Common.Results;
 
@@ -11,8 +11,21 @@ public class Result
     public bool IsSuccess { get; private set; }
     public bool IsFailure => !IsSuccess;
     public bool HasErrors=>Errors.Any();
-    //public Error Error { get; private set; }
+    
     public IList<Error> Errors { get; private set; }
+
+    public IList<ProblemDetails> ProblemDetails
+    {
+        get
+        {
+            return Errors.Select(error => new ProblemDetails()
+            {
+                Title = error.Code,
+                Detail = error.Message
+            }).ToList();
+
+        }
+    }
 
     #endregion
 

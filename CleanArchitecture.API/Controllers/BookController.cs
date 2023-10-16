@@ -127,7 +127,8 @@ namespace CleanArchitecture.API.Controllers
                 if (!response.IsSuccess)
                 {
                     //On Response Failed
-                    return BadRequest(response.Value);
+                    return BadRequest(response.ProblemDetails);
+                    
                 }
                 else
                 {

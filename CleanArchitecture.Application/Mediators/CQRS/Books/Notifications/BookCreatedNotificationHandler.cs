@@ -28,10 +28,10 @@ public class BookCreatedNotificationHandler : INotificationHandler<BookCreatedNo
         }
 
         //Send Email Notification
-        await _emailSenderService.SendEmailAsync(new Email
-        {
-            Subject = "Create New Book",
-            Body = $"We Created New Book with Title = ({createdBookExist.Title}) , with Id = {createdBookExist.Id}"
-        });
+        //await _emailSenderService.SendEmailAsync(new Email
+        //{
+        //    Subject = "Create New Book",
+        //    Body = $"We Created New Book with Title = ({createdBookExist.Title}) , with Id = {createdBookExist.Id}"
+        //});
     }
 }

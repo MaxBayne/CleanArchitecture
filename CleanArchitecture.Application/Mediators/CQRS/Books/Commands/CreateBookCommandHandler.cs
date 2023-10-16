@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.Book;
@@ -13,10 +14,12 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
     public class CreateBookCommandHandler : RequestHandler<CreateBookCommand, Result<ViewBookDto>>
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateBookCommandHandler(IBookRepository bookRepository, IMapper mapper, INotificationPublisher notificationPublisher) : base(mapper, notificationPublisher)
+        public CreateBookCommandHandler(IUnitOfWork unitOfWork ,IBookRepository bookRepository, IMapper mapper, INotificationPublisher notificationPublisher) : base(mapper, notificationPublisher)
         {
             _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
         
         public override async Task<Result<ViewBookDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -37,8 +40,13 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 var newBookEntity = Book.Create(createBookDto.Title, createBookDto.Description, createBookDto.Category, createBookDto.IsActive);
 
                 //Save Entity inside Database using Repository
-                await _bookRepository.AddAsync(newBookEntity,true);
+                await _bookRepository.AddAsync(newBookEntity);
+
                 
+                //Save Changes using Unit of Work Pattern
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+
                 //Publish All Notifications to its Handlers
                 await NotificationPublisher.PublishNotificationsAsync(newBookEntity.Notifications, cancellationToken);
 

@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
+﻿using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
+using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
+using CleanArchitecture.Persistence.Abstracts;
 using CleanArchitecture.Persistence.Contexts;
 using CleanArchitecture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,8 @@ namespace CleanArchitecture.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("AppConnectionString"));
             });
 
+            //Register Unit of Work inside Dependency Injection
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             //Register Repositories inside Dependency Injection System as Scoped
             services.AddTransient<IBookRepository, BookRepository>();
