@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Common.Errors.Abstract;
 using FluentValidation.Results;
 
+
 namespace CleanArchitecture.Common.Results;
 
 public class Result
@@ -21,54 +22,69 @@ public class Result
     {
         IsSuccess = isSuccess;
 
-        Errors = new List<Error>()
-        {
-            new Error(errorMessage)
-        };
+        Errors = isSuccess
+            ? new List<Error>()
+            : (IList<Error>)new List<Error>()
+            {
+                new Error(errorMessage)
+            };
+
     }
     protected internal Result(bool isSuccess, string errorCode,string errorMessage)
     {
         IsSuccess = isSuccess;
-        
-        Errors = new List<Error>
-        {
-            new Error(errorCode,errorMessage)
-        };
+
+        Errors = isSuccess
+            ? new List<Error>()
+            : (IList<Error>)new List<Error>()
+            {
+                new Error(errorCode,errorMessage)
+            };
     }
     protected internal Result(bool isSuccess, Error error)
     {
-        if (isSuccess && error != Error.None)
-        {
-            throw new InvalidOperationException();
-        }
-
-
-        if (!isSuccess && error == Error.None)
-        {
-            throw new InvalidOperationException();
-        }
-
         IsSuccess = isSuccess;
-        Errors = new List<Error> { error };
+
+        Errors = isSuccess
+            ? new List<Error>()
+            : (IList<Error>)new List<Error>()
+            {
+                error
+            };
+
     }
 
     protected internal Result(bool isSuccess, Exception exception)
     {
         IsSuccess = isSuccess;
-        Errors = new List<Error>{ new Error(exception.Message) };
+
+        if (isSuccess)
+        {
+            Errors = new List<Error>();
+
+        }
+        else
+        {
+            Errors = new List<Error>
+            {
+                new Error(exception.Message)
+            };
+        }
+        
     }
 
     protected internal Result(bool isSuccess, IList<Error> errors)
     {
         IsSuccess = isSuccess;
-        Errors = errors;
+
+        Errors = isSuccess ? new List<Error>() : errors;
     }
 
     protected internal Result(bool isSuccess, IList<ValidationFailure> validationFailures)
     {
         IsSuccess = isSuccess;
 
-        Errors = validationFailures.Select(s=>new Error(s.ErrorCode,s.ErrorMessage)).ToList();
+        Errors = isSuccess ? new List<Error>() : validationFailures.Select(s => new Error(s.ErrorCode, s.ErrorMessage)).ToList();
     }
 
     #endregion
