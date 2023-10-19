@@ -1,6 +1,8 @@
-﻿using CleanArchitecture.Common.Errors.Domain;
+﻿using CleanArchitecture.Common.Errors.Abstract;
+using CleanArchitecture.Common.Errors.Domain;
 using CleanArchitecture.Common.Results;
 using CleanArchitecture.Domain.Abstract;
+using CleanArchitecture.Domain.Notifications.Tax;
 
 namespace CleanArchitecture.Domain.Entities
 {
@@ -20,14 +22,7 @@ namespace CleanArchitecture.Domain.Entities
 
         #region Constructors
 
-        public Tax()
-        {
-            TaxName = string.Empty;
-            TaxValue = 0;
-            TaxPercent = 0;
-            IsActive = true;
-        }
-        public Tax(string taxName, decimal taxValue, bool isActive,int orderItemId,int orderId)
+        private Tax(string taxName, decimal taxValue, bool isActive,int orderItemId,int orderId)
         {
             TaxName = taxName;
             TaxValue = taxValue;
@@ -37,7 +32,7 @@ namespace CleanArchitecture.Domain.Entities
             OrderItemId = orderItemId;
             OrderId = orderId;
         }
-        public Tax(string taxName, decimal taxPercent, int orderItemId, int orderId)
+        private Tax(string taxName, decimal taxPercent, int orderItemId, int orderId)
         {
             TaxName = taxName;
             TaxValue = 0;
@@ -50,7 +45,94 @@ namespace CleanArchitecture.Domain.Entities
 
         #endregion
 
+        #region Factory Methods
+
+        public static Result<Tax> Create(string taxName, decimal taxValue, bool isActive, int orderItemId, int orderId)
+        {
+            //Validation
+            var errors = new List<Error>();
+
+            if (string.IsNullOrEmpty(taxName))
+                errors.Add(TaxErrors.EmptyName);
+
+            if (taxValue < 0)
+                errors.Add(TaxErrors.InvalidTaxValue);
+
+
+            if (errors.Any())
+                return Result.Failure<Tax>(errors);
+
+
+            var newTax = new Tax(taxName, taxValue, isActive, orderItemId, orderId);
+
+            //Raise Event
+            newTax.RegisterNotification(new TaxCreatedNotification(newTax));
+
+            return Result.Success(newTax);
+        }
+        public static Result<Tax> Create(string taxName, decimal taxPercent, int orderItemId, int orderId)
+        {
+            //Validation
+            var errors = new List<Error>();
+
+            if (string.IsNullOrEmpty(taxName))
+                errors.Add(TaxErrors.EmptyName);
+
+            if (taxPercent < 0)
+                errors.Add(TaxErrors.InvalidTaxPercent);
+
+            if (errors.Any())
+                return Result.Failure<Tax>(errors);
+
+
+            var newTax = new Tax(taxName, taxPercent, orderItemId, orderId);
+
+            //Raise Event
+            newTax.RegisterNotification(new TaxCreatedNotification(newTax));
+
+            return Result.Success(newTax);
+        }
+
+        #endregion
+
         #region Methods
+
+        public Result UpdateTax(string taxName, decimal taxValue, decimal taxPercent, bool isActive,int updatedBy)
+        {
+            //Validation
+
+            var errors = new List<Error>();
+
+            if (string.IsNullOrEmpty(taxName))
+                errors.Add(TaxErrors.EmptyName);
+
+            if (taxValue < 0)
+                errors.Add(TaxErrors.InvalidTaxValue);
+
+            if (taxPercent < 0)
+                errors.Add(TaxErrors.InvalidTaxPercent);
+
+            if (errors.Any())
+                return Result.Failure(errors);
+
+
+            var originalTax = this;
+
+            TaxName = taxName;
+            TaxPercent = taxPercent;
+            TaxValue= taxValue;
+            IsActive = isActive;
+
+            UpdatedDate=DateTime.Now;
+            UpdatedBy = updatedBy;
+
+            var updatedTax = this;
+
+            //Raise Event
+            RegisterNotification(new TaxUpdatedNotification(originalTax, updatedTax));
+
+            return Result.Success();
+        }
 
         public Result ChangeTaxName(string taxName)
         {

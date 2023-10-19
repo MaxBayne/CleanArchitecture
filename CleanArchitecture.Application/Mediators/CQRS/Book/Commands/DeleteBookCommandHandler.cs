@@ -4,8 +4,7 @@ using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Common.Results;
 
-
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
     public class DeleteBookCommandHandler : RequestHandler<DeleteBookCommand, Result>
     {

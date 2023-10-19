@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using CleanArchitecture.API.Attributes;
-using CleanArchitecture.Application.Mediators.CQRS.Books.Commands;
+using CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
+using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Common.Results;
 using Microsoft.AspNetCore.Authorization;
-using CleanArchitecture.Application.Mediators.CQRS.Books.Queries;
 
 // ReSharper disable NotAccessedField.Local
 

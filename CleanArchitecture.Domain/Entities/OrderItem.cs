@@ -1,6 +1,9 @@
-﻿using CleanArchitecture.Common.Errors.Domain;
+﻿using CleanArchitecture.Common.Errors.Abstract;
+using CleanArchitecture.Common.Errors.Domain;
 using CleanArchitecture.Common.Results;
 using CleanArchitecture.Domain.Abstract;
+using CleanArchitecture.Domain.Notifications.OrderItem;
+using CleanArchitecture.Domain.Notifications.Tax;
 
 namespace CleanArchitecture.Domain.Entities;
 
@@ -53,7 +56,7 @@ public class OrderItem:Entity<int>
 
     #region Constructors
 
-    public OrderItem(string description, decimal unitPrice, decimal quantity,int orderId)
+    private OrderItem(string description, decimal unitPrice, decimal quantity,int orderId)
     {
         Description = description;
         UnitPrice = unitPrice;
@@ -62,7 +65,7 @@ public class OrderItem:Entity<int>
 
         _itemTaxes = new List<Tax>();
     }
-    public OrderItem(string description, decimal unitPrice, decimal quantity,List<Tax>taxes, int orderId)
+    private OrderItem(string description, decimal unitPrice, decimal quantity,List<Tax>taxes, int orderId)
     {
         Description = description;
         UnitPrice = unitPrice;
@@ -73,7 +76,7 @@ public class OrderItem:Entity<int>
         CalcTaxesValue();
         CalcTaxesPercent();
     }
-    public OrderItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue, int orderId)
+    private OrderItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue, int orderId)
     {
         Description = description;
         UnitPrice = unitPrice;
@@ -85,7 +88,7 @@ public class OrderItem:Entity<int>
         _itemTaxes = new List<Tax>();
         
     }
-    public OrderItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue,List<Tax> taxes, int orderId)
+    private OrderItem(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue,List<Tax> taxes, int orderId)
     {
         Description = description;
         UnitPrice = unitPrice;
@@ -101,7 +104,163 @@ public class OrderItem:Entity<int>
 
     #endregion
 
+    #region Factory Methods
+
+    public static Result<OrderItem> Create(string description, decimal unitPrice, decimal quantity, int orderId)
+    {
+        //Validation
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (errors.Any())
+            return Result.Failure<OrderItem>(errors);
+
+
+        var newItem = new OrderItem( description,  unitPrice,  quantity,  orderId);
+
+        //Raise Event For Create Order Item
+        newItem.RegisterNotification(new OrderItemCreatedNotification(newItem));
+
+        return Result.Success(newItem);
+    }
+    public static Result<OrderItem> Create(string description, decimal unitPrice, decimal quantity, List<Tax> taxes, int orderId)
+    {
+        //Validation
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (!taxes.Any())
+            errors.Add(OrderItemErrors.EmptyTaxes);
+
+        if (errors.Any())
+            return Result.Failure<OrderItem>(errors);
+
+        var newItem = new OrderItem(description, unitPrice, quantity, taxes, orderId);
+
+        //Raise Event For Create Order Item
+        newItem.RegisterNotification(new OrderItemCreatedNotification(newItem));
+
+        return Result.Success(newItem);
+    }
+    public static Result<OrderItem> Create(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue, int orderId)
+    {
+        //Validation
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (additionsValue < 0)
+            errors.Add(OrderItemErrors.InvalidAdditionsValue);
+
+        if (discountValue < 0)
+            errors.Add(OrderItemErrors.InvalidDiscountValue);
+
+        if (errors.Any())
+            return Result.Failure<OrderItem>(errors);
+
+        var newItem = new OrderItem(description, unitPrice, quantity, additionsValue, discountValue, orderId);
+
+        //Raise Event For Create Order Item
+        newItem.RegisterNotification(new OrderItemCreatedNotification(newItem));
+
+        return Result.Success(newItem);
+    }
+    public static Result<OrderItem> Create(string description, decimal unitPrice, decimal quantity, decimal additionsValue, decimal discountValue, List<Tax> taxes, int orderId)
+    {
+        //Validation
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (additionsValue < 0)
+            errors.Add(OrderItemErrors.InvalidAdditionsValue);
+
+        if (discountValue < 0)
+            errors.Add(OrderItemErrors.InvalidDiscountValue);
+
+        if (!taxes.Any())
+            errors.Add(OrderItemErrors.EmptyTaxes);
+
+        if (errors.Any())
+            return Result.Failure<OrderItem>(errors);
+
+        var newItem = new OrderItem( description,  unitPrice,  quantity,  additionsValue,  discountValue,  taxes,  orderId);
+
+        //Raise Event For Create Order Item
+        newItem.RegisterNotification(new OrderItemCreatedNotification(newItem));
+
+        return Result.Success(newItem);
+    }
+
+    #endregion
+
     #region Methods
+
+    #region Order ITem
+
+    public Result UpdateItem(string description, decimal unitPrice, decimal quantity)
+    {
+        //Validation
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrEmpty(description))
+            errors.Add(OrderItemErrors.EmptyDescription);
+
+        if (unitPrice < 0)
+            errors.Add(OrderItemErrors.InvalidUnitPrice);
+
+        if (quantity <= 0)
+            errors.Add(OrderItemErrors.InvalidQuantity);
+
+        if (errors.Any())
+            return Result.Failure(errors);
+
+        var originalOrderItem = this;
+
+        Description = description;
+        UnitPrice = unitPrice;
+        Quantity = quantity;
+
+        var updatedOrderITem = this;
+
+        //Raise Event For Update Order Item
+        RegisterNotification(new OrderItemUpdatedNotification(originalOrderItem, updatedOrderITem));
+
+        return Result.Success();
+    }
 
     public Result ChangeDescription(string description)
     {
@@ -181,46 +340,60 @@ public class OrderItem:Entity<int>
         return Result.Success();
     }
 
+    #endregion
 
+    #region Tax
 
-
-    public Result AddTaxValue(string taxName,decimal taxValue)
+    public Result AddTaxValue(string taxName, decimal taxValue)
     {
-        //Validation
-        if(string.IsNullOrEmpty(taxName))
-            return Result.Failure(TaxErrors.EmptyName);
+        var newTax = Tax.Create(taxName, taxValue, true, Id, OrderId);
 
-        if(taxValue < 0)
-            return Result.Failure(TaxErrors.InvalidTaxValue);
+        if (newTax.IsSuccess)
+        {
+            _itemTaxes.Add(newTax.Value!);
 
+            CalcTaxesValue();
+        }
 
-        _itemTaxes.Add(new Tax(taxName, taxValue,true,Id,OrderId));
-
-        CalcTaxesValue();
-
-        return Result.Success();
+        return Result.Failure(newTax.Errors);
     }
+
     public Result AddTaxPercent(string taxName, decimal taxPercent)
     {
-        //Validation
-        if (string.IsNullOrEmpty(taxName))
-            return Result.Failure(TaxErrors.EmptyName);
+        var newTax = Tax.Create(taxName, taxPercent,Id, OrderId);
 
-        if (taxPercent < 0)
-            return Result.Failure(TaxErrors.InvalidTaxPercent);
+        if (newTax.IsSuccess)
+        {
+            _itemTaxes.Add(newTax.Value!);
+
+            CalcTaxesPercent();
+        }
+
+        return Result.Failure(newTax.Errors);
+    }
+
+    public Result UpdateTax(int taxId, string taxName, decimal taxValue, decimal taxPercent,bool isActive,int updatedBy)
+    {
+        var findTax = _itemTaxes.FirstOrDefault(c => c.Id == taxId);
+
+        if (findTax is null)
+            return Result.Failure(TaxErrors.NotFoundId);
 
 
-        _itemTaxes.Add(new Tax(taxName, taxPercent,Id,OrderId));
+        var updateResult = findTax.UpdateTax( taxName,  taxValue,  taxPercent,  isActive,  updatedBy);
 
-        CalcTaxesPercent();
 
-        return Result.Success();
+        return updateResult.IsSuccess ? Result.Success() : Result.Failure(updateResult.Errors);
     }
 
     public void RemoveTax(Tax tax)
     {
+        //Raise Notification
+        RegisterNotification(new TaxDeletedNotification(tax));
+
         _itemTaxes.Remove(tax);
     }
+
 
     public void ActiveTax(string taxName)
     {
@@ -244,13 +417,15 @@ public class OrderItem:Entity<int>
 
     private void CalcTaxesValue()
     {
-        TaxesValue= _itemTaxes.Sum(s => s.TaxValue);
+        TaxesValue = _itemTaxes.Sum(s => s.TaxValue);
     }
 
     private void CalcTaxesPercent()
     {
-        TaxesPercent= _itemTaxes.Sum(s => s.TaxPercent);
+        TaxesPercent = _itemTaxes.Sum(s => s.TaxPercent);
     }
+
+    #endregion
 
     #endregion
 }

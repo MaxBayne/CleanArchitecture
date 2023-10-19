@@ -4,6 +4,8 @@ namespace CleanArchitecture.Common.Errors.Domain;
 
 public static class OrderItemErrors
 {
+    public static readonly Error NotFoundItemId = new Error($"OrderItem.{nameof(NotFoundItemId)}", $"Order Item Id Not Found inside Order Items List");
+
     public static readonly Error EmptyDescription = new Error($"OrderItem.{nameof(EmptyDescription)}", $"Cant Use Empty Description");
     public static readonly Error InvalidUnitPrice = new Error($"OrderItem.{nameof(InvalidUnitPrice)}", "Cant Use Invalid Unit Price");
     public static readonly Error InvalidQuantity = new Error($"OrderItem.{nameof(InvalidQuantity)}", "Cant Use Invalid Quantity");

@@ -21,10 +21,10 @@ public abstract class Entity<TId>
     public TId Id { get; private init; }
 
     public DateTime CreatedDate { get; private set; }
-    public DateTime UpdatedDate { get; private set; }
-
     public int CreatedBy { get; private set; }
-    public int UpdatedBy { get; private set; }
+
+    public DateTime UpdatedDate { get; set; }
+    public int UpdatedBy { get;  set; }
 
 
     public IReadOnlyCollection<INotification> Notifications => _notifications;

@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Domain.Notifications.Book;
 using MediatR;
 
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Notifications;
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Notifications;
 
 public class BookDeletedNotificationHandler : INotificationHandler<BookDeletedNotification>
 {

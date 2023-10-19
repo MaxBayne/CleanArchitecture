@@ -119,6 +119,17 @@ namespace CleanArchitecture.Domain.Entities
             IsActive = false;
         }
 
+        public void Update(string title,string description,string category,bool isActive,int updatedById)
+        {
+            Title=title;
+            Description=description;
+            Category=category;
+            IsActive = isActive;
+
+            UpdatedDate = DateTime.Now;
+            UpdatedBy = updatedById;
+        }
+
         #endregion
 
     }

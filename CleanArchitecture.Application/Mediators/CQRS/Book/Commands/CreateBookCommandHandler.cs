@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
+using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.Book;
-using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Common.Results;
-using CleanArchitecture.Domain.Entities;
 
-
-
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
     public class CreateBookCommandHandler : RequestHandler<CreateBookCommand, Result<ViewBookDto>>
     {
@@ -37,7 +34,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 //Create Book using Entity
                 var createBookDto = request.CreateBookDto;
                 
-                var newBookEntity = Book.Create(createBookDto.Title, createBookDto.Description, createBookDto.Category, createBookDto.IsActive);
+                var newBookEntity = Domain.Entities.Book.Create(createBookDto.Title, createBookDto.Description, createBookDto.Category, createBookDto.IsActive);
 
                 //Save Entity inside Database using Repository
                 await _bookRepository.AddAsync(newBookEntity);

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
-using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Application.Mediators.Abstract;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Common.Results;
 
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Queries
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Queries
 {
     public class GetBookListQueryHandler : RequestHandler<GetBookListQuery, Result<List<ViewBookDto>>>
     {

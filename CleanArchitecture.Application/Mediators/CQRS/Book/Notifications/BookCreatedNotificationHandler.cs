@@ -1,10 +1,9 @@
 ﻿using CleanArchitecture.Application.Interfaces.Infrastructure;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
-using CleanArchitecture.Application.Models.Infrastructure;
 using CleanArchitecture.Domain.Notifications.Book;
 using MediatR;
 
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Notifications;
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Notifications;
 
 public class BookCreatedNotificationHandler : INotificationHandler<BookCreatedNotification>
 {

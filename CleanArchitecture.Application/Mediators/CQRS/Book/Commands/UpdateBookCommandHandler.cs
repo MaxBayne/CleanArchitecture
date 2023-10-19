@@ -5,7 +5,7 @@ using CleanArchitecture.Application.Mediators.Abstract;
 using CleanArchitecture.Application.Validation.FluentValidation.Validators.Book;
 using CleanArchitecture.Common.Results;
 
-namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
+namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
     public class UpdateBookCommandHandler : RequestHandler<UpdateBookCommand, Result>
     {
@@ -23,7 +23,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
             try
             {
                 //Validate Dto 
-                var validator = await new UpdateBookDtoValidator().ValidateAsync(request.UpdatedBookDto!, cancellationToken);
+                var validator = await new UpdateBookDtoValidator().ValidateAsync(request.UpdatedBookDto, cancellationToken);
 
                 if (validator.IsValid==false)
                 {
@@ -41,12 +41,20 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Books.Commands
                 var oldBookEntity = await _bookRepository.GetAsync(c => c.Id == request.BookId);
                 //var oldBookDto = AutoMapper.Map<ViewBookDto>(oldBookEntity);
 
+                if (oldBookEntity is null)
+                {
+                    return Result.Failure("Book Id Not Exist");
+                }
+
+                oldBookEntity.Update(request.UpdatedBookDto.Title, request.UpdatedBookDto.Description, request.UpdatedBookDto.Category, request.UpdatedBookDto.IsActive,request.UpdatedById);
+
                 //Update OldBookEntity using UpdatedBookDto powered by auto mapper
-                var updatedBookEntity = AutoMapper.Map(request.UpdatedBookDto, oldBookEntity);
+                //var updatedBookEntity = AutoMapper.Map(request.UpdatedBookDto, oldBookEntity);
                 //var updatedBookDto = AutoMapper.Map<ViewBookDto>(updatedBookEntity);
 
                 //Save Updated Entity inside database
-                await _bookRepository.UpdateAsync(updatedBookEntity!);
+                //await _bookRepository.UpdateAsync(updatedBookEntity!);
+                await _bookRepository.UpdateAsync(oldBookEntity);
 
                 //Save Changes using Unit of Work Pattern
                 await _unitOfWork.SaveChangesAsync(cancellationToken);

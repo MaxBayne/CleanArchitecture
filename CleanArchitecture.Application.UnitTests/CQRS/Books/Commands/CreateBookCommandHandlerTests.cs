@@ -4,7 +4,7 @@ using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
 using FluentAssertions;
 using CleanArchitecture.Application.Interfaces.Persistence.Repositories;
 using CleanArchitecture.Application.Mediators.Abstract;
-using CleanArchitecture.Application.Mediators.CQRS.Books.Commands;
+using CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Profiles;
 using CleanArchitecture.Domain.Entities;
