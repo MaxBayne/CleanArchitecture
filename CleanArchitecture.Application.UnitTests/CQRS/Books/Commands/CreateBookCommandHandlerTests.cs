@@ -42,13 +42,10 @@ public class CreateBookCommandHandlerTests
     {
         //Arrange
 
-        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object, _bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _unitOfWorkMock.Object, _mapper, _notificationPublisherMock.Object);
 
-        var command = new CreateBookCommand()
-        {
-            //make validation fail
-            CreateBookDto = new CreateBookDto {Title = "",Category = "",IsActive = true}
-        };
+        //make validation fail
+        var command = new CreateBookCommand(new CreateBookDto { Title = "", Category = "", IsActive = true });
 
         //Act
         var result =await handler.Handle(command, default);
@@ -66,13 +63,10 @@ public class CreateBookCommandHandlerTests
     {
         //Arrange
 
-        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object,_bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _unitOfWorkMock.Object, _mapper, _notificationPublisherMock.Object);
 
-        var command = new CreateBookCommand()
-        {
-            //make validation success
-            CreateBookDto = new CreateBookDto { Title = "Learning OOP", Category = "Programming", IsActive = true }
-        };
+        //make validation success
+        var command = new CreateBookCommand(new CreateBookDto { Title = "Learning OOP", Category = "Programming", IsActive = true });
 
         //Act
         var result = await handler.Handle(command, default);
@@ -95,9 +89,9 @@ public class CreateBookCommandHandlerTests
         //Setup BookRepository Methods
         _bookRepositoryMock.Setup(x => x.AddAsync(newBookEntity, true)).ReturnsAsync(newBookEntity);
 
-        var handler = new CreateBookCommandHandler(_unitOfWorkMock.Object, _bookRepositoryMock.Object, _mapper, _notificationPublisherMock.Object);
+        var handler = new CreateBookCommandHandler(_bookRepositoryMock.Object, _unitOfWorkMock.Object, _mapper, _notificationPublisherMock.Object);
 
-        var command = new CreateBookCommand() { CreateBookDto = newBookDto };
+        var command = new CreateBookCommand(newBookDto);
         
 
         //Act

@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Interfaces.Persistence.Abstract;
-using MediatR;
+using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Mediators.Abstract;
 
-/// <summary>
-/// Extended IRequestHandler For Mediator to support AutoMapper (Object Mapping) and DbContext as UnitOfWork
-/// </summary>
-/// <typeparam name="TRequest"></typeparam>
-/// <typeparam name="TResponse"></typeparam>
-public abstract class RequestHandler<TRequest, TResponse> : IRequestHandler<TRequest,TResponse> where TRequest : IRequest<TResponse>
+public abstract class BaseHandler<TRequest, TResponse>
 {
-
     #region Properties
 
     /// <summary>
@@ -33,29 +27,29 @@ public abstract class RequestHandler<TRequest, TResponse> : IRequestHandler<TReq
 
     #region Constructors
 
-    protected RequestHandler(IMapper autoMapper)
+    protected BaseHandler(IMapper autoMapper)
     {
         UnitOfWork = null!;
         AutoMapper = autoMapper;
         NotificationPublisher = null!;
 
     }
-    protected RequestHandler(IMapper autoMapper, INotificationPublisher notificationPublisher)
+    protected BaseHandler(IMapper autoMapper, INotificationPublisher notificationPublisher)
     {
         UnitOfWork = null!;
         AutoMapper = autoMapper;
         NotificationPublisher = notificationPublisher;
     }
 
-    protected RequestHandler(IUnitOfWork unitOfWork, IMapper autoMapper)
+    protected BaseHandler(IUnitOfWork unitOfWork, IMapper autoMapper)
     {
         UnitOfWork = unitOfWork;
         AutoMapper = autoMapper;
         NotificationPublisher = null!;
-     
+
     }
 
-    protected RequestHandler(IUnitOfWork unitOfWork,IMapper autoMapper, INotificationPublisher notificationPublisher)
+    protected BaseHandler(IUnitOfWork unitOfWork, IMapper autoMapper, INotificationPublisher notificationPublisher)
     {
         UnitOfWork = unitOfWork;
         AutoMapper = autoMapper;
@@ -67,8 +61,7 @@ public abstract class RequestHandler<TRequest, TResponse> : IRequestHandler<TReq
 
     #region Methods
 
-    public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
+    public abstract Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken);
 
     #endregion
 }
-

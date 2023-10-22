@@ -8,18 +8,18 @@ using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
-    public class CreateBookCommandHandler : RequestHandler<CreateBookCommand, Result<ViewBookDto>>
+    public class CreateBookCommandHandler : CommandHandler<CreateBookCommand, CreateBookResponse>
     {
         private readonly IBookRepository _bookRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        
 
-        public CreateBookCommandHandler(IUnitOfWork unitOfWork ,IBookRepository bookRepository, IMapper mapper, INotificationPublisher notificationPublisher) : base(mapper, notificationPublisher)
+        public CreateBookCommandHandler(IBookRepository bookRepository,IUnitOfWork unitOfWork ,IMapper mapper, INotificationPublisher notificationPublisher) : base(unitOfWork,mapper, notificationPublisher)
         {
             _bookRepository = bookRepository;
-            _unitOfWork = unitOfWork;
         }
         
-        public override async Task<Result<ViewBookDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
+        
+        public override async Task<Result<CreateBookResponse>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 
                 if (validator.IsValid == false)
                 {
-                    return Result.Failure<ViewBookDto>(validator.Errors);
+                    return Result.Failure<CreateBookResponse>(validator.Errors);
                 }
 
                 //Create Book using Entity
@@ -41,7 +41,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 
                 
                 //Save Changes using Unit of Work Pattern
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await UnitOfWork.SaveChangesAsync(cancellationToken);
 
 
                 //Publish All Notifications to its Handlers
@@ -50,12 +50,16 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
                 //Convert Entity To Dto
                 var bookDto = AutoMapper.Map<ViewBookDto>(newBookEntity);
 
-                return Result.Success(bookDto);
+                var response = new CreateBookResponse(bookDto);
+
+                return Result.Success(response);
             }
             catch (Exception e)
             {
-                return Result.Failure<ViewBookDto>(e);
+                return Result.Failure<CreateBookResponse>(e);
             }
         }
+        
+       
     }
 }

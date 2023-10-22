@@ -6,15 +6,17 @@ using CleanArchitecture.Common.Results;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Queries
 {
-    public class GetBookListQueryHandler : RequestHandler<GetBookListQuery, Result<List<ViewBookDto>>>
+    public class GetBooksQueryHandler : QueryHandler<GetBooksQuery,GetBooksResponse>
     {
         private readonly IBookRepository _bookRepository;
-        public GetBookListQueryHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
+
+        public GetBooksQueryHandler(IBookRepository bookRepository, IMapper mapper) : base(mapper)
         {
             _bookRepository = bookRepository;
         }
 
-        public override async Task<Result<List<ViewBookDto>>> Handle(GetBookListQuery request, CancellationToken cancellationToken)
+        
+        public override async Task<Result<GetBooksResponse>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -24,14 +26,17 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Book.Queries
                 //Convert Domain Entity to Dto using AutoMapper
                 var booksDto = AutoMapper.Map<List<ViewBookDto>>(booksEntities);
 
-                return Result.Success(booksDto);
+                var response = new GetBooksResponse(booksDto);
+
+                return Result.Success(response);
             }
             catch (Exception e)
             {
-                return Result.Failure(new List<ViewBookDto>(),e);
+                return Result.Failure<GetBooksResponse>(e);
             }
         }
 
 
+       
     }
 }

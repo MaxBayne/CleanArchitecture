@@ -1,10 +1,8 @@
-﻿using CleanArchitecture.Common.Results;
-using MediatR;
+﻿using CleanArchitecture.Application.Mediators.Abstract;
+
+
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
-    public class DeleteBookCommand : IRequest<Result>
-    {
-        public int BookId { get; set; }
-    }
+    public record DeleteBookCommand(int BookId) : ICommand<GetBookListResponse>;
 }

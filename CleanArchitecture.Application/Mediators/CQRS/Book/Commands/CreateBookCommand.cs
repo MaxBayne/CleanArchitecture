@@ -1,11 +1,7 @@
-﻿using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
-using CleanArchitecture.Common.Results;
-using MediatR;
+﻿using CleanArchitecture.Application.Mediators.Abstract;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
-    public class CreateBookCommand : IRequest<Result<ViewBookDto>>
-    {
-        public CreateBookDto CreateBookDto { get; set; } = null!;
-    }
+    public record CreateBookCommand(CreateBookDto CreateBookDto) : ICommand<CreateBookResponse>;
 }
