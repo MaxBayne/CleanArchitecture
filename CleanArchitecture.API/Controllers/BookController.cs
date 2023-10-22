@@ -5,7 +5,6 @@ using CleanArchitecture.API.Attributes;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
-using Microsoft.AspNetCore.Authorization;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -30,10 +29,10 @@ namespace CleanArchitecture.API.Controllers
 
         // GET: api/<BookController>
         [HttpGet]
-        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<ViewBookDto>>> Get(CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             try
             {
@@ -66,10 +65,10 @@ namespace CleanArchitecture.API.Controllers
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
-        [ResponseType(StatusCodes.Status200OK)]
+        [ResponseType(typeof(ViewBookDto), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ViewBookDto>> Get(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -106,7 +105,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPost]
         [ResponseType(StatusCodes.Status201Created)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ViewBookDto>> Post([FromBody] CreateBookDto newBook, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] CreateBookDto newBook, CancellationToken cancellationToken)
         {
             try
             {
@@ -138,7 +137,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpPut("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Put(int id, [FromBody] UpdateBookDto updatedBook, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateBookDto updatedBook, CancellationToken cancellationToken)
         {
             try
             {
@@ -169,7 +168,7 @@ namespace CleanArchitecture.API.Controllers
         [HttpDelete("{id}")]
         [ResponseType(StatusCodes.Status204NoContent)]
         [ResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             try
             {
