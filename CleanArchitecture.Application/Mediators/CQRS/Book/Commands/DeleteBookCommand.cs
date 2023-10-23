@@ -4,5 +4,5 @@
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands
 {
-    public record DeleteBookCommand(int BookId) : ICommand<GetBookListResponse>;
+    public record DeleteBookCommand(int BookId) : ICommand<DeleteBookResponse>;
 }

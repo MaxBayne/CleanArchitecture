@@ -1,5 +1,5 @@
 ﻿namespace CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
 
-public record GetBookListResponse;
+public record DeleteBookResponse;
 
 

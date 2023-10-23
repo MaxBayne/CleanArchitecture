@@ -5,6 +5,8 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.OrderItem;
 
 public class UpdateOrderItemDto:BaseDto
 {
+    public int Id { get; set; }
+
     public string Description { get; set; }
 
     public decimal UnitPrice { get; set; }

@@ -21,7 +21,5 @@ public class CreateOrderItemDto:BaseDto
     public decimal DiscountValue { get; set; }
     public decimal DiscountPercent { get; set; }
 
-    public List<ViewTaxDto> ItemTaxes { get; set; }
-
-    public int OrderId { get; set; }
+    public List<ViewTaxDto>? ItemTaxes { get; set; }
 }

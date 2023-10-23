@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mediators\CQRS\Order\Commands\" />
     <Folder Include="Mediators\CQRS\Order\Queries\" />
   </ItemGroup>
 

@@ -8,7 +8,7 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Order;
 public class UpdateOrderDto : BaseDto
 {
     public string OrderDescription { get; set; }
-    public UpdateShippingAddressDto ShippingAddress { get; set; }
+    public UpdateShippingAddressDto? ShippingAddress { get; set; }
 
     public List<UpdateOrderItemDto> OrderItems { get; set; }
 }

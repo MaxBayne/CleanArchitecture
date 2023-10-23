@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Domain.Abstract;
+﻿using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Abstract;
 
 namespace CleanArchitecture.Domain.ValueObjects;
 
@@ -31,7 +32,7 @@ public class ShippingAddress:ValueObject
         Floor = string.Empty;
         Apartment = string.Empty;
     }
-    public ShippingAddress(string country, string city, string region, string street, string building, string floor, string apartment)
+    private ShippingAddress(string country, string city, string region, string street, string building, string floor, string apartment)
     {
         Country = country;
         City = city;
@@ -40,6 +41,15 @@ public class ShippingAddress:ValueObject
         Building = building;
         Floor = floor;
         Apartment = apartment;
+    }
+
+    #endregion
+
+    #region Factory Methods
+
+    public static Result<ShippingAddress> Create(string country, string city, string region, string street, string building, string floor, string apartment)
+    {
+        return Result.Success(new ShippingAddress(country, city, region, street, building, floor, apartment));
     }
 
     #endregion
