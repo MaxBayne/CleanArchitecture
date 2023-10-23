@@ -4,6 +4,7 @@ using System.Net.Mime;
 using CleanArchitecture.API.Attributes;
 using CleanArchitecture.Application.Mediators.CQRS.Order.Commands;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Order;
+using CleanArchitecture.Application.Mediators.CQRS.Order.Queries;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -24,8 +25,79 @@ namespace CleanArchitecture.API.Controllers
             _logger = logger;
             _mediator = mediator;
         }
-        
 
+        // GET: api/<OrderController>
+        [HttpGet]
+        [ResponseType(typeof(List<ViewOrderDto>), StatusCodes.Status200OK)]
+        [ResponseType(StatusCodes.Status204NoContent)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
+        {
+            try
+            {
+                //using Mediator to send request and mediator will handle it by handler and return the response
+                var request = new GetOrdersQuery();
+                var response = await _mediator.Send(request, cancellationToken);
+
+                if (response.IsSuccess)
+                {
+                    //On Response Success
+
+                    if (!response.Value!.ViewOrdersDto.Any())
+                    {
+                        return NoContent();
+                    }
+
+                    return Ok(response.Value.ViewOrdersDto);
+                }
+                else
+                {
+                    //On Response Failed
+                    return BadRequest(response.ProblemDetails);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        // GET api/<OrderController>/5
+        [HttpGet("{id}")]
+        [ResponseType(typeof(ViewOrderDto), StatusCodes.Status200OK)]
+        [ResponseType(StatusCodes.Status404NotFound)]
+        [ResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                //using Mediator to send request and mediator will handle it by handler and return the response
+                var request = new GetOrderQuery(id);
+
+                var response = await _mediator.Send(request, cancellationToken);
+
+                if (!response.IsSuccess)
+                {
+                    //On Response Failed
+                    return BadRequest(response.ProblemDetails);
+                }
+                else
+                {
+                    //On Response Success
+
+                    if (response.Value is { ViewOrderDto: null })
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok(response.Value!.ViewOrderDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
 
         // POST api/<OrderController>
         [HttpPost]
