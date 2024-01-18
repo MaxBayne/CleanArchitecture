@@ -3,13 +3,17 @@ using CleanArchitecture.MVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Config App Services
+//1- Config services to the container.
+//====================================
 builder.Services.AddMvcServices(builder.Configuration);
 
-//Build Application
+//2- Build Web Application using Previous builder (that hold settings and services)
+//=================================================================================
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline. (middleware)
+//3- Configure the HTTP request pipeline. (Add Middlewares built-in & custome midlewares)
+//=======================================================================================
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -27,5 +31,6 @@ app.UseAuthorization();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-//Run Application
+//4-Start Application
+//===================
 app.Run();

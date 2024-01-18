@@ -8,17 +8,23 @@ using CleanArchitecture.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Config services to the container.
+//1- Config services to the container.
+//====================================
 builder.Services.AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration)
                 .AddPersistenceServices(builder.Configuration)
                 .AddIdentityServices(builder.Configuration)
                 .AddApiServices();
 
-// Build Application
+
+//2- Build Web Application using Previous builder (that hold settings and services)
+//=================================================================================
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline. (Middleware)
+
+//3- Configure the HTTP request pipeline. (Add Middlewares built-in & custome midlewares)
+//=======================================================================================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -29,14 +35,16 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
+app.UseRouting();
+
 //Configure Security
 app.UseAuthentication();
 app.UseAuthorization();
 
 //Map Endpoints
-app.UseRouting();
 app.MapControllers(); //Endpoints over Controller classes
 app.MapEndpoints(); //Endpoints inside files
 
-//Start Application
+//4-Start Application
+//===================
 app.Run();
