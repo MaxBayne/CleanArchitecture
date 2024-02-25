@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Common.Errors.Domain;
 using CleanArchitecture.Common.Results;
 using CleanArchitecture.Domain.Abstract;
+using Newtonsoft.Json;
 
 namespace CleanArchitecture.Domain.Entities;
 
