@@ -4,6 +4,7 @@ using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Persistence;
 using CleanArchitecture.API.Infrastructure;
 using CleanArchitecture.API;
+using CleanArchitecture.API.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,9 @@ app.UseRouting();
 //Configure Security
 app.UseAuthentication();
 app.UseAuthorization();
+
+//Set Custom Middleware
+app.UseMiddleware<ProfilingMiddleware>();
 
 //Map Endpoints
 app.MapControllers(); //Endpoints over Controller classes
