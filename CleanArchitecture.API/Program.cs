@@ -9,6 +9,9 @@ using CleanArchitecture.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//0- Set Configuration
+var sources = builder.Configuration.Sources;
+
 //1- Config services to the container.
 //====================================
 builder.Services.AddApplicationServices()
