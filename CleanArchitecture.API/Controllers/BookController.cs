@@ -5,6 +5,7 @@ using CleanArchitecture.API.Attributes;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
+using Microsoft.AspNetCore.Authorization;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -64,6 +65,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // GET api/<BookController>/5
+        [Authorize()]
         [HttpGet("{id}")]
         [ResponseType(typeof(ViewBookDto), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]

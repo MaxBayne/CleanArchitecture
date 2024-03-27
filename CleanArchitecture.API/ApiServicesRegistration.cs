@@ -1,13 +1,53 @@
-﻿using MediatR;
+﻿using CleanArchitecture.Application.Models.Identity;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace CleanArchitecture.API
 {
     public static class ApiServicesRegistration
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services)
+        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
             //Register Services inside Dependency Injection System
+
+            services.Configure<JWTSettings>(configuration.GetSection("JwtSettings"));
+
+            //Config API Security (Authentications)
+
+            #region Config Basic Authentication
+
+
+
+            #endregion
+
+            #region Config Bearer Authentication (JWT)
+
+            services.AddAuthentication(authenticationOptions =>
+            {
+                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //Bearer Scheme
+                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
+                };
+            });
+
+            #endregion
+
+
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {

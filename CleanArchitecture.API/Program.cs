@@ -18,7 +18,7 @@ builder.Services.AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration)
                 .AddPersistenceServices(builder.Configuration)
                 .AddIdentityServices(builder.Configuration)
-                .AddApiServices();
+                .AddApiServices(builder.Configuration);
 
 
 //2- Build Web Application using Previous builder (that hold settings and services)

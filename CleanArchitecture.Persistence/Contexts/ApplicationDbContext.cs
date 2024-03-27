@@ -9,7 +9,7 @@ namespace CleanArchitecture.Persistence.Contexts
     {
         #region Constructors
 
-        public ApplicationDbContext(DbContextOptions options) : base(options){ }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
 
         #endregion
 
