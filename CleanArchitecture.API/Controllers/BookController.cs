@@ -6,6 +6,7 @@ using CleanArchitecture.Application.Mediators.CQRS.Book.Commands;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CleanArchitecture.API.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
@@ -29,6 +31,8 @@ namespace CleanArchitecture.API.Controllers
 
 
         // GET: api/<BookController>
+        [Authorize]
+        //[AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
@@ -37,6 +41,17 @@ namespace CleanArchitecture.API.Controllers
         {
             try
             {
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+
+                //Get username who authenticated our system
+                var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+                var userName = claimsIdentity?.FindFirst(ClaimTypes.Name);
+                var userRole = claimsIdentity?.FindFirst(ClaimTypes.Role);
+
+                _logger.LogInformation("UserId = {0}",userId);
+                _logger.LogInformation("UserName = {0}", userName);
+                _logger.LogInformation("UserRole = {0}", userRole);
+
                 //using Mediator to send request and mediator will handle it by handler and return the response
                 var request = new GetBooksQuery();
                 var response = await _mediator.Send(request, cancellationToken);
@@ -65,8 +80,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // GET api/<BookController>/5
-        [Authorize()]
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         [ResponseType(typeof(ViewBookDto), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
         [ResponseType(StatusCodes.Status400BadRequest)]

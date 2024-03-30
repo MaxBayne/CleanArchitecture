@@ -5,6 +5,8 @@ using CleanArchitecture.Persistence;
 using CleanArchitecture.API.Infrastructure;
 using CleanArchitecture.API;
 using CleanArchitecture.API.Middlewares;
+using CleanArchitecture.API.Authentication.BasicAuthentication;
+using Microsoft.AspNetCore.Authentication;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +48,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 //Set Custom Middleware
-app.UseMiddleware<ProfilingMiddleware>();
+//app.UseMiddleware<ProfilingMiddleware>();
 
 //Map Endpoints
 app.MapControllers(); //Endpoints over Controller classes

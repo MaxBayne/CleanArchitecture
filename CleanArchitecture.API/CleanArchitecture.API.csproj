@@ -29,4 +29,8 @@
     <ProjectReference Include="..\CleanArchitecture.Persistence\CleanArchitecture.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authentication\BearerAuthentication\" />
+  </ItemGroup>
+
 </Project>

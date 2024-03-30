@@ -1,5 +1,7 @@
-﻿using CleanArchitecture.Application.Models.Identity;
+﻿using CleanArchitecture.API.Authentication.BasicAuthentication;
+using CleanArchitecture.Application.Models.Identity;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -14,39 +16,6 @@ namespace CleanArchitecture.API
             //Register Services inside Dependency Injection System
 
             services.Configure<JWTSettings>(configuration.GetSection("JwtSettings"));
-
-            //Config API Security (Authentications)
-
-            #region Config Basic Authentication
-
-
-
-            #endregion
-
-            #region Config Bearer Authentication (JWT)
-
-            services.AddAuthentication(authenticationOptions =>
-            {
-                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //Bearer Scheme
-                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(jwtBearerOptions =>
-            {
-                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero,
-                    ValidIssuer = configuration["JwtSettings:Issuer"],
-                    ValidAudience = configuration["JwtSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
-                };
-            });
-
-            #endregion
-
 
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
@@ -97,6 +66,45 @@ namespace CleanArchitecture.API
             });
 
             services.AddTransient<IMediator, Mediator>();
+
+
+            //Config API Security (Authentications)
+
+            #region Config Basic Authentication
+
+            services.AddAuthentication("Basic")
+                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+
+            #endregion
+
+            #region Config Bearer Token Authentication
+
+            #endregion
+
+            #region Config JWT Bearer Authentication
+
+            //services.AddAuthentication(authenticationOptions =>
+            //{
+            //    //authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //Bearer Scheme
+            //    //authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            //}).AddJwtBearer(jwtBearerOptions =>
+            //{
+            //    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ClockSkew = TimeSpan.Zero,
+            //        ValidIssuer = configuration["JwtSettings:Issuer"],
+            //        ValidAudience = configuration["JwtSettings:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
+            //    };
+            //});
+
+            #endregion
+
 
             return services;
         }
