@@ -72,36 +72,29 @@ namespace CleanArchitecture.API
 
             #region Config Basic Authentication
 
-            services.AddAuthentication("Basic")
-                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
-
-            #endregion
-
-            #region Config Bearer Token Authentication
+            //services.AddAuthentication("Basic")
+            //        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
             #endregion
 
             #region Config JWT Bearer Authentication
 
-            //services.AddAuthentication(authenticationOptions =>
-            //{
-            //    //authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //Bearer Scheme
-            //    //authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            //}).AddJwtBearer(jwtBearerOptions =>
-            //{
-            //    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ClockSkew = TimeSpan.Zero,
-            //        ValidIssuer = configuration["JwtSettings:Issuer"],
-            //        ValidAudience = configuration["JwtSettings:Audience"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
-            //    };
-            //});
+            services.AddAuthentication()
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,jwtBearerOptions =>
+                    {
+                        jwtBearerOptions.SaveToken = true;
+                        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuerSigningKey = true,
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ClockSkew = TimeSpan.Zero,
+                            ValidIssuer = configuration["JwtSettings:Issuer"],
+                            ValidAudience = configuration["JwtSettings:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
+                        };
+                    });
 
             #endregion
 
