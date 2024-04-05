@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Common.Results;
+using CleanArchitecture.Common.Settings;
 
 namespace CleanArchitecture.Identity.Services
 {
@@ -16,9 +17,9 @@ namespace CleanArchitecture.Identity.Services
     {
         private readonly UserManager<ApplicationUser<Guid>> _userManager;
         private readonly SignInManager<ApplicationUser<Guid>> _signInManager;
-        private readonly JWTSettings _jwtSettings;
+        private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<ApplicationUser<Guid>> userManager, SignInManager<ApplicationUser<Guid>> signInManager, IOptions<JWTSettings> jwtSettings)
+        public IdentityService(UserManager<ApplicationUser<Guid>> userManager, SignInManager<ApplicationUser<Guid>> signInManager, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -121,8 +122,12 @@ namespace CleanArchitecture.Identity.Services
                     throw new AuthenticationException("Invalid Password !");
                 }
 
-                //if user exist and login success then try to generate access token for that user
-                var jwtToken = await GenerateJwtTokenAsync(user, _jwtSettings);
+
+                //if user exist and login success then try to generate access token for that user with claims
+
+                var userClaims = await CreateUserClaimsAsync(user);
+
+                var jwtToken = GenerateJwtToken(_jwtSettings, userClaims);
 
                 
                 return new LoginResponse()
@@ -132,9 +137,9 @@ namespace CleanArchitecture.Identity.Services
                     UserId = user.Id,
                     UserName = user.UserName!,
                     UserEmail = user.Email!,
-                    
-                    UserToken = jwtToken.TokenString,
-                    UserClaims = jwtToken.Token.Claims.ToList()
+                    UserClaims = userClaims,
+
+                    UserToken = jwtToken.TokenString
                 };
             }
             catch (Exception e)
@@ -146,17 +151,45 @@ namespace CleanArchitecture.Identity.Services
                 };
             }
         }
-       
+
 
         #region Helper
 
         /// <summary>
         /// Token is some encoded String that contain user claims and has expire time and signed and client app send it inside header of every request
         /// </summary>
-        /// <param name="user"></param>
         /// <param name="jwtSettings"></param>
+        /// <param name="userClaims"></param>
         /// <returns></returns>
-        private async Task<(JwtSecurityToken Token,string TokenString)> GenerateJwtTokenAsync(ApplicationUser<Guid> user, JWTSettings jwtSettings)
+        private (SecurityToken Token,string TokenString) GenerateJwtToken(JwtSettings jwtSettings,IEnumerable<Claim> userClaims)
+        {
+            // Create a security key that will be used to sign the jwt token to sure that data not edited over network
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
+
+            // Create a signing credential.
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            // Create a JWT token Descriptor that describe the content of Token
+            var jwtTokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Issuer= jwtSettings.Issuer,
+                Audience= jwtSettings.Audience,
+                Subject=new ClaimsIdentity(userClaims),//claims mean info for user like email,name,role mobile etc..
+                SigningCredentials = signingCredentials,
+                Expires= DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings.DurationInMinutes))
+            };
+
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            var jwtToken=jwtTokenHandler.CreateToken(jwtTokenDescriptor);
+
+            var jwtTokenAsString = jwtTokenHandler.WriteToken(jwtToken);
+
+            return (Token: jwtToken,TokenString: jwtTokenAsString) ;
+
+        }
+
+        private async Task<IEnumerable<Claim>> CreateUserClaimsAsync(ApplicationUser<Guid> user)
         {
             //Get Roles that user belong to it (user can belong to multi roles)
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -170,7 +203,7 @@ namespace CleanArchitecture.Identity.Services
             {
                 roleClaims.Add(new Claim(ClaimTypes.Role, role));
             }
-           
+
             //generate custom claims
             var customClaims = new List<Claim>()
             {
@@ -184,24 +217,9 @@ namespace CleanArchitecture.Identity.Services
             //Combine All Claims into one list
             var claims = customClaims.Union(userClaims).Union(roleClaims);
 
-            // Create a security key that will be used to sign the jwt token to sure that data not edited over network
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
-
-            // Create a signing credential.
-            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            // Create a JWT token.
-            var jwtToken = new JwtSecurityToken(
-                issuer: jwtSettings.Issuer,
-                audience: jwtSettings.Audience,
-                expires: DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings.DurationInMinutes)),
-                claims: claims,
-                signingCredentials: signingCredentials
-            );
-
-            return (Token: jwtToken,TokenString: new JwtSecurityTokenHandler().WriteToken(jwtToken)) ;
-
+            return claims;
         }
+
         #endregion
     }
 }

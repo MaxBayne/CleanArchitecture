@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.API.Authentication.BasicAuthentication;
-using CleanArchitecture.Application.Models.Identity;
+using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,8 +15,8 @@ namespace CleanArchitecture.API
         {
             //Register Services inside Dependency Injection System
 
-            services.Configure<JWTSettings>(configuration.GetSection("JwtSettings"));
-
+            var JwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
             {
@@ -80,19 +80,26 @@ namespace CleanArchitecture.API
             #region Config JWT Bearer Authentication
 
             services.AddAuthentication()
-                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,jwtBearerOptions =>
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
                     {
-                        jwtBearerOptions.SaveToken = true;
-                        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                        options.SaveToken = true;//where will be save the token inside HttpContext 
+                        options.TokenValidationParameters = new TokenValidationParameters() //How To Validate the Token inside Request
                         {
-                            ValidateIssuerSigningKey = true,
+                            //Validate Issuer Name inside Token with the Value Stored inside AppSettings
                             ValidateIssuer = true,
+                            ValidIssuer = JwtSettings?.Issuer,
+
+                            //Validate Audience Name inside Token with the Value Stored inside AppSettings
                             ValidateAudience = true,
+                            ValidAudience = JwtSettings?.Audience,
+
+                            //Validate Issuer Signing Key that Used To Sign the Token
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.IssuerSigningKey)),
+
                             ValidateLifetime = true,
                             ClockSkew = TimeSpan.Zero,
-                            ValidIssuer = configuration["JwtSettings:Issuer"],
-                            ValidAudience = configuration["JwtSettings:Audience"],
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:SecretKey"]!))
+                            
                         };
                     });
 
