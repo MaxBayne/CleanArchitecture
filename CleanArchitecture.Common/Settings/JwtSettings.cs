@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CleanArchitecture.Common.Settings
+﻿namespace CleanArchitecture.Common.Settings
 {
     //Stored inside Api Settings
     public class JwtSettings
@@ -12,7 +6,7 @@ namespace CleanArchitecture.Common.Settings
         /// <summary>
         /// Key for sign the JWT Token to sure that token not edited over network
         /// </summary>
-        public string IssuerSigningKey { get; set; }
+        public string? IssuerSigningKey { get; set; }
 
         /// <summary>
         /// Who Create the JWT Token (Identity System)

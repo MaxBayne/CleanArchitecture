@@ -29,10 +29,9 @@ namespace CleanArchitecture.API.Controllers
             _mediator = mediator;
         }
 
-
+        //[AllowAnonymous]
         // GET: api/<BookController>
         [Authorize]
-        //[AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]

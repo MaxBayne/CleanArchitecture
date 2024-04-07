@@ -1,7 +1,5 @@
-﻿using CleanArchitecture.API.Authentication.BasicAuthentication;
-using CleanArchitecture.Common.Settings;
+﻿using CleanArchitecture.Common.Settings;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -15,7 +13,9 @@ namespace CleanArchitecture.API
         {
             //Register Services inside Dependency Injection System
 
-            var JwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            //Register Configuration Mapped Classes inside Services , use IOptions<JwtSettings> inside Constructor to resolve the class instance
+            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
             
 
             services.AddControllers().AddJsonOptions(jsonOptions =>
@@ -79,6 +79,8 @@ namespace CleanArchitecture.API
 
             #region Config JWT Bearer Authentication
 
+            var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
             services.AddAuthentication()
                     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
                     {
@@ -87,15 +89,15 @@ namespace CleanArchitecture.API
                         {
                             //Validate Issuer Name inside Token with the Value Stored inside AppSettings
                             ValidateIssuer = true,
-                            ValidIssuer = JwtSettings?.Issuer,
+                            ValidIssuer = jwtSettings?.Issuer,
 
                             //Validate Audience Name inside Token with the Value Stored inside AppSettings
                             ValidateAudience = true,
-                            ValidAudience = JwtSettings?.Audience,
+                            ValidAudience = jwtSettings?.Audience,
 
                             //Validate Issuer Signing Key that Used To Sign the Token
                             ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.IssuerSigningKey)),
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.IssuerSigningKey!)),
 
                             ValidateLifetime = true,
                             ClockSkew = TimeSpan.Zero,

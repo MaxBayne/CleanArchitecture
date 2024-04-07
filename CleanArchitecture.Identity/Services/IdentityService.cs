@@ -209,8 +209,6 @@ namespace CleanArchitecture.Identity.Services
             {
                 new(JwtRegisteredClaimNames.NameId,user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Name,user.UserName!),
-                new(JwtRegisteredClaimNames.Sub,user.UserName!),
-                new(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new(JwtRegisteredClaimNames.Email,user.Email!)
             };
 

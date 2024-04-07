@@ -25,7 +25,8 @@ namespace CleanArchitecture.Identity.Configurations.Entities
                    NormalizedUserName="ADMIN",
                    Email="admin@gmail.com",
                    NormalizedEmail="ADMIN@GMAIL.COM",
-                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd")
+                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd"),
+                   SecurityStamp = "123"
                },
 
                new ApplicationUser<Guid>
@@ -35,7 +36,8 @@ namespace CleanArchitecture.Identity.Configurations.Entities
                    NormalizedUserName="SUPERVISOR",
                    Email="supervisor@gmail.com",
                    NormalizedEmail="SUPERVISOR@GMAIL.COM",
-                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd")
+                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd"),
+                   SecurityStamp = "123"
                },
 
                new ApplicationUser<Guid>
@@ -45,7 +47,8 @@ namespace CleanArchitecture.Identity.Configurations.Entities
                    NormalizedUserName="USER",
                    Email="user@gmail.com",
                    NormalizedEmail="USER@GMAIL.COM",
-                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd")
+                   PasswordHash=hasher.HashPassword(null,"P@ssw0rd"),
+                   SecurityStamp = "123"
                }
 
             });
