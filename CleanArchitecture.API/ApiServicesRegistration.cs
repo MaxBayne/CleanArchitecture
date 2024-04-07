@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -81,29 +82,33 @@ namespace CleanArchitecture.API
 
             var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
-            services.AddAuthentication()
-                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
-                    {
-                        options.SaveToken = true;//where will be save the token inside HttpContext 
-                        options.TokenValidationParameters = new TokenValidationParameters() //How To Validate the Token inside Request
-                        {
-                            //Validate Issuer Name inside Token with the Value Stored inside AppSettings
-                            ValidateIssuer = true,
-                            ValidIssuer = jwtSettings?.Issuer,
+            services.AddAuthentication(configureOptions =>
+            {
+                configureOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                configureOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                //options.SaveToken = true;//where will be save the token inside HttpContext 
+                options.TokenValidationParameters = new TokenValidationParameters() //How To Validate the Token inside Request
+                {
+                    //Validate Issuer Name inside Token with the Value Stored inside AppSettings
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtSettings?.Issuer,
 
-                            //Validate Audience Name inside Token with the Value Stored inside AppSettings
-                            ValidateAudience = true,
-                            ValidAudience = jwtSettings?.Audience,
+                    //Validate Audience Name inside Token with the Value Stored inside AppSettings
+                    ValidateAudience = true,
+                    ValidAudience = jwtSettings?.Audience,
 
-                            //Validate Issuer Signing Key that Used To Sign the Token
-                            ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.IssuerSigningKey!)),
+                    //Validate Issuer Signing Key that Used To Sign the Token
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.IssuerSigningKey!)),
 
-                            ValidateLifetime = true,
-                            ClockSkew = TimeSpan.Zero,
-                            
-                        };
-                    });
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+
+                };
+            });
 
             #endregion
 

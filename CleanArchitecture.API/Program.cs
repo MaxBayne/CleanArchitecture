@@ -50,7 +50,7 @@ app.UseAuthorization();
 //Set Custom Middleware
 //app.UseMiddleware<ProfilingMiddleware>();
 
-//Map Endpoints
+
 app.MapControllers(); //Endpoints over Controller classes
 app.MapEndpoints(); //Endpoints inside files
 
