@@ -8,7 +8,7 @@ namespace CleanArchitecture.Blazor
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add services (Dependency Injection) to the container.
             builder.Services.AddRazorComponents();
 
             var app = builder.Build();

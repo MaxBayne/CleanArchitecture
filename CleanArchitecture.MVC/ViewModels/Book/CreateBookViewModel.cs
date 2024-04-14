@@ -5,12 +5,11 @@ namespace CleanArchitecture.MVC.ViewModels.Book
 {
     public class CreateBookViewModel: BaseViewModel
     {
-        [Required]
-        public string? Title { get; set; }
+        public required string? Title { get; set; }
         public string? Description { get; set; }
 
-        [Required]
-        public string? Category { get; set; }
+        
+        public required string? Category { get; set; }
 
         public bool IsActive { get; set; }
     }
