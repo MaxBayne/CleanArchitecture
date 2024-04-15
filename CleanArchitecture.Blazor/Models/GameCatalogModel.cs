@@ -1,8 +1,6 @@
-﻿using CleanArchitecture.Blazor.ViewModels.Abstract;
-
-namespace CleanArchitecture.Blazor.ViewModels.GameCatalog
+﻿namespace CleanArchitecture.Blazor.Models
 {
-    public class ViewGameCatalogViewModel:BaseViewModel
+    public class GameCatalogModel
     {
         public int Id { get; set; }
         public required string Name { get; set; }

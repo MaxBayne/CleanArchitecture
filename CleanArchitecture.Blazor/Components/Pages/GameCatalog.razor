@@ -1,22 +1,49 @@
 ﻿@page "/gamecatalog"
-@using CleanArchitecture.Blazor.ViewModels.GameCatalog
+@using CleanArchitecture.Blazor.ApiClients
+@using CleanArchitecture.Blazor.Models
+
+@code
+{
+    private GamesClient _gamesClient = null!;
+    private List<GameCatalogModel> _gameCatalogs = null!;
+
+    //Called When Sending Parameters to Component from its Parent
+    protected override void OnParametersSet()
+    {
+
+    }
+
+    //Called When Component is ready to start and its parameters was set
+    protected override void OnInitialized()
+    {
+        _gamesClient = new GamesClient();
+        _gameCatalogs = new List<GameCatalogModel>();
+
+        _gameCatalogs = _gamesClient.GetGameCatalogs();
+
+    }
+}
 
 
 <PageTitle>Game Catalog</PageTitle>
 
 <h3>Game Catalog</h3>
 
-<table class="table table-bordered table-hover table-striped">
-    <thead class="table-dark">
-    <th class="text-center">Id</th>
-    <th>Name</th>
-    <th class="text-center">Genre</th>
-    <th class="text-end">Price</th>
-    <th class="text-center">Year</th>
-    <th class="text-center">Action</th>
-    </thead>
-    <tbody>
-        @foreach(var game in gameCatalogs)
+@if (_gameCatalogs.Any())
+{
+    <table class="table table-bordered table-hover table-striped">
+
+        <thead class="table-dark" >
+        <th class="text-center">Id</th>
+        <th>Name</th>
+        <th class="text-center">Genre</th>
+        <th class="text-end">Price</th>
+        <th class="text-center">Year</th>
+        <th class="text-center">Action</th>
+        </thead>
+
+        <tbody>
+        @foreach (var game in _gameCatalogs)
         {
             <tr>
                 <td class="text-center text-dark">@game.Id</td>
@@ -27,55 +54,13 @@
                 <td class="text-center">Edit</td>
             </tr>
         }
-
-    </tbody>
-</table>
-
-
-@code
-{
-    ViewGameCatalogViewModel[] gameCatalogs =
-    [
-        new()
-            {
-                Id = 1,
-                Name = "Street Figher",
-                Genre = "Action",
-                Price = 150,
-                Year = 2010
-            },
-        new()
-            {
-                Id = 2,
-                Name = "Call of Duty",
-                Genre = "Action",
-                Price = 140,
-                Year = 2011
-            },
-        new()
-            {
-                Id = 3,
-                Name = "Medal Of Honor",
-                Genre = "War",
-                Price = 250,
-                Year = 2015
-            },
-        new()
-            {
-                Id = 4,
-                Name = "Zomaa",
-                Genre = "Family",
-                Price = 90,
-                Year = 2018
-            },
-        new()
-            {
-                Id = 5,
-                Name = "Freedom Figher",
-                Genre = "Action",
-                Price = 170,
-                Year = 2019
-            }
-    ];
-
+        </tbody>
+    </table>
 }
+else
+{
+    <div class="bg-warning">
+        Sorry No Game Catalogs
+    </div>
+}
+
