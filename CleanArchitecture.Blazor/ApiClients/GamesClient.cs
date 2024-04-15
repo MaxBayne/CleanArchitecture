@@ -1,15 +1,16 @@
 ﻿using CleanArchitecture.Blazor.ApiClients.Abstract;
-using CleanArchitecture.Blazor.Models;
+using CleanArchitecture.Blazor.DataModels;
+using CleanArchitecture.Blazor.ViewModels.GameCatalog;
 
 namespace CleanArchitecture.Blazor.ApiClients;
 
 public class GamesClient : BaseClient
 {
-    private readonly List<GameCatalogModel> _gameCatalogs;
+    private readonly List<GameCatalog> _gameCatalogs;
 
     public GamesClient()
     {
-        _gameCatalogs = new List<GameCatalogModel>()
+        _gameCatalogs = new List<GameCatalog>()
         {
             new()
             {
@@ -23,7 +24,7 @@ public class GamesClient : BaseClient
             {
                 Id = 2,
                 Name = "Call of Duty",
-                Genre = "Action",
+                Genre = "Role",
                 Price = 140,
                 Year = 2011
             },
@@ -54,6 +55,10 @@ public class GamesClient : BaseClient
         };
     }
 
-    public List<GameCatalogModel> GetGameCatalogs() => _gameCatalogs;
 
+
+    public List<GameCatalog> GetGameCatalogs() => _gameCatalogs;
+
+    public GameCatalog? FindById(int id)=> _gameCatalogs.FirstOrDefault(c => c.Id == id);
+    
 }

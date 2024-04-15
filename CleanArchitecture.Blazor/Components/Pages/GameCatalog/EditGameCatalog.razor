@@ -1,0 +1,77 @@
+﻿@page "/gamecatalog/edit"
+
+@using CleanArchitecture.Blazor.ApiClients
+@using CleanArchitecture.Blazor.ViewModels.CatalogGenre
+@using CleanArchitecture.Blazor.ViewModels.GameCatalog
+
+
+@code 
+{
+    private GenresClient _genresClient = null!;
+    private GamesClient _gamesClient = null!;
+    private EditGameCatalogViewModel _viewModel = null!;
+
+
+    //Called When Component is ready to start and its parameters was set
+    protected override void OnInitialized()
+    {
+        _genresClient = new GenresClient();
+        _gamesClient = new GamesClient();
+        _viewModel = new EditGameCatalogViewModel();
+
+        _viewModel.Genres = _genresClient.GetGameGenres();
+    }
+
+}
+
+<PageTitle>Edit Game Catalog</PageTitle>
+
+<h3>Edit GameCatalog</h3>
+
+
+
+
+
+@if (_viewModel != null)
+{
+    <EditForm class="row g-3" Model="@_viewModel" FormName="EditGameCatalog">
+        
+        <div class="col-12">
+            <label for="txtName" class="form-label">Name</label>
+            <InputText id="txtName" @bind-Value="_viewModel.Name" class="form-control" placeholder="Name" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="cboGenre" class="form-label">Genre</label>
+            <InputSelect id="cboGenre" class="form-select" @bind-Value="_viewModel.GenreId">
+                <option selected>Select...</option>
+
+                @foreach (var genre in _viewModel.Genres)
+                {
+                    <option value="@genre.Id">@genre.Name</option>
+                }
+                
+                
+            </InputSelect>
+        </div>
+
+        <div class="col-md-4">
+            <label for="txtPrice" class="form-label">Price</label>
+            <InputNumber id="txtPrice" class="form-control" @bind-Value="_viewModel.Price" />
+        </div>
+        
+        <div class="col-md-4">
+            <label for="txtYear" class="form-label">Year</label>
+            <InputNumber id="txtYear" class="form-control" @bind-Value="_viewModel.Year" />
+        </div>
+       
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+
+    </EditForm>
+}
+else
+{
+    <div>Sorry Catalog Not Available</div>
+}

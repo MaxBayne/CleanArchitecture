@@ -1,11 +1,11 @@
-﻿@page "/gamecatalog"
+﻿@page "/gamecatalog/list"
 @using CleanArchitecture.Blazor.ApiClients
-@using CleanArchitecture.Blazor.Models
+@using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
 @code
 {
     private GamesClient _gamesClient = null!;
-    private List<GameCatalogModel> _gameCatalogs = null!;
+    private ViewGameCatalogViewModel _viewModel = null!;
 
     //Called When Sending Parameters to Component from its Parent
     protected override void OnParametersSet()
@@ -17,9 +17,9 @@
     protected override void OnInitialized()
     {
         _gamesClient = new GamesClient();
-        _gameCatalogs = new List<GameCatalogModel>();
+        _viewModel = new ViewGameCatalogViewModel();
 
-        _gameCatalogs = _gamesClient.GetGameCatalogs();
+        _viewModel.GameCatalogs = _gamesClient.GetGameCatalogs();
 
     }
 }
@@ -29,7 +29,7 @@
 
 <h3>Game Catalog</h3>
 
-@if (_gameCatalogs.Any())
+@if (_viewModel.GameCatalogs.Any())
 {
     <table class="table table-bordered table-hover table-striped">
 
@@ -43,7 +43,7 @@
         </thead>
 
         <tbody>
-        @foreach (var game in _gameCatalogs)
+            @foreach (var game in _viewModel.GameCatalogs)
         {
             <tr>
                 <td class="text-center text-dark">@game.Id</td>
