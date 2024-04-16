@@ -1,13 +1,14 @@
-﻿@page "/gamecatalog/edit"
-@inject NavigationManager navigation
+﻿@using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
-@using CleanArchitecture.Blazor.ViewModels.GameCatalog
+
+@page "/gamecatalog/edit"
+@inject NavigationManager _navigation
+@inject IGamesClient _gamesClient
+@inject IGenresClient _genresClient
 
 
 @code 
 {
-    private GenresClient _genresClient = null!;
-    private GamesClient _gamesClient = null!;
     private EditGameCatalogViewModel _viewModel = null!;
 
     #region Parameters
@@ -25,8 +26,6 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        _genresClient = new GenresClient();
-        _gamesClient = new GamesClient();
         _viewModel = new EditGameCatalogViewModel();
 
 
@@ -49,7 +48,7 @@
     {
         _gamesClient.UpdateGame(UpdatedGameCatalog);
 
-        navigation.NavigateTo("/gamecatalog/list");
+        _navigation.NavigateTo("/gamecatalog/list");
     }
 
     #endregion

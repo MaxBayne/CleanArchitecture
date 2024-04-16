@@ -1,12 +1,14 @@
 ﻿using CleanArchitecture.Blazor.Clients.Abstract;
+using CleanArchitecture.Blazor.Clients.Contracts;
 using CleanArchitecture.Blazor.DataModels;
 
-namespace CleanArchitecture.Blazor.Clients;
+namespace CleanArchitecture.Blazor.Clients.Implement;
 
-public class GamesClient : BaseClient
+
+
+public class GamesClient : BaseClient, IGamesClient
 {
     private readonly List<GameCatalog> _gameCatalogs;
-    
 
     public GamesClient()
     {
@@ -57,7 +59,6 @@ public class GamesClient : BaseClient
         };
     }
 
-
     #region Retrieve
 
     public List<GameCatalog> GetGameCatalogs() => _gameCatalogs;
@@ -88,7 +89,7 @@ public class GamesClient : BaseClient
             oldGame.Price = updatedGame.Price;
             oldGame.Year = updatedGame.Year;
         }
-       
+
     }
 
     #endregion

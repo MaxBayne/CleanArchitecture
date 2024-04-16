@@ -1,9 +1,12 @@
 ﻿using CleanArchitecture.Blazor.Clients.Abstract;
+using CleanArchitecture.Blazor.Clients.Contracts;
 using CleanArchitecture.Blazor.DataModels;
 
-namespace CleanArchitecture.Blazor.Clients;
+namespace CleanArchitecture.Blazor.Clients.Implement;
 
-public class GenresClient : BaseClient
+
+
+public class GenresClient : BaseClient, IGenresClient
 {
     private readonly List<GameGenre> _gameGenres;
 
@@ -38,7 +41,7 @@ public class GenresClient : BaseClient
 
     public List<GameGenre> GetGameGenres() => _gameGenres;
 
-    public GameGenre? FindById(int id)=> _gameGenres.FirstOrDefault(c => c.Id == id);
+    public GameGenre? FindById(int id) => _gameGenres.FirstOrDefault(c => c.Id == id);
 
     public GameGenre? FindByName(string name) => _gameGenres.FirstOrDefault(c => c.Name == name);
     #endregion

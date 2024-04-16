@@ -1,5 +1,86 @@
-﻿<h3>CreateGameCatalog</h3>
+﻿@using CleanArchitecture.Blazor.Clients.Contracts
+@using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
-@code {
+
+@page "/gamecatalog/add"
+@inject NavigationManager navigation
+@inject IGamesClient _gamesClient
+@inject IGenresClient _genresClient
+
+
+@code
+{
+    private CreateGameCatalogViewModel _viewModel = null!;
+
+    #region Parameters
+
+    [SupplyParameterFromForm()]
+    private GameCatalog CreatedGameCatalog { get; set; } = new();
+
+    #endregion
+
+    #region Overrides
+
+    //Called When Component is ready to start and its parameters was set
+    protected override void OnInitialized()
+    {
+        _viewModel = new CreateGameCatalogViewModel();
+
+        _viewModel.Genres = _genresClient.GetGameGenres();
+    }
+
+    #endregion
+
+    #region Form Events
+
+    private void HandleNewForm()
+    {
+        _gamesClient.AddGame(CreatedGameCatalog);
+
+        navigation.NavigateTo("/gamecatalog/list");
+    }
+
+    #endregion
 
 }
+
+<PageTitle>New Game</PageTitle>
+
+<h3>New Game</h3>
+
+<EditForm class="row g-3" Model="@CreatedGameCatalog" FormName="FormNewGameCatalog" OnSubmit="HandleNewForm">
+
+    <div class="col-12">
+        <label for="txtName" class="form-label">Name</label>
+        <InputText id="txtName" @bind-Value="CreatedGameCatalog.Name" class="form-control" placeholder="Name" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="cboGenre" class="form-label">Genre</label>
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="CreatedGameCatalog.Genre.Id">
+            <option selected>Select...</option>
+
+            @foreach (var genre in _viewModel.Genres!)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
+
+        </InputSelect>
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtPrice" class="form-label">Price</label>
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="CreatedGameCatalog.Price" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtYear" class="form-label">Year</label>
+        <InputNumber id="txtYear" class="form-control" @bind-Value="CreatedGameCatalog.Year" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary" role="button">Save</button>
+        <a class="btn btn-secondary" role="button" href="/gamecatalog/list">Cancel</a>
+    </div>
+
+</EditForm>

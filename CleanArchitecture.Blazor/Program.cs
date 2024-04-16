@@ -1,3 +1,5 @@
+using CleanArchitecture.Blazor.Clients.Contracts;
+using CleanArchitecture.Blazor.Clients.Implement;
 using CleanArchitecture.Blazor.Components;
 
 namespace CleanArchitecture.Blazor
@@ -10,6 +12,9 @@ namespace CleanArchitecture.Blazor
 
             // Add services (Dependency Injection) to the container.
             builder.Services.AddRazorComponents();
+
+            builder.Services.AddScoped<IGamesClient,GamesClient>();
+            builder.Services.AddScoped<IGenresClient,GenresClient>();
 
             var app = builder.Build();
 
