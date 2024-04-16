@@ -1,4 +1,5 @@
 ﻿@page "/gamecatalog/edit"
+@inject NavigationManager navigation
 
 @using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
@@ -47,6 +48,8 @@
     private void HandleEditForm()
     {
         _gamesClient.UpdateGame(UpdatedGameCatalog);
+
+        navigation.NavigateTo("/gamecatalog/list");
     }
 
     #endregion
@@ -94,7 +97,8 @@
         </div>
        
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="submit" class="btn btn-primary" role="button">Save Changes</button>
+            <a class="btn btn-secondary" role="button" href="/gamecatalog/list">Cancel</a>
         </div>
 
     </EditForm>

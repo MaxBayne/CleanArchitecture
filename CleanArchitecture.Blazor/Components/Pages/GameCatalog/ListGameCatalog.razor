@@ -1,5 +1,6 @@
 ﻿@page "/gamecatalog/list"
 
+
 @using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
 @code
@@ -52,7 +53,12 @@
                 <td class="text-center">@game.Genre</td>
                 <td class="text-end">@game.Price.ToString("c2")</td>
                 <td class="text-center">@game.Year</td>
-                <td class="text-center">Edit</td>
+                    <td class="text-center">
+                        <a href="/gamecatalog/edit?id=@game.Id" class="btn btn-secondary" role="button">
+                            <i class="bi bi-pencil-square"></i>
+                            Edit
+                        </a>
+                    </td>
             </tr>
         }
         </tbody>
