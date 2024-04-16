@@ -34,9 +34,12 @@ public class GenresClient : BaseClient
         };
     }
 
+    #region Retrieve
+
     public List<GameGenre> GetGameGenres() => _gameGenres;
 
     public GameGenre? FindById(int id)=> _gameGenres.FirstOrDefault(c => c.Id == id);
-    
 
+    public GameGenre? FindByName(string name) => _gameGenres.FirstOrDefault(c => c.Name == name);
+    #endregion
 }

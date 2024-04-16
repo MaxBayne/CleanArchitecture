@@ -9,6 +9,17 @@
     private GamesClient _gamesClient = null!;
     private EditGameCatalogViewModel _viewModel = null!;
 
+    #region Parameters
+
+    //[SupplyParameterFromQuery]
+    private int GameCatalogId { get; set; }
+
+    [SupplyParameterFromForm(FormName = "FormEditGameCatalog")]
+    private GameCatalog UpdatedGameCatalog { get; set; } = new();
+
+    #endregion
+
+    #region Overrides
 
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
@@ -17,9 +28,29 @@
         _gamesClient = new GamesClient();
         _viewModel = new EditGameCatalogViewModel();
 
+
         _viewModel.Genres = _genresClient.GetGameGenres();
+
+        //Search For Current Game To can edit it
+        GameCatalogId = 1;
+        var currentGameCatalog = _gamesClient.FindById(GameCatalogId);
+
+        UpdatedGameCatalog = currentGameCatalog!;
+
+        _viewModel.UpdatedGameCatalog = currentGameCatalog;
     }
 
+    #endregion
+
+    #region Form Events
+
+    private void HandleEditForm()
+    {
+        _gamesClient.UpdateGame(UpdatedGameCatalog);
+    }
+
+    #endregion
+    
 }
 
 <PageTitle>Edit Game Catalog</PageTitle>
@@ -30,37 +61,36 @@
 
 
 
-@if (_viewModel != null)
+@if (_viewModel.UpdatedGameCatalog !=null)
 {
-    <EditForm class="row g-3" Model="@_viewModel" FormName="EditGameCatalog">
+    <EditForm class="row g-3" Model="@UpdatedGameCatalog" FormName="FormEditGameCatalog" OnSubmit="HandleEditForm">
         
         <div class="col-12">
             <label for="txtName" class="form-label">Name</label>
-            <InputText id="txtName" @bind-Value="_viewModel.Name" class="form-control" placeholder="Name" />
+            <InputText id="txtName" @bind-Value="UpdatedGameCatalog.Name" class="form-control" placeholder="Name" />
         </div>
 
         <div class="col-md-4">
             <label for="cboGenre" class="form-label">Genre</label>
-            <InputSelect id="cboGenre" class="form-select" @bind-Value="_viewModel.GenreId">
+            <InputSelect id="cboGenre" class="form-select" @bind-Value="UpdatedGameCatalog.Genre.Id">
                 <option selected>Select...</option>
 
-                @foreach (var genre in _viewModel.Genres)
+                @foreach (var genre in _viewModel.Genres!)
                 {
                     <option value="@genre.Id">@genre.Name</option>
                 }
-                
                 
             </InputSelect>
         </div>
 
         <div class="col-md-4">
             <label for="txtPrice" class="form-label">Price</label>
-            <InputNumber id="txtPrice" class="form-control" @bind-Value="_viewModel.Price" />
+            <InputNumber id="txtPrice" class="form-control" @bind-Value="UpdatedGameCatalog.Price" />
         </div>
         
         <div class="col-md-4">
             <label for="txtYear" class="form-label">Year</label>
-            <InputNumber id="txtYear" class="form-control" @bind-Value="_viewModel.Year" />
+            <InputNumber id="txtYear" class="form-control" @bind-Value="UpdatedGameCatalog.Year" />
         </div>
        
         <div class="col-12">

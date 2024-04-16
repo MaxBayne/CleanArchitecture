@@ -1,15 +1,11 @@
-﻿using CleanArchitecture.Blazor.DataModels;
-using CleanArchitecture.Blazor.ViewModels.Abstract;
+﻿using CleanArchitecture.Blazor.ViewModels.Abstract;
 
 namespace CleanArchitecture.Blazor.ViewModels.GameCatalog
 {
     public class CreateGameCatalogViewModel : BaseViewModel
     {
-        public string Name { get; set; }
-        public int GenreId { get; set; }
-        public decimal Price { get; set; }
-        public int Year { get; set; }
+        public DataModels.GameCatalog CreatedGameCatalog { get; set; } = null!;
 
-        public List<GameGenre>? Genres { get; set; }
+        public List<DataModels.GameGenre>? Genres { get; set; }
     }
 }

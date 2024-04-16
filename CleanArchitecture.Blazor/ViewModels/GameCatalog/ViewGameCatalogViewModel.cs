@@ -4,6 +4,6 @@ namespace CleanArchitecture.Blazor.ViewModels.GameCatalog
 {
     public class ViewGameCatalogViewModel : BaseViewModel
     {
-        public List<DataModels.GameCatalog> GameCatalogs { get; set; }
+        public List<DataModels.GameCatalog> GameCatalogs { get; set; } = null!;
     }
 }

@@ -1,22 +1,24 @@
 ﻿using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.DataModels;
-using CleanArchitecture.Blazor.ViewModels.GameCatalog;
 
 namespace CleanArchitecture.Blazor.Clients;
 
 public class GamesClient : BaseClient
 {
     private readonly List<GameCatalog> _gameCatalogs;
+    
 
     public GamesClient()
     {
+        var genresClient = new GenresClient();
+
         _gameCatalogs = new List<GameCatalog>()
         {
             new()
             {
                 Id = 1,
                 Name = "Street Figher",
-                Genre = "Action",
+                Genre =genresClient.FindByName("Action")!,
                 Price = 150,
                 Year = 2010
             },
@@ -24,7 +26,7 @@ public class GamesClient : BaseClient
             {
                 Id = 2,
                 Name = "Call of Duty",
-                Genre = "Role",
+                Genre = genresClient.FindByName("Role")!,
                 Price = 140,
                 Year = 2011
             },
@@ -32,7 +34,7 @@ public class GamesClient : BaseClient
             {
                 Id = 3,
                 Name = "Medal Of Honor",
-                Genre = "War",
+                Genre = genresClient.FindByName("War")!,
                 Price = 250,
                 Year = 2015
             },
@@ -40,7 +42,7 @@ public class GamesClient : BaseClient
             {
                 Id = 4,
                 Name = "Zomaa",
-                Genre = "Family",
+                Genre = genresClient.FindByName("Family")!,
                 Price = 90,
                 Year = 2018
             },
@@ -48,7 +50,7 @@ public class GamesClient : BaseClient
             {
                 Id = 5,
                 Name = "Freedom Figher",
-                Genre = "Action",
+                Genre = genresClient.FindByName("Action")!,
                 Price = 170,
                 Year = 2019
             }
@@ -56,9 +58,54 @@ public class GamesClient : BaseClient
     }
 
 
+    #region Retrieve
 
     public List<GameCatalog> GetGameCatalogs() => _gameCatalogs;
 
-    public GameCatalog? FindById(int id)=> _gameCatalogs.FirstOrDefault(c => c.Id == id);
-    
+    public GameCatalog? FindById(int id) => _gameCatalogs.FirstOrDefault(c => c.Id == id);
+
+    #endregion
+
+    #region Insert
+
+    public void AddGame(GameCatalog game)
+    {
+        _gameCatalogs.Add(game);
+    }
+
+    #endregion
+
+    #region Update
+
+    public void UpdateGame(GameCatalog updatedGame)
+    {
+        var oldGame = FindById(updatedGame.Id);
+
+        if (oldGame != null)
+        {
+            oldGame.Name = updatedGame.Name;
+            oldGame.Genre = updatedGame.Genre;
+            oldGame.Price = updatedGame.Price;
+            oldGame.Year = updatedGame.Year;
+        }
+       
+    }
+
+    #endregion
+
+    #region Delete
+
+    public void DeleteGame(int id)
+    {
+        var oldGame = FindById(id);
+
+        if (oldGame != null)
+        {
+            _gameCatalogs.Remove(oldGame);
+        }
+
+    }
+
+    #endregion
+
 }
