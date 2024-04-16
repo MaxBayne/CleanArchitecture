@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.Blazor.ApiClients.Abstract;
+﻿using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.DataModels;
 
-namespace CleanArchitecture.Blazor.ApiClients;
+namespace CleanArchitecture.Blazor.Clients;
 
 public class GenresClient : BaseClient
 {

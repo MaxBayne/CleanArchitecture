@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Blazor.ApiClients.Abstract;
+﻿using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.DataModels;
 using CleanArchitecture.Blazor.ViewModels.GameCatalog;
 
-namespace CleanArchitecture.Blazor.ApiClients;
+namespace CleanArchitecture.Blazor.Clients;
 
 public class GamesClient : BaseClient
 {

@@ -1,9 +1,10 @@
 ﻿@page "/gamecatalog/list"
-@using CleanArchitecture.Blazor.ApiClients
+
 @using CleanArchitecture.Blazor.ViewModels.GameCatalog
 
 @code
 {
+
     private GamesClient _gamesClient = null!;
     private ViewGameCatalogViewModel _viewModel = null!;
 
@@ -20,8 +21,8 @@
         _viewModel = new ViewGameCatalogViewModel();
 
         _viewModel.GameCatalogs = _gamesClient.GetGameCatalogs();
-
     }
+
 }
 
 
