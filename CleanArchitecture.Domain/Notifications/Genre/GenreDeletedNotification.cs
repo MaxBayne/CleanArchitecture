@@ -1,13 +1,13 @@
 ﻿using MediatR;
 
-namespace CleanArchitecture.Domain.Notifications.Tax;
+namespace CleanArchitecture.Domain.Notifications.Genre;
 
-public class TaxDeletedNotification : INotification
+public class GenreDeletedNotification : INotification
 {
 
     #region Properties
 
-    public Entities.Tax Deleted { get; private set; }
+    public Entities.Genre Deleted { get; private set; }
     public DateTime DeletedDate { get; private set; }
 
     #endregion
@@ -16,7 +16,7 @@ public class TaxDeletedNotification : INotification
 
     #region Constructors
 
-    public TaxDeletedNotification(Entities.Tax deleted)
+    public GenreDeletedNotification(Entities.Genre deleted)
     {
         Deleted = deleted;
 

@@ -1,6 +1,8 @@
 using CleanArchitecture.Blazor.Clients.Contracts;
-using CleanArchitecture.Blazor.Clients.Implement;
+using CleanArchitecture.Blazor.Clients.Implements;
 using CleanArchitecture.Blazor.Components;
+using CleanArchitecture.Blazor.ViewModels.Contracts.Game;
+using CleanArchitecture.Blazor.ViewModels.Implements.Game;
 
 namespace CleanArchitecture.Blazor
 {
@@ -13,8 +15,16 @@ namespace CleanArchitecture.Blazor
             // Add services (Dependency Injection) to the container.
             builder.Services.AddRazorComponents();
 
+            //Register Clients
             builder.Services.AddScoped<IGamesClient,GamesClient>();
             builder.Services.AddScoped<IGenresClient,GenresClient>();
+
+            //Register ViewModels
+            builder.Services.AddScoped<ICreateGameViewModel,CreateGameViewModel>();
+            builder.Services.AddScoped<IEditGameViewModel, EditGameViewModel>();
+            builder.Services.AddScoped<IDeleteGameViewModel, DeleteGameViewModel>();
+            builder.Services.AddScoped<IDetailsGameViewModel, DetailsGameViewModel>();
+            builder.Services.AddScoped<IListGameViewModel, ListGameViewModel>();
 
             var app = builder.Build();
 

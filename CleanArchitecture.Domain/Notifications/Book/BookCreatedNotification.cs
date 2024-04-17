@@ -7,7 +7,7 @@ public class BookCreatedNotification : INotification
 
     #region Properties
 
-    public Entities.Book CreatedBook { get; private set; }
+    public Entities.Book Created { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
     #endregion
@@ -16,9 +16,9 @@ public class BookCreatedNotification : INotification
 
     #region Constructors
 
-    public BookCreatedNotification(Entities.Book createdBook)
+    public BookCreatedNotification(Entities.Book created)
     {
-        CreatedBook = createdBook;
+        Created = created;
 
         CreatedDate = DateTime.Now;
     }

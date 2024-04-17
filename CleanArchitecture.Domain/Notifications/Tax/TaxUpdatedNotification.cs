@@ -7,8 +7,8 @@ public class TaxUpdatedNotification : INotification
 
     #region Properties
 
-    public Entities.Tax OriginalTax { get; private set; }
-    public Entities.Tax UpdatedTax { get; private set; }
+    public Entities.Tax Original { get; private set; }
+    public Entities.Tax Updated { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
     #endregion
@@ -17,10 +17,10 @@ public class TaxUpdatedNotification : INotification
 
     #region Constructors
 
-    public TaxUpdatedNotification(Entities.Tax originalTax, Entities.Tax updatedTax)
+    public TaxUpdatedNotification(Entities.Tax original, Entities.Tax updated)
     {
-        OriginalTax = originalTax;
-        UpdatedTax = updatedTax;
+        Original = original;
+        Updated = updated;
         UpdatedDate = DateTime.Now;
     }
 

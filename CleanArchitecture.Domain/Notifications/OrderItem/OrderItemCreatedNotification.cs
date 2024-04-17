@@ -7,7 +7,7 @@ public class OrderItemCreatedNotification : INotification
 
     #region Properties
 
-    public Entities.OrderItem CreatedItem { get; private set; }
+    public Entities.OrderItem Created { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
     #endregion
@@ -16,9 +16,9 @@ public class OrderItemCreatedNotification : INotification
 
     #region Constructors
 
-    public OrderItemCreatedNotification(Entities.OrderItem createdItem)
+    public OrderItemCreatedNotification(Entities.OrderItem created)
     {
-        CreatedItem = createdItem;
+        Created = created;
 
         CreatedDate = DateTime.Now;
     }

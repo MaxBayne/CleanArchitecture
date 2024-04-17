@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CleanArchitecture.Application.Mediators.CQRS.Book.Notifications;
 
-public class BookCreatedNotificationHandler : INotificationHandler<BookCreatedNotification>
+public class BookCreatedNotificationHandler : INotificationHandler<GenreCreatedNotification>
 {
     private readonly IBookRepository _bookRepository;
     private readonly IEmailSenderService _emailSenderService;
@@ -16,7 +16,7 @@ public class BookCreatedNotificationHandler : INotificationHandler<BookCreatedNo
         _emailSenderService = emailSenderService;
     }
 
-    public async Task Handle(BookCreatedNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(GenreCreatedNotification notification, CancellationToken cancellationToken)
     {
         //Set Logic For Handle this Notification like Log it or Send Email
         var createdBookExist = await _bookRepository.GetAsync(notification.CreatedBook.Id, true);

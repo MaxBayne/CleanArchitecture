@@ -1,14 +1,14 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.GameCatalog
+﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
 
 
-@page "/gamecatalog/list"
-@inject IGamesClient _gamesClient
-
+@page "/game/list"
+@inject IGamesClient GamesClient
+@inject IListGameViewModel ViewModel
 
 
 @code
 {
-    private ViewGameCatalogViewModel _viewModel = null!;
+
 
     //Called When Sending Parameters to Component from its Parent
     protected override void OnParametersSet()
@@ -19,23 +19,21 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        _viewModel = new ViewGameCatalogViewModel();
-
-        _viewModel.GameCatalogs = _gamesClient.GetGameCatalogs();
+        ViewModel.GamesList = GamesClient.GetGamesList();
     }
 
 }
 
 
-<PageTitle>Game Catalog</PageTitle>
+<PageTitle>Games List</PageTitle>
 
 <div class="row mb-2">
     <div class="col-md-6">
-        <h3>Game Catalog</h3>
+        <h3>Games List</h3>
     </div>
 
     <div class="col-md-6">
-        <a class="btn btn-primary" style="float:right;" role="button" href="/gamecatalog/add">
+        <a class="btn btn-primary" style="float:right;" role="button" href="/game/add">
             <i class="bi bi-plus"></i>
             New Game
         </a>
@@ -44,11 +42,11 @@
 </div>
 
 
-@if (_viewModel.GameCatalogs.Any())
+@if (ViewModel.GamesList.Any())
 {
     <table class="table table-bordered table-hover table-striped">
 
-        <thead class="table-dark" >
+        <thead class="table-dark">
         <th class="text-center">Id</th>
         <th>Name</th>
         <th class="text-center">Genre</th>
@@ -58,22 +56,22 @@
         </thead>
 
         <tbody>
-            @foreach (var game in _viewModel.GameCatalogs)
-        {
-            <tr>
-                <td class="text-center text-dark">@game.Id</td>
-                <td>@game.Name</td>
-                <td class="text-center">@game.Genre</td>
-                <td class="text-end">@game.Price.ToString("c2")</td>
-                <td class="text-center">@game.Year</td>
+            @foreach (var game in ViewModel.GamesList)
+            {
+                <tr>
+                    <td class="text-center text-dark">@game.Id</td>
+                    <td>@game.Name</td>
+                    <td class="text-center">@game.Genre?.Name</td>
+                    <td class="text-end">@game.Price.ToString("c2")</td>
+                    <td class="text-center">@game.Year</td>
                     <td class="text-center">
-                        <a href="/gamecatalog/edit?id=@game.Id" class="btn btn-secondary" role="button">
+                        <a href="/game/edit?id=@game.Id" class="btn btn-secondary" role="button">
                             <i class="bi bi-pencil-square"></i>
                             Edit
                         </a>
                     </td>
-            </tr>
-        }
+                </tr>
+            }
         </tbody>
     </table>
 }

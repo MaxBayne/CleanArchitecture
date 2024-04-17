@@ -1,23 +1,22 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.GameCatalog
+﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
 
+@page "/game/edit"
 
-@page "/gamecatalog/edit"
-@inject NavigationManager _navigation
-@inject IGamesClient _gamesClient
-@inject IGenresClient _genresClient
+@inject NavigationManager Navigation
+@inject IGamesClient GamesClient
+@inject IGenresClient GenresClient
+@inject IEditGameViewModel ViewModel
 
 
 @code 
 {
-    private EditGameCatalogViewModel _viewModel = null!;
-
     #region Parameters
 
     //[SupplyParameterFromQuery]
     private int GameCatalogId { get; set; }
 
     [SupplyParameterFromForm(FormName = "FormEditGameCatalog")]
-    private GameCatalog UpdatedGameCatalog { get; set; } = new();
+    private Game UpdatedGameCatalog { get; set; } = new();
 
     #endregion
 
@@ -26,18 +25,15 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        _viewModel = new EditGameCatalogViewModel();
-
-
-        _viewModel.Genres = _genresClient.GetGameGenres();
+        ViewModel.Genres = GenresClient.GetGameGenres();
 
         //Search For Current Game To can edit it
         GameCatalogId = 1;
-        var currentGameCatalog = _gamesClient.FindById(GameCatalogId);
+        var currentGameCatalog = GamesClient.FindById(GameCatalogId);
 
         UpdatedGameCatalog = currentGameCatalog!;
 
-        _viewModel.UpdatedGameCatalog = currentGameCatalog;
+        ViewModel.UpdatedGame = currentGameCatalog;
     }
 
     #endregion
@@ -46,9 +42,9 @@
 
     private void HandleEditForm()
     {
-        _gamesClient.UpdateGame(UpdatedGameCatalog);
+        GamesClient.UpdateGame(UpdatedGameCatalog);
 
-        _navigation.NavigateTo("/gamecatalog/list");
+        Navigation.NavigateTo("/game/list");
     }
 
     #endregion
@@ -63,7 +59,7 @@
 
 
 
-@if (_viewModel.UpdatedGameCatalog !=null)
+@if (ViewModel.UpdatedGame != null)
 {
     <EditForm class="row g-3" Model="@UpdatedGameCatalog" FormName="FormEditGameCatalog" OnSubmit="HandleEditForm">
         
@@ -74,10 +70,10 @@
 
         <div class="col-md-4">
             <label for="cboGenre" class="form-label">Genre</label>
-            <InputSelect id="cboGenre" class="form-select" @bind-Value="UpdatedGameCatalog.Genre.Id">
+            <InputSelect id="cboGenre" class="form-select" @bind-Value="UpdatedGameCatalog.Genre">
                 <option selected>Select...</option>
 
-                @foreach (var genre in _viewModel.Genres!)
+                @foreach (var genre in ViewModel.Genres!)
                 {
                     <option value="@genre.Id">@genre.Name</option>
                 }
@@ -97,7 +93,7 @@
        
         <div class="col-12">
             <button type="submit" class="btn btn-primary" role="button">Save Changes</button>
-            <a class="btn btn-secondary" role="button" href="/gamecatalog/list">Cancel</a>
+            <a class="btn btn-secondary" role="button" href="/game/list">Cancel</a>
         </div>
 
     </EditForm>

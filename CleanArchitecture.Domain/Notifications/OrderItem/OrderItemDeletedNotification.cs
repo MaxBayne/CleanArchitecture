@@ -7,7 +7,7 @@ public class OrderItemDeletedNotification : INotification
 
     #region Properties
 
-    public Entities.OrderItem DeletedItem { get; private set; }
+    public Entities.OrderItem Deleted { get; private set; }
     public DateTime DeletedDate { get; private set; }
 
     #endregion
@@ -16,9 +16,9 @@ public class OrderItemDeletedNotification : INotification
 
     #region Constructors
 
-    public OrderItemDeletedNotification(Entities.OrderItem deletedItem)
+    public OrderItemDeletedNotification(Entities.OrderItem deleted)
     {
-        DeletedItem = deletedItem;
+        Deleted = deleted;
 
         DeletedDate = DateTime.Now;
     }

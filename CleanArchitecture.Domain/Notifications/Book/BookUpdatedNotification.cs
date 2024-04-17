@@ -7,8 +7,8 @@ public class BookUpdatedNotification : INotification
 
     #region Properties
 
-    public Entities.Book OriginalBook { get; private set; }
-    public Entities.Book UpdatedBook { get; private set; }
+    public Entities.Book Original { get; private set; }
+    public Entities.Book Updated { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
     #endregion
@@ -17,10 +17,10 @@ public class BookUpdatedNotification : INotification
 
     #region Constructors
 
-    public BookUpdatedNotification(Entities.Book originalBook,Entities.Book updatedBook)
+    public BookUpdatedNotification(Entities.Book original,Entities.Book updated)
     {
-        OriginalBook = originalBook;
-        UpdatedBook=updatedBook;
+        Original = original;
+        Updated=updated;
         UpdatedDate = DateTime.Now;
     }
 

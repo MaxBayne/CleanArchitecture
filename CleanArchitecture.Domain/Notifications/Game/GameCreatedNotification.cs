@@ -1,13 +1,13 @@
 ﻿using MediatR;
 
-namespace CleanArchitecture.Domain.Notifications.Tax;
+namespace CleanArchitecture.Domain.Notifications.Game;
 
-public class TaxCreatedNotification : INotification
+public class GameCreatedNotification : INotification
 {
 
     #region Properties
 
-    public Entities.Tax Created { get; private set; }
+    public Entities.Game Created { get; private set; }
     public DateTime CreatedDate { get; private set; }
 
     #endregion
@@ -16,7 +16,7 @@ public class TaxCreatedNotification : INotification
 
     #region Constructors
 
-    public TaxCreatedNotification(Entities.Tax created)
+    public GameCreatedNotification(Entities.Game created)
     {
         Created = created;
 

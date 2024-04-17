@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Blazor.DataModels;
+﻿using CleanArchitecture.Domain.Entities;
 
 namespace CleanArchitecture.Blazor.Clients.Contracts
 {
@@ -8,13 +8,13 @@ namespace CleanArchitecture.Blazor.Clients.Contracts
         /// Create New Game
         /// </summary>
         /// <param name="game"></param>
-        void AddGame(GameCatalog game);
+        void AddGame(Game game);
 
         /// <summary>
         /// Update Existing Game
         /// </summary>
         /// <param name="updatedGame"></param>
-        void UpdateGame(GameCatalog updatedGame);
+        void UpdateGame(Game updatedGame);
 
         /// <summary>
         /// Delete Existing Game
@@ -27,13 +27,13 @@ namespace CleanArchitecture.Blazor.Clients.Contracts
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        GameCatalog? FindById(int id);
+        Game? FindById(int id);
 
         /// <summary>
         /// Get List of Games
         /// </summary>
         /// <returns></returns>
-        List<GameCatalog> GetGameCatalogs();
+        List<Game> GetGamesList();
 
     }
 }

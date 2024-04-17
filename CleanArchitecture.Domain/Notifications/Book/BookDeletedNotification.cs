@@ -7,7 +7,7 @@ public class BookDeletedNotification : INotification
 
     #region Properties
 
-    public Entities.Book DeletedBook { get; private set; }
+    public Entities.Book Deleted { get; private set; }
     public DateTime DeletedDate { get; private set; }
 
     #endregion
@@ -16,9 +16,9 @@ public class BookDeletedNotification : INotification
 
     #region Constructors
 
-    public BookDeletedNotification(Entities.Book deletedBook)
+    public BookDeletedNotification(Entities.Book deleted)
     {
-        DeletedBook = deletedBook;
+        Deleted = deleted;
 
         DeletedDate = DateTime.Now;
     }

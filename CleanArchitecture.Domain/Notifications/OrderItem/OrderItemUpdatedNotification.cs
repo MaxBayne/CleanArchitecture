@@ -7,8 +7,8 @@ public class OrderItemUpdatedNotification : INotification
 
     #region Properties
 
-    public Entities.OrderItem OriginalItem { get; private set; }
-    public Entities.OrderItem UpdatedItem { get; private set; }
+    public Entities.OrderItem Original { get; private set; }
+    public Entities.OrderItem Updated { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
     #endregion
@@ -17,10 +17,10 @@ public class OrderItemUpdatedNotification : INotification
 
     #region Constructors
 
-    public OrderItemUpdatedNotification(Entities.OrderItem originalItem, Entities.OrderItem updatedItem)
+    public OrderItemUpdatedNotification(Entities.OrderItem original, Entities.OrderItem updated)
     {
-        OriginalItem = originalItem;
-        UpdatedItem = updatedItem;
+        Original = original;
+        Updated = updated;
         UpdatedDate = DateTime.Now;
     }
 

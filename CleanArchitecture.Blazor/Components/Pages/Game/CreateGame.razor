@@ -1,0 +1,84 @@
+﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
+@using Microsoft.AspNetCore.Components
+
+@page "/game/add"
+
+@inject NavigationManager Navigation
+@inject IGamesClient GamesClient
+@inject IGenresClient GenresClient
+@inject ICreateGameViewModel ViewModel
+
+
+@code
+{
+    #region Parameters
+
+    [SupplyParameterFromForm()]
+    private Game CreatedGame { get; set; } = new();
+
+    #endregion
+
+    #region Overrides
+
+    //Called When Component is ready to start and its parameters was set
+    protected override void OnInitialized()
+    {
+        ViewModel.CreatedGame = CreatedGame;
+        ViewModel.Genres = GenresClient.GetGameGenres();
+    }
+
+    #endregion
+
+    #region Form Events
+
+    private void HandleNewForm()
+    {
+        GamesClient.AddGame(CreatedGame);
+
+        Navigation.NavigateTo("/game/list");
+    }
+
+    #endregion
+
+}
+
+<PageTitle>New Game</PageTitle>
+
+<h3>New Game</h3>
+
+<EditForm class="row g-3" Model="@CreatedGame" FormName="FormNewGameCatalog" OnSubmit="HandleNewForm">
+
+    <div class="col-12">
+        <label for="txtName" class="form-label">Name</label>
+        <InputText id="txtName" @bind-Value="CreatedGame.Name" class="form-control" placeholder="Name" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="cboGenre" class="form-label">Genre</label>
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="CreatedGame.Genre">
+            <option selected>Select...</option>
+
+            @foreach (var genre in ViewModel.Genres!)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
+
+        </InputSelect>
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtPrice" class="form-label">Price</label>
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="CreatedGame.Price" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtYear" class="form-label">Year</label>
+        <InputNumber id="txtYear" class="form-control" @bind-Value="CreatedGame.Year" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary" role="button">Save</button>
+        <a class="btn btn-secondary" role="button" href="game/list">Cancel</a>
+    </div>
+
+</EditForm>
