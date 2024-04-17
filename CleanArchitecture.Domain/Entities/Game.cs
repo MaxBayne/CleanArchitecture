@@ -9,10 +9,10 @@ namespace CleanArchitecture.Domain.Entities
     {
         #region Properites
 
-        public string Name { get; set; }
-        public Genre? Genre { get; set; }
-        public decimal Price { get; set; }
-        public int Year { get; set; }
+        public string Name { get; private set; }
+        public Genre? Genre { get; private set; }
+        public decimal Price { get; private set; }
+        public int Year { get; private set; }
 
         #endregion
 

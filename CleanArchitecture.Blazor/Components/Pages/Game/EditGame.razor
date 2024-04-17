@@ -1,22 +1,35 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
+﻿@using CleanArchitecture.Blazor.ViewModels.Implements.Game
 
 @page "/game/edit"
 
 @inject NavigationManager Navigation
 @inject IGamesClient GamesClient
 @inject IGenresClient GenresClient
-@inject IEditGameViewModel ViewModel
+@* @inject IEditGameViewModel ViewModel *@
+@* @inject EditGameViewModel ViewModel *@
+@inject ILogger<EditGame> Logger
 
 
-@code 
+@code
 {
+    private EditGameViewModel ViewModel = new EditGameViewModel();
+
     #region Parameters
 
-    //[SupplyParameterFromQuery]
-    private int GameCatalogId { get; set; }
+    // [SupplyParameterFromForm()]
+    // private int GameId { get; set; }
 
-    [SupplyParameterFromForm(FormName = "FormEditGameCatalog")]
-    private Game UpdatedGameCatalog { get; set; } = new();
+    // [SupplyParameterFromForm()]
+    // private string GameName { get; set; } = null!;
+
+    // [SupplyParameterFromForm()]
+    // private int GameGenreId { get; set; }
+
+    // [SupplyParameterFromForm()]
+    // private decimal GamePrice { get; set; }
+
+    // [SupplyParameterFromForm()]
+    // private int GameYear { get; set; }
 
     #endregion
 
@@ -25,15 +38,30 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
+        /*
         ViewModel.Genres = GenresClient.GetGameGenres();
 
+
         //Search For Current Game To can edit it
-        GameCatalogId = 1;
-        var currentGameCatalog = GamesClient.FindById(GameCatalogId);
+        //GameId = 1;
+        var currentGame = GamesClient.FindById(1);
 
-        UpdatedGameCatalog = currentGameCatalog!;
+        if (currentGame != null)
+        {
+            ViewModel.Id = currentGame.Id;
+            ViewModel.Name = currentGame.Name;
+            ViewModel.GenreId = currentGame.Genre!.Id;
+            ViewModel.Price = currentGame.Price;
+            ViewModel.Year = currentGame.Year;
 
-        ViewModel.UpdatedGame = currentGameCatalog;
+            ViewModel.IsExist = true;
+        }
+        else
+        {
+            ViewModel.IsExist = false;
+        }
+        */
+        Logger.LogInformation($"(Initialized)=> Id:{ViewModel.Id},Name:{ViewModel.Name},GenreId:{ViewModel.GenreId},Price:{ViewModel.Price},Year:{ViewModel.Year}");
     }
 
     #endregion
@@ -42,14 +70,18 @@
 
     private void HandleEditForm()
     {
-        GamesClient.UpdateGame(UpdatedGameCatalog);
+        Logger.LogInformation($"(Submitted)=> Id:{ViewModel.Id},Name:{ViewModel.Name},GenreId:{ViewModel.GenreId},Price:{ViewModel.Price},Year:{ViewModel.Year}");
 
-        Navigation.NavigateTo("/game/list");
+        GamesClient.UpdateGame(ViewModel.Id, ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
+
+        //Navigation.NavigateTo("/game/list");
     }
 
     #endregion
-    
+
 }
+
+
 
 <PageTitle>Edit Game Catalog</PageTitle>
 
@@ -58,47 +90,47 @@
 
 
 
+<EditForm class="row g-3" Model="@ViewModel" FormName="FormEditGameCatalog" OnValidSubmit="@HandleEditForm">
 
-@if (ViewModel.UpdatedGame != null)
-{
-    <EditForm class="row g-3" Model="@UpdatedGameCatalog" FormName="FormEditGameCatalog" OnSubmit="HandleEditForm">
-        
-        <div class="col-12">
-            <label for="txtName" class="form-label">Name</label>
-            <InputText id="txtName" @bind-Value="UpdatedGameCatalog.Name" class="form-control" placeholder="Name" />
-        </div>
+    <div class="col-12">
+        <label for="txtName" class="form-label">Name</label>
+        <InputText id="txtName" @bind-Value="@ViewModel.Name" class="form-control" placeholder="Name"  />
+        <ValidationMessage For="@(() => ViewModel.Name)" />
+    </div>
 
-        <div class="col-md-4">
-            <label for="cboGenre" class="form-label">Genre</label>
-            <InputSelect id="cboGenre" class="form-select" @bind-Value="UpdatedGameCatalog.Genre">
-                <option selected>Select...</option>
+    <div class="col-md-4">
+        <label for="cboGenre" class="form-label">Genre</label>
+        @* <InputSelect id="cboGenre" class="form-select" @bind-Value="@ViewModel.GenreId">
+            <option value="-1" selected>Select...</option>
 
-                @foreach (var genre in ViewModel.Genres!)
-                {
-                    <option value="@genre.Id">@genre.Name</option>
-                }
-                
-            </InputSelect>
-        </div>
+            @foreach (var genre in ViewModel.Genres!)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
 
-        <div class="col-md-4">
-            <label for="txtPrice" class="form-label">Price</label>
-            <InputNumber id="txtPrice" class="form-control" @bind-Value="UpdatedGameCatalog.Price" />
-        </div>
-        
-        <div class="col-md-4">
-            <label for="txtYear" class="form-label">Year</label>
-            <InputNumber id="txtYear" class="form-control" @bind-Value="UpdatedGameCatalog.Year" />
-        </div>
-       
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary" role="button">Save Changes</button>
-            <a class="btn btn-secondary" role="button" href="/game/list">Cancel</a>
-        </div>
+        </InputSelect> *@
+        <ValidationMessage For="@(() => ViewModel.GenreId)" />
+    </div>
 
-    </EditForm>
-}
-else
-{
-    <div>Sorry Catalog Not Available</div>
-}
+    <div class="col-md-4">
+        <label for="txtPrice" class="form-label">Price</label>
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="@ViewModel.Price" />
+        <ValidationMessage For="@(() => ViewModel.Price)" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtYear" class="form-label">Year</label>
+        <InputNumber id="txtYear" class="form-control" @bind-Value="@ViewModel.Year" />
+        <ValidationMessage For="@(() => ViewModel.Year)" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary" role="button">Save Changes</button>
+        <a class="btn btn-secondary" role="button" href="/game/list">Cancel</a>
+    </div>
+
+</EditForm>
+
+
+
+  

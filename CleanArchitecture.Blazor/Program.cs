@@ -16,8 +16,8 @@ namespace CleanArchitecture.Blazor
             builder.Services.AddRazorComponents();
 
             //Register Clients
-            builder.Services.AddScoped<IGamesClient,GamesClient>();
-            builder.Services.AddScoped<IGenresClient,GenresClient>();
+            builder.Services.AddSingleton<IGamesClient,GamesClient>();
+            builder.Services.AddSingleton<IGenresClient,GenresClient>();
 
             //Register ViewModels
             builder.Services.AddScoped<ICreateGameViewModel,CreateGameViewModel>();
@@ -25,6 +25,8 @@ namespace CleanArchitecture.Blazor
             builder.Services.AddScoped<IDeleteGameViewModel, DeleteGameViewModel>();
             builder.Services.AddScoped<IDetailsGameViewModel, DetailsGameViewModel>();
             builder.Services.AddScoped<IListGameViewModel, ListGameViewModel>();
+           
+
 
             var app = builder.Build();
 

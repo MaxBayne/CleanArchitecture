@@ -35,28 +35,37 @@ public class GamesClient : BaseClient, IGamesClient
 
     #region Insert
 
-    public void AddGame(Game game)
+    public void AddGame(string name, int genreId, decimal price, int year)
     {
-        _gamesList.Add(game);
+        var genre = _genresClient.FindById(genreId);
+
+        var newGame = Game.Create(name, genre, price, year);
+
+        _gamesList.Add(newGame);
+
+        //Send New Game To Api Service
     }
 
     #endregion
 
     #region Update
 
-    public void UpdateGame(Game updatedGame)
+    public void UpdateGame(int id,string name, int genreId, decimal price, int year)
     {
-        var oldGame = FindById(updatedGame.Id);
+        var oldGame = FindById(id);
+        var genre = _genresClient.FindById(genreId);
 
         if (oldGame != null)
         {
-            oldGame.ChangeName(updatedGame.Name);
-            oldGame.ChangeGenre(updatedGame.Genre);
-            oldGame.SetPrice(updatedGame.Price);
-            oldGame.SetYear(updatedGame.Year);
+            oldGame.ChangeName(name);
+            oldGame.ChangeGenre(genre);
+            oldGame.SetPrice(price);
+            oldGame.SetYear(year);
+
+            //Send Updated Game to Api Service
         }
 
-        //Send Updated Game to Api Service
+
 
     }
 
@@ -71,6 +80,8 @@ public class GamesClient : BaseClient, IGamesClient
         if (oldGame != null)
         {
             _gamesList.Remove(oldGame);
+
+            //Send Deleted Game To Api Service
         }
 
     }

@@ -7,14 +7,12 @@ namespace CleanArchitecture.Blazor.Clients.Contracts
         /// <summary>
         /// Create New Game
         /// </summary>
-        /// <param name="game"></param>
-        void AddGame(Game game);
+        void AddGame(string name,int genreId,decimal price,int year);
 
         /// <summary>
         /// Update Existing Game
         /// </summary>
-        /// <param name="updatedGame"></param>
-        void UpdateGame(Game updatedGame);
+        void UpdateGame(int id,string name, int genreId, decimal price, int year);
 
         /// <summary>
         /// Delete Existing Game

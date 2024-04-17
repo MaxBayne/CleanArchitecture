@@ -14,7 +14,16 @@
     #region Parameters
 
     [SupplyParameterFromForm()]
-    private Game CreatedGame { get; set; } = new();
+    private string GameName { get; set; } = null!;
+
+    [SupplyParameterFromForm()]
+    private int GameGenreId { get; set; }
+
+    [SupplyParameterFromForm()]
+    private decimal GamePrice { get; set; }
+
+    [SupplyParameterFromForm()]
+    private int GameYear { get; set; }
 
     #endregion
 
@@ -23,7 +32,13 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        ViewModel.CreatedGame = CreatedGame;
+        //Set Default Values for Form
+        GameName = string.Empty;
+        GameGenreId = -1;
+        GamePrice = 100;
+        GameYear = 2024;
+
+        //ViewModel.CreatedGame = Game;
         ViewModel.Genres = GenresClient.GetGameGenres();
     }
 
@@ -33,7 +48,7 @@
 
     private void HandleNewForm()
     {
-        GamesClient.AddGame(CreatedGame);
+        GamesClient.AddGame(GameName,GameGenreId,GamePrice,GameYear);
 
         Navigation.NavigateTo("/game/list");
     }
@@ -46,17 +61,17 @@
 
 <h3>New Game</h3>
 
-<EditForm class="row g-3" Model="@CreatedGame" FormName="FormNewGameCatalog" OnSubmit="HandleNewForm">
+<EditForm class="row g-3"  FormName="FormNewGameCatalog" OnSubmit="HandleNewForm">
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
-        <InputText id="txtName" @bind-Value="CreatedGame.Name" class="form-control" placeholder="Name" />
+        <InputText id="txtName" @bind-Value="GameName" class="form-control" placeholder="Name" />
     </div>
 
     <div class="col-md-4">
         <label for="cboGenre" class="form-label">Genre</label>
-        <InputSelect id="cboGenre" class="form-select" @bind-Value="CreatedGame.Genre">
-            <option selected>Select...</option>
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="GameGenreId">
+            <option value="-1" selected>Select...</option>
 
             @foreach (var genre in ViewModel.Genres!)
             {
@@ -68,12 +83,12 @@
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
-        <InputNumber id="txtPrice" class="form-control" @bind-Value="CreatedGame.Price" />
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="GamePrice" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
-        <InputNumber id="txtYear" class="form-control" @bind-Value="CreatedGame.Year" />
+        <InputNumber id="txtYear" class="form-control" @bind-Value="GameYear" />
     </div>
 
     <div class="col-12">

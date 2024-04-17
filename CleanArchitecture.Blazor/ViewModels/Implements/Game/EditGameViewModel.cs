@@ -5,7 +5,14 @@ namespace CleanArchitecture.Blazor.ViewModels.Implements.Game
 {
     public class EditGameViewModel : BaseViewModel, IEditGameViewModel
     {
-        public Domain.Entities.Game? UpdatedGame { get; set; } = null!;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public int GenreId { get; set; }
+        public decimal Price { get; set; }
+        public int Year { get; set; }
+
+        public bool IsExist { get; set; }
+
 
         public List<Domain.Entities.Genre>? Genres { get; set; }
     }

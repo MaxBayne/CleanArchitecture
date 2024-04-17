@@ -2,6 +2,13 @@
 
 public interface IEditGameViewModel
 {
-    Domain.Entities.Game? UpdatedGame { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int GenreId { get; set; }
+    public decimal Price { get; set; }
+    public int Year { get; set; }
+
+    public bool IsExist { get; set; }
+
     List<Domain.Entities.Genre>? Genres { get; set; }
 }
