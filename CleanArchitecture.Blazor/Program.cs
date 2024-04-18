@@ -1,8 +1,7 @@
 using CleanArchitecture.Blazor.Clients.Contracts;
 using CleanArchitecture.Blazor.Clients.Implements;
 using CleanArchitecture.Blazor.Components;
-using CleanArchitecture.Blazor.ViewModels.Contracts.Game;
-using CleanArchitecture.Blazor.ViewModels.Implements.Game;
+using CleanArchitecture.Blazor.ViewModels.Game;
 
 namespace CleanArchitecture.Blazor
 {
@@ -20,13 +19,12 @@ namespace CleanArchitecture.Blazor
             builder.Services.AddSingleton<IGenresClient,GenresClient>();
 
             //Register ViewModels
-            builder.Services.AddScoped<ICreateGameViewModel,CreateGameViewModel>();
-            builder.Services.AddScoped<IEditGameViewModel, EditGameViewModel>();
-            builder.Services.AddScoped<IDeleteGameViewModel, DeleteGameViewModel>();
-            builder.Services.AddScoped<IDetailsGameViewModel, DetailsGameViewModel>();
-            builder.Services.AddScoped<IListGameViewModel, ListGameViewModel>();
-           
-
+            builder.Services.AddScoped<CreateGameViewModel>();
+            builder.Services.AddScoped<EditGameViewModel>();
+            builder.Services.AddScoped<DeleteGameViewModel>();
+            builder.Services.AddScoped<DetailsGameViewModel>();
+            builder.Services.AddScoped<ListGameViewModel>();
+            
 
             var app = builder.Build();
 

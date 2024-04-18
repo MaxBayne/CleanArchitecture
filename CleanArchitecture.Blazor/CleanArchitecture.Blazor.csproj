@@ -7,9 +7,4 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture.Common\CleanArchitecture.Common.csproj" />
-    <ProjectReference Include="..\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

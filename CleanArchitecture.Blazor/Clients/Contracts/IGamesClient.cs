@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Blazor.DataModels;
 
 namespace CleanArchitecture.Blazor.Clients.Contracts
 {
@@ -25,13 +25,13 @@ namespace CleanArchitecture.Blazor.Clients.Contracts
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Game? FindById(int id);
+        GameModel? FindById(int id);
 
         /// <summary>
         /// Get List of Games
         /// </summary>
         /// <returns></returns>
-        List<Game> GetGamesList();
+        List<GameModel> GetGamesList();
 
     }
 }

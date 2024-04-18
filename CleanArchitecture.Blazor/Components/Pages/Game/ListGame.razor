@@ -1,15 +1,13 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
-
+﻿@using CleanArchitecture.Blazor.ViewModels.Game
 
 @page "/game/list"
+
 @inject IGamesClient GamesClient
-@inject IListGameViewModel ViewModel
+@inject ListGameViewModel ViewModel
 
 
 @code
 {
-
-
     //Called When Sending Parameters to Component from its Parent
     protected override void OnParametersSet()
     {

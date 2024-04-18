@@ -1,31 +1,20 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.Contracts.Game
-@using Microsoft.AspNetCore.Components
+﻿@using CleanArchitecture.Blazor.ViewModels.Game
 
 @page "/game/add"
 
 @inject NavigationManager Navigation
 @inject IGamesClient GamesClient
 @inject IGenresClient GenresClient
-@inject ICreateGameViewModel ViewModel
+@inject ILogger<CreateGame> Logger
 
 
 @code
 {
-    #region Parameters
+    [Inject]
+    [SupplyParameterFromForm]
+    private CreateGameViewModel ViewModel { get; set; }
 
-    [SupplyParameterFromForm()]
-    private string GameName { get; set; } = null!;
 
-    [SupplyParameterFromForm()]
-    private int GameGenreId { get; set; }
-
-    [SupplyParameterFromForm()]
-    private decimal GamePrice { get; set; }
-
-    [SupplyParameterFromForm()]
-    private int GameYear { get; set; }
-
-    #endregion
 
     #region Overrides
 
@@ -33,13 +22,21 @@
     protected override void OnInitialized()
     {
         //Set Default Values for Form
-        GameName = string.Empty;
-        GameGenreId = -1;
-        GamePrice = 100;
-        GameYear = 2024;
+        if (ViewModel.CreatedGame is null)
+        {
+            ViewModel.CreatedGame = new GameModel
+            {
+                Name = "Test",
+                Genre = new GenreModel { Id = -1 },
+                Price = 200,
+                Year = 2024
+            };
+        }
 
-        //ViewModel.CreatedGame = Game;
-        ViewModel.Genres = GenresClient.GetGameGenres();
+        if(ViewModel.GenresList is null)
+        {
+            ViewModel.GenresList = GenresClient.GetGameGenres();
+        }
     }
 
     #endregion
@@ -48,7 +45,9 @@
 
     private void HandleNewForm()
     {
-        GamesClient.AddGame(GameName,GameGenreId,GamePrice,GameYear);
+        Logger.LogInformation($"(Created)=> Name={ViewModel.CreatedGame.Name} , Genre={ViewModel.CreatedGame.Genre.Id} , Price={ViewModel.CreatedGame.Price} ,Year={ViewModel.CreatedGame.Year}");
+
+        GamesClient.AddGame(ViewModel.CreatedGame.Name, ViewModel.CreatedGame.Genre.Id, ViewModel.CreatedGame.Price, ViewModel.CreatedGame.Year);
 
         Navigation.NavigateTo("/game/list");
     }
@@ -61,19 +60,19 @@
 
 <h3>New Game</h3>
 
-<EditForm class="row g-3"  FormName="FormNewGameCatalog" OnSubmit="HandleNewForm">
+<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnSubmit="HandleNewForm">
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
-        <InputText id="txtName" @bind-Value="GameName" class="form-control" placeholder="Name" />
+        <InputText id="txtName" @bind-Value="ViewModel.CreatedGame.Name" class="form-control" placeholder="Name" />
     </div>
 
     <div class="col-md-4">
         <label for="cboGenre" class="form-label">Genre</label>
-        <InputSelect id="cboGenre" class="form-select" @bind-Value="GameGenreId">
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="ViewModel.CreatedGame.Genre.Id">
             <option value="-1" selected>Select...</option>
 
-            @foreach (var genre in ViewModel.Genres!)
+            @foreach (var genre in ViewModel.GenresList!)
             {
                 <option value="@genre.Id">@genre.Name</option>
             }
@@ -83,12 +82,12 @@
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
-        <InputNumber id="txtPrice" class="form-control" @bind-Value="GamePrice" />
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.CreatedGame.Price" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
-        <InputNumber id="txtYear" class="form-control" @bind-Value="GameYear" />
+        <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.CreatedGame.Year" />
     </div>
 
     <div class="col-12">

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.Clients.Contracts;
-using CleanArchitecture.Domain.Entities;
+using CleanArchitecture.Blazor.DataModels;
 
 
 namespace CleanArchitecture.Blazor.Clients.Implements;
@@ -9,27 +9,27 @@ namespace CleanArchitecture.Blazor.Clients.Implements;
 // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
 public class GamesClient : BaseClient, IGamesClient
 {
-    private readonly List<Game> _gamesList;
+    private readonly List<GameModel> _gamesList;
     private readonly IGenresClient _genresClient;
 
     public GamesClient(IGenresClient genresClient)
     {
         _genresClient = genresClient;
-        _gamesList = new List<Game>()
+        _gamesList = new List<GameModel>()
         {
-            Game.Create(1,"Street Fighter",_genresClient.FindByName("Action"),150,2010),
-            Game.Create(2,"Call of Duty",_genresClient.FindByName("War"),140,2011),
-            Game.Create(3,"Medal Of Honor",_genresClient.FindByName("War"),250,2015),
-            Game.Create(4,"Need For Speed",_genresClient.FindByName("Family"),90,2018),
-            Game.Create(5,"Freedom Fighter",_genresClient.FindByName("Action"),170,2019)
+            new GameModel{Id=1,Name="Street Fighter",Genre=_genresClient.FindByName("Action"),Price=150,Year=2010},
+            new GameModel{Id=2,Name="Call of Duty",Genre=_genresClient.FindByName("War"),Price=46,Year=2008},
+            new GameModel{Id=3,Name="Medal Of Honor",Genre=_genresClient.FindByName("War"),Price=98,Year=2019},
+            new GameModel{Id=4,Name="Need For Speed",Genre=_genresClient.FindByName("Family"),Price=870,Year=2022},
+            new GameModel{Id=5,Name="Freedom Fighter",Genre=_genresClient.FindByName("Action"),Price=450,Year=2018}
         };
     }
 
     #region Retrieve
 
-    public List<Game> GetGamesList() => _gamesList;
+    public List<GameModel> GetGamesList() => _gamesList;
 
-    public Game? FindById(int id) => _gamesList.FirstOrDefault(c => c.Id == id);
+    public GameModel? FindById(int id) => _gamesList.FirstOrDefault(c => c.Id == id);
 
     #endregion
 
@@ -39,7 +39,13 @@ public class GamesClient : BaseClient, IGamesClient
     {
         var genre = _genresClient.FindById(genreId);
 
-        var newGame = Game.Create(name, genre, price, year);
+        var newGame = new GameModel() 
+        {
+            Name=name,
+            Genre=genre,
+            Price= price,
+            Year=year 
+        };
 
         _gamesList.Add(newGame);
 
@@ -57,10 +63,10 @@ public class GamesClient : BaseClient, IGamesClient
 
         if (oldGame != null)
         {
-            oldGame.ChangeName(name);
-            oldGame.ChangeGenre(genre);
-            oldGame.SetPrice(price);
-            oldGame.SetYear(year);
+            oldGame.Name=name;
+            oldGame.Genre=genre;
+            oldGame.Price=price;
+            oldGame.Year=year;
 
             //Send Updated Game to Api Service
         }

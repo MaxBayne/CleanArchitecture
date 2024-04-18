@@ -1,11 +1,11 @@
-﻿using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Blazor.DataModels;
 
 namespace CleanArchitecture.Blazor.Clients.Contracts
 {
     public interface IGenresClient
     {
-        Genre? FindById(int id);
-        Genre? FindByName(string name);
-        List<Genre> GetGameGenres();
+        GenreModel? FindById(int id);
+        GenreModel? FindByName(string name);
+        List<GenreModel> GetGameGenres();
     }
 }
