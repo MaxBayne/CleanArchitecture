@@ -17,11 +17,11 @@ public class GamesClient : BaseClient, IGamesClient
         _genresClient = genresClient;
         _gamesList = new List<GameModel>()
         {
-            new GameModel{Id=1,Name="Street Fighter",Genre=_genresClient.FindByName("Action"),Price=150,Year=2010},
-            new GameModel{Id=2,Name="Call of Duty",Genre=_genresClient.FindByName("War"),Price=46,Year=2008},
-            new GameModel{Id=3,Name="Medal Of Honor",Genre=_genresClient.FindByName("War"),Price=98,Year=2019},
-            new GameModel{Id=4,Name="Need For Speed",Genre=_genresClient.FindByName("Family"),Price=870,Year=2022},
-            new GameModel{Id=5,Name="Freedom Fighter",Genre=_genresClient.FindByName("Action"),Price=450,Year=2018}
+            new GameModel{Id=1,Name="Street Fighter",Genre=_genresClient.FindByName("Action")!,Price=150,Year=2010},
+            new GameModel{Id=2,Name="Call of Duty",Genre=_genresClient.FindByName("War")!,Price=46,Year=2008},
+            new GameModel{Id=3,Name="Medal Of Honor",Genre=_genresClient.FindByName("War")!,Price=98,Year=2019},
+            new GameModel{Id=4,Name="Need For Speed",Genre=_genresClient.FindByName("Family")!,Price=870,Year=2022},
+            new GameModel{Id=5,Name="Freedom Fighter",Genre=_genresClient.FindByName("Action")!,Price=450,Year=2018}
         };
     }
 
@@ -42,7 +42,7 @@ public class GamesClient : BaseClient, IGamesClient
         var newGame = new GameModel() 
         {
             Name=name,
-            Genre=genre,
+            Genre=genre!,
             Price= price,
             Year=year 
         };
@@ -64,7 +64,7 @@ public class GamesClient : BaseClient, IGamesClient
         if (oldGame != null)
         {
             oldGame.Name=name;
-            oldGame.Genre=genre;
+            oldGame.Genre=genre!;
             oldGame.Price=price;
             oldGame.Year=year;
 

@@ -12,9 +12,7 @@
 {
     [Inject]
     [SupplyParameterFromForm]
-    private CreateGameViewModel ViewModel { get; set; }
-
-
+    private CreateGameViewModel ViewModel { get; set; } = null!;
 
     #region Overrides
 
@@ -24,13 +22,14 @@
         //Set Default Values for Form
         if (ViewModel.CreatedGame is null)
         {
-            ViewModel.CreatedGame = new GameModel
-            {
-                Name = "Test",
-                Genre = new GenreModel { Id = -1 },
-                Price = 200,
-                Year = 2024
-            };
+            // ViewModel.CreatedGame = new GameModel
+            // {
+            //     Name = "Test",
+            //     Genre = new GenreModel { Id = -1 },
+            //     Price = 200,
+            //     Year = 2024
+            // };
+            ViewModel.CreatedGame = new GameModel();
         }
 
         if(ViewModel.GenresList is null)
@@ -60,7 +59,9 @@
 
 <h3>New Game</h3>
 
-<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnSubmit="HandleNewForm">
+<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm">
+    
+    <ValidationSummary/>
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
