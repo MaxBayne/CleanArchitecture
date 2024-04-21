@@ -61,11 +61,12 @@
 
 <EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm">
     
-    <ValidationSummary/>
+    <DataAnnotationsValidator />
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
         <InputText id="txtName" @bind-Value="ViewModel.CreatedGame.Name" class="form-control" placeholder="Name" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Name" />
     </div>
 
     <div class="col-md-4">
@@ -79,16 +80,19 @@
             }
 
         </InputSelect>
+        
     </div>
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
         <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.CreatedGame.Price" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Price" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
         <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.CreatedGame.Year" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Year" />
     </div>
 
     <div class="col-12">
