@@ -12,9 +12,7 @@
 {
     [Inject]
     [SupplyParameterFromForm]
-    private CreateGameViewModel ViewModel { get; set; }
-
-
+    private CreateGameViewModel ViewModel { get; set; } = null!;
 
     #region Overrides
 
@@ -24,13 +22,14 @@
         //Set Default Values for Form
         if (ViewModel.CreatedGame is null)
         {
-            ViewModel.CreatedGame = new GameModel
-            {
-                Name = "Test",
-                Genre = new GenreModel { Id = -1 },
-                Price = 200,
-                Year = 2024
-            };
+            // ViewModel.CreatedGame = new GameModel
+            // {
+            //     Name = "Test",
+            //     Genre = new GenreModel { Id = -1 },
+            //     Price = 200,
+            //     Year = 2024
+            // };
+            ViewModel.CreatedGame = new GameModel();
         }
 
         if(ViewModel.GenresList is null)
@@ -60,12 +59,14 @@
 
 <h3>New Game</h3>
 
-<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm" >
+<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm">
+    
+    <DataAnnotationsValidator />
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
         <InputText id="txtName" @bind-Value="ViewModel.CreatedGame.Name" class="form-control" placeholder="Name" />
-        <ValidationMessage For="@(() => ViewModel.CreatedGame.Name)" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Name" />
     </div>
 
     <div class="col-md-4">
@@ -79,19 +80,19 @@
             }
 
         </InputSelect>
-        <ValidationMessage For="@(() => ViewModel.CreatedGame.Genre)" />
+        
     </div>
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
         <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.CreatedGame.Price" />
-        <ValidationMessage For="@(() => ViewModel.CreatedGame.Price)" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Price" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
         <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.CreatedGame.Year" />
-        <ValidationMessage For="@(() => ViewModel.CreatedGame.Year)" />
+        <ValidationMessage For="()=>ViewModel.CreatedGame.Year" />
     </div>
 
     <div class="col-12">
