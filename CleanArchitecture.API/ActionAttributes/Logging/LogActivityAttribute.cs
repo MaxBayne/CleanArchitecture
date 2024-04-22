@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 
-namespace CleanArchitecture.API.ActionAttributes
+namespace CleanArchitecture.API.ActionAttributes.Logging
 {
     public class LogActivityAttribute : ActionFilterAttribute
     {

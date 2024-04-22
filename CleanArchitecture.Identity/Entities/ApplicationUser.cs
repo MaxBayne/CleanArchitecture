@@ -9,6 +9,7 @@ namespace CleanArchitecture.Identity.Entities
     public class ApplicationUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
     {
         //Put Here any Aditionals Fields that will be stored inside Users Table
+        public ICollection<ApplicationUserPermission> Permissions { get; set; }
     }
 
 }

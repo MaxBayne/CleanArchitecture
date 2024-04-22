@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Common.Settings;
+﻿using CleanArchitecture.API.ActionFilters.Authorization.PermissionAuthorization;
+using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -17,9 +18,17 @@ namespace CleanArchitecture.API
             //Register Configuration Mapped Classes inside Services , use IOptions<JwtSettings> inside Constructor to resolve the class instance
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            
 
-            services.AddControllers().AddJsonOptions(jsonOptions =>
+
+            services.AddControllers(mvcOptions =>
+            {
+                //Register All Filters that will be Executed with every Action Method
+
+                //mvcOptions.Filters.Add<LogActivityFilter>();
+                mvcOptions.Filters.Add<PermissionAuthorizationFilter>();
+
+            })
+            .AddJsonOptions(jsonOptions =>
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null; //make api serialize objects without change camel case of names
             });
@@ -112,6 +121,20 @@ namespace CleanArchitecture.API
 
             #endregion
 
+
+            //Config API Security (Authorizations)
+
+            #region Config Permission Based Authorization
+
+            #endregion
+
+            #region Config Role Based Authorization
+
+            #endregion
+
+            #region Config Policy Based Authorization
+
+            #endregion
 
             return services;
         }

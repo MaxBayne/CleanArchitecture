@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CleanArchitecture.API.ActionFilters
+namespace CleanArchitecture.API.ActionFilters.Logging
 {
     public class LogActivityFilter : IAsyncActionFilter
     {

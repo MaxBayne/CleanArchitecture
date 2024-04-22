@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanArchitecture.Application.Models.Identity
+namespace CleanArchitecture.Application.Models.Identity.Authentication
 {
     public class RegisterRequest
     {

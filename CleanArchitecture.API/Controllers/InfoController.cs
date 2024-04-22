@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using CleanArchitecture.API.Attributes;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
-using CleanArchitecture.API.ActionAttributes;
+using CleanArchitecture.API.ActionAttributes.Logging;
 
 // ReSharper disable NotAccessedField.Local
 

@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Application.Models.Identity;
-using CleanArchitecture.Identity.Entities;
+﻿using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -10,21 +9,24 @@ using System.Text;
 using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Common.Results;
 using CleanArchitecture.Common.Settings;
+using CleanArchitecture.Application.Models.Identity.Authentication;
 
 namespace CleanArchitecture.Identity.Services
 {
-    public class IdentityService : IIdentityService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser<Guid>> _userManager;
         private readonly SignInManager<ApplicationUser<Guid>> _signInManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<ApplicationUser<Guid>> userManager, SignInManager<ApplicationUser<Guid>> signInManager, IOptions<JwtSettings> jwtSettings)
+        public AuthenticationService(UserManager<ApplicationUser<Guid>> userManager, SignInManager<ApplicationUser<Guid>> signInManager, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtSettings = jwtSettings.Value;
         }
+
+
 
         public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest registerRequest)
         {
@@ -62,7 +64,7 @@ namespace CleanArchitecture.Identity.Services
                     EmailConfirmed = true
                 };
 
-                var registeredUser = await _userManager.CreateAsync(newUser,registerRequest.UserPassword);
+                var registeredUser = await _userManager.CreateAsync(newUser, registerRequest.UserPassword);
 
                 if (registeredUser.Succeeded)
                 {
@@ -82,7 +84,7 @@ namespace CleanArchitecture.Identity.Services
                     };
                 }
 
-                
+
             }
             catch (Exception e)
             {
@@ -104,7 +106,7 @@ namespace CleanArchitecture.Identity.Services
                 //if username not exist
                 if (user == null)
                 {
-                    return Result.Failure(new LoginResponse(),$"UserName ({loginRequest.UserName}) not found");
+                    return Result.Failure(new LoginResponse(), $"UserName ({loginRequest.UserName}) not found");
                 }
 
                 //Compare Security Stamp
@@ -129,7 +131,7 @@ namespace CleanArchitecture.Identity.Services
 
                 var jwtToken = GenerateJwtToken(_jwtSettings, userClaims);
 
-                
+
                 return new LoginResponse()
                 {
                     IsSuccess = true,
@@ -152,6 +154,43 @@ namespace CleanArchitecture.Identity.Services
             }
         }
 
+
+
+        public async Task<List<User>> GetUsers()
+        {
+            var users = await _userManager.GetUsersInRoleAsync("Users");
+
+            return users.Select(appUser => new User
+            {
+                UserId = appUser.Id.ToString(),
+                UserName = appUser.UserName,
+                UserEmail = appUser.Email!
+            }).ToList();
+        }
+
+        public async Task<List<User>> GetSupervisors()
+        {
+            var supervisors = await _userManager.GetUsersInRoleAsync("Supervisors");
+
+            return supervisors.Select(appUser => new User
+            {
+                UserId = appUser.Id.ToString(),
+                UserName = appUser.UserName,
+                UserEmail = appUser.Email!
+            }).ToList();
+        }
+
+        public async Task<List<User>> GetAdministrators()
+        {
+            var administrators = await _userManager.GetUsersInRoleAsync("Administrators");
+
+            return administrators.Select(appUser => new User
+            {
+                UserId = appUser.Id.ToString(),
+                UserName = appUser.UserName,
+                UserEmail = appUser.Email!
+            }).ToList();
+        }
 
         #region Helper
 
@@ -207,9 +246,9 @@ namespace CleanArchitecture.Identity.Services
             //generate custom claims
             var customClaims = new List<Claim>()
             {
-                new(JwtRegisteredClaimNames.NameId,user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Name,user.UserName!),
-                new(JwtRegisteredClaimNames.Email,user.Email!)
+                new(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new(ClaimTypes.Name,user.UserName!),
+                new(ClaimTypes.Email,user.Email!)
             };
 
             //Combine All Claims into one list

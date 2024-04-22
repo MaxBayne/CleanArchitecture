@@ -20,6 +20,10 @@ namespace CleanArchitecture.Identity.Contexts
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+
+            modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());
+
         }
         #endregion
 

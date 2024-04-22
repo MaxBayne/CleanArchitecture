@@ -29,8 +29,8 @@ namespace CleanArchitecture.Identity
                     .AddDefaultTokenProviders();
 
 
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
 
             return services;
         }

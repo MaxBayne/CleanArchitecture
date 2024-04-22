@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace CleanArchitecture.Application.Models.Identity
+namespace CleanArchitecture.Application.Models.Identity.Authentication
 {
     public class LoginResponse
     {

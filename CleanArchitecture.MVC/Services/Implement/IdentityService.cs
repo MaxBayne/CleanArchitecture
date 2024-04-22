@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
-using CleanArchitecture.Application.Models.Identity;
+using CleanArchitecture.Application.Models.Identity.Authentication;
 using CleanArchitecture.MVC.Services.Abstract;
 using CleanArchitecture.MVC.Services.Contracts;
 using Microsoft.AspNetCore.Authentication;
