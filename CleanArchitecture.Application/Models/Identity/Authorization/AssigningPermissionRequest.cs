@@ -11,5 +11,9 @@ namespace CleanArchitecture.Application.Models.Identity.Authorization
         public int permissionId { get; set; }
 
         public Guid userId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+        
+        public DateTime UpdatedOn { get; set; }
     }
 }

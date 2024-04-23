@@ -8,9 +8,7 @@ namespace CleanArchitecture.Application.Models.Identity.Authorization
 {
     public class AssigningPermissionResponse
     {
-        public bool IsSuccess { get; set; }
-
-        public string ErrorMessage { get; set; }
+       
             
     }
 }

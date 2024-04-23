@@ -39,7 +39,7 @@ namespace CleanArchitecture.Identity.Services
                 //if username exist
                 if (userNameExist != null)
                 {
-                    throw new Exception($"UserName ({registerRequest.UserName}) already Exist");
+                    return Result.Failure<RegisterResponse>($"UserName ({registerRequest.UserName}) already Exist");
                 }
 
                 //find user by email
@@ -48,7 +48,7 @@ namespace CleanArchitecture.Identity.Services
                 //if email exist
                 if (userEmailExist != null)
                 {
-                    throw new Exception($"Email ({registerRequest.Email}) already Exist");
+                    return Result.Failure<RegisterResponse>($"Email ({registerRequest.Email}) already Exist");
                 }
 
                 //if username and email not exit then try to register it
@@ -68,31 +68,22 @@ namespace CleanArchitecture.Identity.Services
 
                 if (registeredUser.Succeeded)
                 {
-                    return new RegisterResponse
+                    return Result.Success(new RegisterResponse
                     {
                         IsSuccess = true,
                         UserId = newUser.Id.ToString()
-                    };
+                    });
                 }
                 else
                 {
-                    return new RegisterResponse
-                    {
-                        IsSuccess = false,
-                        UserId = string.Empty,
-                        ErrorMessage = registeredUser.Errors.ToList().ToString()!
-                    };
+                    return Result.Failure<RegisterResponse>(registeredUser.Errors.First().Description);
                 }
 
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new RegisterResponse()
-                {
-                    IsSuccess = false,
-                    ErrorMessage = e.Message
-                };
+                return Result.Failure<RegisterResponse>(ex);
             }
         }
 
@@ -131,8 +122,7 @@ namespace CleanArchitecture.Identity.Services
 
                 var jwtToken = GenerateJwtToken(_jwtSettings, userClaims);
 
-
-                return new LoginResponse()
+                return Result.Success(new LoginResponse()
                 {
                     IsSuccess = true,
 
@@ -142,15 +132,11 @@ namespace CleanArchitecture.Identity.Services
                     UserClaims = userClaims,
 
                     UserToken = jwtToken.TokenString
-                };
+                });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new LoginResponse()
-                {
-                    IsSuccess = false,
-                    ErrorMessage = e.Message
-                };
+                return Result.Failure<LoginResponse>(ex);
             }
         }
 

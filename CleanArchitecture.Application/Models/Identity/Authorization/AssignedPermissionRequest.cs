@@ -8,6 +8,6 @@ namespace CleanArchitecture.Application.Models.Identity.Authorization
 {
     public class AssignedPermissionRequest
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }
