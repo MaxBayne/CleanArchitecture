@@ -2,14 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Identity.Configurations.Entities
+namespace CleanArchitecture.Identity.Configurations
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<ApplicationRole<Guid>>
+    public class RolesConfiguration : IEntityTypeConfiguration<ApplicationRole<Guid>>
     {
         public void Configure(EntityTypeBuilder<ApplicationRole<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
-          
+            builder.ToTable("Roles", "Identity");
+
             //Seeding Data ------------------------------------------------
 
             //Seed Roles

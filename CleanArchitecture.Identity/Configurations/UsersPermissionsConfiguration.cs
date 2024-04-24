@@ -3,9 +3,9 @@ using CleanArchitecture.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Identity.Configurations.Entities
+namespace CleanArchitecture.Identity.Configurations
 {
-    public class UserPermissionConfiguration : IEntityTypeConfiguration<ApplicationUserPermission>
+    public class UsersPermissionsConfiguration : IEntityTypeConfiguration<ApplicationUserPermission>
     {
         public void Configure(EntityTypeBuilder<ApplicationUserPermission> builder)
         {
@@ -21,10 +21,10 @@ namespace CleanArchitecture.Identity.Configurations.Entities
         private void ConfigureUserPermissionsTable(EntityTypeBuilder<ApplicationUserPermission> userPermissionBuilder)
         {
             //Config Table Schema ------------------------------------------------
-            userPermissionBuilder.ToTable("Security.UsersPermissions");
+            userPermissionBuilder.ToTable("UsersPermissions", "Identity");
 
             //Config Primary Key (Composite Key)
-            userPermissionBuilder.HasKey(u => new {u.UserId,u.PermissionId});
+            userPermissionBuilder.HasKey(u => new { u.UserId, u.PermissionId });
 
 
             //Config Columns
@@ -32,7 +32,7 @@ namespace CleanArchitecture.Identity.Configurations.Entities
             userPermissionBuilder.Property(p => p.CreatedOn).HasColumnName("UpdatedOn");
 
             //Config Foreign Keys (many to many Relationship)
-            userPermissionBuilder.HasOne(o=>o.User).WithMany(m=>m.Permissions).HasForeignKey(fk => fk.UserId);
+            userPermissionBuilder.HasOne(o => o.User).WithMany(m => m.Permissions).HasForeignKey(fk => fk.UserId);
 
             userPermissionBuilder.HasOne(o => o.Permission).WithMany(m => m.Users).HasForeignKey(fk => fk.PermissionId);
 

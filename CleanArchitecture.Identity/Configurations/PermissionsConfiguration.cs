@@ -4,9 +4,9 @@ using CleanArchitecture.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Identity.Configurations.Entities
+namespace CleanArchitecture.Identity.Configurations
 {
-    public class PermissionConfiguration : IEntityTypeConfiguration<ApplicationPermission<int>>
+    public class PermissionsConfiguration : IEntityTypeConfiguration<ApplicationPermission<int>>
     {
         public void Configure(EntityTypeBuilder<ApplicationPermission<int>> builder)
         {
@@ -22,7 +22,8 @@ namespace CleanArchitecture.Identity.Configurations.Entities
         private void ConfigurePermissionsTable(EntityTypeBuilder<ApplicationPermission<int>> builder)
         {
             //Config Table Schema ------------------------------------------------
-            builder.ToTable("Security.Permissions");
+
+            builder.ToTable("Permissions", "Identity");
 
             //Config Primary Key
             builder.HasKey(u => u.Id);
@@ -33,10 +34,10 @@ namespace CleanArchitecture.Identity.Configurations.Entities
             builder.Property(p => p.Description).HasMaxLength(250);
 
             //Config Shared
-           
+
 
             //Config Navigation
-           
+
         }
 
         #endregion

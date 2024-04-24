@@ -22,6 +22,74 @@ namespace CleanArchitecture.Identity.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationPermission<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions", "Identity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Can Insert Data",
+                            Name = "CanInsert"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Can Update Data",
+                            Name = "CanUpdate"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Can Delete Data",
+                            Name = "CanDelete"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Can Print Data",
+                            Name = "CanPrint"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Can Import Data",
+                            Name = "CanImport"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Can Export Data",
+                            Name = "CanExport"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Can View Data",
+                            Name = "CanView"
+                        });
+                });
+
             modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -47,7 +115,7 @@ namespace CleanArchitecture.Identity.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", "Identity");
 
                     b.HasData(
                         new
@@ -133,21 +201,22 @@ namespace CleanArchitecture.Identity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "Identity");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("1b345d5d-4714-401f-b124-32836d210679"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "15d03206-285f-4704-894f-c384dee9f95e",
+                            ConcurrencyStamp = "63dee25c-171c-4cab-81c7-2b5f9ed02856",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECMktWe36D9BZGlbkJzsglLa572DqIgYayNWFNp5vB45JelGXqB9WY/Wx/buHKVCHA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgNG5/UuEYnCbkFWN+CKmm7nMkw4ws8mCKXwrd6ehYbzepJTj1TkmC52I7JGUX1uQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "123",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -155,14 +224,15 @@ namespace CleanArchitecture.Identity.Migrations
                         {
                             Id = new Guid("2b345d5d-4714-401f-b124-32836d210679"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7c80b95-ea30-4d0a-9489-644d8a058a4d",
+                            ConcurrencyStamp = "68898c89-1b09-46b9-8851-f8493ef10937",
                             Email = "supervisor@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERVISOR@GMAIL.COM",
                             NormalizedUserName = "SUPERVISOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGtP74NAHLVZV8pVfklOGA2ICf8Xsv4j+OxA235N/tIqFrJhHLFUsR6JwuWE1omg3w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED8d8VIlqpBtGv1LyYCsPEW7Lyn+BkhR2Rk+O0feNm04YRmc0xqDxiHVXLWqkKPHBw==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "123",
                             TwoFactorEnabled = false,
                             UserName = "supervisor"
                         },
@@ -170,16 +240,73 @@ namespace CleanArchitecture.Identity.Migrations
                         {
                             Id = new Guid("3b345d5d-4714-401f-b124-32836d210679"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e7bfb94-ee16-4b48-87d2-bfb463c76276",
+                            ConcurrencyStamp = "0121cf17-9ef6-4e14-9879-6d36cdfae834",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI6aFM6Pmspt2kl33oFUg0vRXwg6XKgMjqF36DuF0Q0Qzw+I1FIx2sxC0B83b3EWdA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECnk59tvsC6Yh/aRD8IscozMZnYLu73/1nRv1tf1xvkpj3wUUB2bv41LBXN+A1hGJw==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "123",
                             TwoFactorEnabled = false,
                             UserName = "user"
+                        });
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationUserPermission", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedOn");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("UsersPermissions", "Identity", t =>
+                        {
+                            t.Property("UpdatedOn")
+                                .HasColumnName("UpdatedOn1");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("1b345d5d-4714-401f-b124-32836d210679"),
+                            PermissionId = 1,
+                            CreatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(173),
+                            UpdatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(246)
+                        },
+                        new
+                        {
+                            UserId = new Guid("1b345d5d-4714-401f-b124-32836d210679"),
+                            PermissionId = 2,
+                            CreatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(263),
+                            UpdatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(267)
+                        },
+                        new
+                        {
+                            UserId = new Guid("1b345d5d-4714-401f-b124-32836d210679"),
+                            PermissionId = 3,
+                            CreatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(273),
+                            UpdatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(276)
+                        },
+                        new
+                        {
+                            UserId = new Guid("1b345d5d-4714-401f-b124-32836d210679"),
+                            PermissionId = 7,
+                            CreatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(291),
+                            UpdatedOn = new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(294)
                         });
                 });
 
@@ -204,7 +331,7 @@ namespace CleanArchitecture.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RolesClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -228,7 +355,7 @@ namespace CleanArchitecture.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UsersClaims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -249,7 +376,7 @@ namespace CleanArchitecture.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UsersLogins", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -260,19 +387,13 @@ namespace CleanArchitecture.Identity.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -291,14 +412,14 @@ namespace CleanArchitecture.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UsersTokens", "Identity");
                 });
 
             modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationUserRole<System.Guid>", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
 
-                    b.HasDiscriminator().HasValue("ApplicationUserRole<Guid>");
+                    b.ToTable("UsersRoles", "Identity");
 
                     b.HasData(
                         new
@@ -333,6 +454,25 @@ namespace CleanArchitecture.Identity.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationUserPermission", b =>
+                {
+                    b.HasOne("CleanArchitecture.Identity.Entities.ApplicationPermission<int>", "Permission")
+                        .WithMany("Users")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CleanArchitecture.Identity.Entities.ApplicationUser<System.Guid>", "User")
+                        .WithMany("Permissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CleanArchitecture.Identity.Entities.ApplicationRole<System.Guid>", null)
@@ -382,6 +522,25 @@ namespace CleanArchitecture.Identity.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", null)
+                        .WithOne()
+                        .HasForeignKey("CleanArchitecture.Identity.Entities.ApplicationUserRole<System.Guid>", "UserId", "RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationPermission<int>", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Identity.Entities.ApplicationUser<System.Guid>", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,15 +3,16 @@ using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Identity.Configurations.Entities
+namespace CleanArchitecture.Identity.Configurations
 {
-    public class UserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole<Guid>>
+    public class UsersRolesConfiguration : IEntityTypeConfiguration<ApplicationUserRole<Guid>>
     {
         public void Configure(EntityTypeBuilder<ApplicationUserRole<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
-
+            builder.ToTable("UsersRoles", "Identity");
 
             //Seeding Data ------------------------------------------------
 
@@ -20,7 +21,7 @@ namespace CleanArchitecture.Identity.Configurations.Entities
             //Admin User Related to Roles (Administrators,Supervisors,Users)
             builder.HasData(new List<ApplicationUserRole<Guid>>()
             {
-               
+
                new ApplicationUserRole<Guid>
                {
                    UserId= Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Identity.Configurations.Entities;
+﻿using CleanArchitecture.Identity.Configurations;
 using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +17,20 @@ namespace CleanArchitecture.Identity.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersConfiguration());
 
-            modelBuilder.ApplyConfiguration(new PermissionConfiguration());
-            modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new RolesConfiguration());
+
+            modelBuilder.ApplyConfiguration(new PermissionsConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UsersClaimsConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersTokensConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersLoginsConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersPermissionsConfiguration());
+
+            modelBuilder.ApplyConfiguration(new RolesClaimsConfiguration());
+
 
         }
         #endregion

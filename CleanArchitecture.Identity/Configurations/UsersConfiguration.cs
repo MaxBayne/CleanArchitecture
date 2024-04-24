@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CleanArchitecture.Identity.Configurations.Entities
+namespace CleanArchitecture.Identity.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser<Guid>>
+    public class UsersConfiguration : IEntityTypeConfiguration<ApplicationUser<Guid>>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
-           
+            builder.ToTable("Users", "Identity");
+
 
             //Seeding Data ------------------------------------------------
-            var hasher=new PasswordHasher<ApplicationUser<Guid>>();
+            var hasher = new PasswordHasher<ApplicationUser<Guid>>();
 
             //Seed Users
             builder.HasData(new List<ApplicationUser<Guid>>()
