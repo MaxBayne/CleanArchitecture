@@ -9,41 +9,35 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using FakeItEasy;
 
 namespace CleanArchitecture.Api.UnitTests
 {
     public class BookControllerTests
     {
-        private readonly Mock<IMediator> _mediatorMock;
-        private readonly BookController _bookController;
-
-
-        public BookControllerTests()
-        {
-            var loggerMock = new Mock<ILogger<BookController>>();
-            _mediatorMock = new Mock<IMediator>();
-            _bookController = new BookController(loggerMock.Object, _mediatorMock.Object);
-        }
-
         [Fact]
-        public async void GetBooks_UnAuthenticatedUser_ReturnUnauthorizedResult()
+        public async void GetBooks_When_UserUnAuthenticated_ShouldReturn_UnauthorizedResult()
         {
             //Arrange ---------------------------------------------------------
+            var loggerFake = A.Fake<ILogger<BookController>>();
+            var mediatorFake = A.Fake<IMediator>();
+            var bookController = new BookController(loggerFake, mediatorFake);
+
             var cancellationToken = new CancellationToken();
             var requestCqrs = new GetBooksQuery();
             var viewBooksDto = new List<ViewBookDto> { new() };
             var responseCqrs = new GetBooksResponse(viewBooksDto);
             var httpContext = new DefaultHttpContext();
 
-            _mediatorMock.Setup(x => x.Send(requestCqrs, cancellationToken)).ReturnsAsync(Result.Success(responseCqrs));
+            A.CallTo(callSpecification:  () => mediatorFake.Send(requestCqrs, cancellationToken)).Returns(responseCqrs);
 
-            _bookController.ControllerContext = new ControllerContext
+            bookController.ControllerContext = new ControllerContext
             {
                 HttpContext = httpContext
             };
 
             //Act ---------------------------------------------------------
-            var response = await _bookController.Get(new CancellationToken());
+            var response = await bookController.Get(new CancellationToken());
 
             //Assert ---------------------------------------------------------
             response.Should().NotBeNull();
@@ -51,9 +45,13 @@ namespace CleanArchitecture.Api.UnitTests
         }
 
         [Fact]
-        public async void GetBooks_AuthenticatedUserWithBooks_ReturnOkResult()
+        public async void GetBooks_When_UserAuthenticatedWithBooks_ShouldReturn_OkResult()
         {
             //Arrange ---------------------------------------------------------
+            var loggerFake = A.Fake<ILogger<BookController>>();
+            var mediatorFake = A.Fake<IMediator>();
+            var bookController = new BookController(loggerFake, mediatorFake);
+
             var cancellationToken = new CancellationToken();
             var requestCqrs = new GetBooksQuery();
             var viewBooksDto = new List<ViewBookDto> { new() };
@@ -67,16 +65,18 @@ namespace CleanArchitecture.Api.UnitTests
                 }, "TestAuthentication"))
             };
 
-            _mediatorMock.Setup(x => x.Send(requestCqrs, cancellationToken)).ReturnsAsync(Result.Success(responseCqrs));
+            //_mediatorMock.Setup(x => x.Send(requestCqrs, cancellationToken)).ReturnsAsync(Result.Success(responseCqrs));
 
-            _bookController.ControllerContext = new ControllerContext
+            A.CallTo(callSpecification: () => mediatorFake.Send(requestCqrs, cancellationToken)).Returns(responseCqrs);
+
+            bookController.ControllerContext = new ControllerContext
             {
                 HttpContext = httpContext
             };
 
 
             //Act ---------------------------------------------------------
-            var response = await _bookController.Get(cancellationToken);
+            var response = await bookController.Get(cancellationToken);
 
             //Assert ---------------------------------------------------------
             response.Should().NotBeNull();
@@ -84,9 +84,13 @@ namespace CleanArchitecture.Api.UnitTests
         }
 
         [Fact]
-        public async void GetBooks_AuthenticatedUserWithEmptyBooks_ReturnNoContentResult()
+        public async void GetBooks_When_UserAuthenticatedWithEmptyBooks_ShouldReturn_NoContentResult()
         {
             //Arrange ---------------------------------------------------------
+            var loggerFake = A.Fake<ILogger<BookController>>();
+            var mediatorFake = A.Fake<IMediator>();
+            var bookController = new BookController(loggerFake, mediatorFake);
+
             var cancellationToken = new CancellationToken();
             var requestCqrs = new GetBooksQuery();
             var viewBooksDto = new List<ViewBookDto>();
@@ -100,17 +104,17 @@ namespace CleanArchitecture.Api.UnitTests
                 }, "TestAuthentication"))
             };
 
+            A.CallTo(callSpecification: () => mediatorFake.Send(requestCqrs, cancellationToken)).Returns(responseCqrs);
+            //_mediatorMock.Setup(x => x.Send(requestCqrs, cancellationToken)).ReturnsAsync(Result.Success(responseCqrs));
 
-            _mediatorMock.Setup(x => x.Send(requestCqrs, cancellationToken)).ReturnsAsync(Result.Success(responseCqrs));
-
-            _bookController.ControllerContext = new ControllerContext
+            bookController.ControllerContext = new ControllerContext
             {
                 HttpContext = httpContext
             };
 
 
             //Act ---------------------------------------------------------
-            var response = await _bookController.Get(cancellationToken);
+            var response = await bookController.Get(cancellationToken);
 
             //Assert ---------------------------------------------------------
             response.Should().NotBeNull();
