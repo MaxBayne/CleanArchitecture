@@ -24,7 +24,7 @@ namespace CleanArchitecture.Identity
             });
 
             //Register Identity inside Dependency Injection System
-            services.AddIdentity<ApplicationUser<Guid>, ApplicationRole<Guid>>()
+            services.AddIdentity<AppUser<Guid>, AppRole<Guid>>()
                     .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                     .AddDefaultTokenProviders();
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CleanArchitecture.Identity.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialIdentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -170,6 +170,33 @@ namespace CleanArchitecture.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UsersRoles",
+                schema: "Identity",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UsersRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "Identity",
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersTokens",
                 schema: "Identity",
                 columns: table => new
@@ -184,34 +211,6 @@ namespace CleanArchitecture.Identity.Migrations
                     table.PrimaryKey("PK_UsersTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_UsersTokens_Users_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UsersRoles",
-                schema: "Identity",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UsersRoles", x => new { x.UserId, x.RoleId });
-                    
-                    table.ForeignKey(
-                        name: "FK_UsersRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalSchema: "Identity",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersRoles_Users_UserId",
                         column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "Users",
@@ -251,12 +250,10 @@ namespace CleanArchitecture.Identity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("1b345d5d-4714-401f-b124-32836d210679"), 0, "63dee25c-171c-4cab-81c7-2b5f9ed02856", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAELgNG5/UuEYnCbkFWN+CKmm7nMkw4ws8mCKXwrd6ehYbzepJTj1TkmC52I7JGUX1uQ==", null, false, "123", false, "admin" },
-                    { new Guid("2b345d5d-4714-401f-b124-32836d210679"), 0, "68898c89-1b09-46b9-8851-f8493ef10937", "supervisor@gmail.com", false, false, null, "SUPERVISOR@GMAIL.COM", "SUPERVISOR", "AQAAAAIAAYagAAAAED8d8VIlqpBtGv1LyYCsPEW7Lyn+BkhR2Rk+O0feNm04YRmc0xqDxiHVXLWqkKPHBw==", null, false, "123", false, "supervisor" },
-                    { new Guid("3b345d5d-4714-401f-b124-32836d210679"), 0, "0121cf17-9ef6-4e14-9879-6d36cdfae834", "user@gmail.com", false, false, null, "USER@GMAIL.COM", "USER", "AQAAAAIAAYagAAAAECnk59tvsC6Yh/aRD8IscozMZnYLu73/1nRv1tf1xvkpj3wUUB2bv41LBXN+A1hGJw==", null, false, "123", false, "user" }
+                    { new Guid("1b345d5d-4714-401f-b124-32836d210679"), 0, "cbe6bc7f-41f9-49d9-8243-0b6c2a6bed39", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEH+Zk/4d8MIuhovPyzP01aq0pGpI5yH/6NA9a6ayXu2NN/pqB4IsZQiBWe7aIN1BaQ==", null, false, "123", false, "admin" },
+                    { new Guid("2b345d5d-4714-401f-b124-32836d210679"), 0, "e72d63d6-6d43-48f0-af20-4017c9c25f34", "supervisor@gmail.com", false, false, null, "SUPERVISOR@GMAIL.COM", "SUPERVISOR", "AQAAAAIAAYagAAAAEPSb5HjgXBGffK3NTVGylwISbrpuY4aVkR4Uz2X1pkltfR5K/AFzpxZL5lG7HI9zrA==", null, false, "123", false, "supervisor" },
+                    { new Guid("3b345d5d-4714-401f-b124-32836d210679"), 0, "12c0dd97-1f76-4e70-bb4f-3285a1dde7d1", "user@gmail.com", false, false, null, "USER@GMAIL.COM", "USER", "AQAAAAIAAYagAAAAEA9m3NCDCLubvVOs94+H0iUDN7Mw76QSHXYS9MX+SU/+6zyDBsgV0Jipx6hwiwPpNg==", null, false, "123", false, "user" }
                 });
-
-            
 
             migrationBuilder.InsertData(
                 schema: "Identity",
@@ -264,10 +261,10 @@ namespace CleanArchitecture.Identity.Migrations
                 columns: new[] { "PermissionId", "UserId", "UpdatedOn", "UpdatedOn1" },
                 values: new object[,]
                 {
-                    { 1, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(173), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(246) },
-                    { 2, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(263), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(267) },
-                    { 3, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(273), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(276) },
-                    { 7, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(291), new DateTime(2024, 4, 24, 22, 11, 16, 873, DateTimeKind.Local).AddTicks(294) }
+                    { 1, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 26, 7, 21, 7, 432, DateTimeKind.Local).AddTicks(9785), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(11) },
+                    { 2, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(38), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(42) },
+                    { 3, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(48), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(58) },
+                    { 7, new Guid("1b345d5d-4714-401f-b124-32836d210679"), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(73), new DateTime(2024, 4, 26, 7, 21, 7, 433, DateTimeKind.Local).AddTicks(76) }
                 });
 
             migrationBuilder.InsertData(

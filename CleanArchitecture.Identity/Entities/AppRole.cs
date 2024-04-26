@@ -6,8 +6,10 @@ namespace CleanArchitecture.Identity.Entities
     /// Will Represent Roles
     /// </summary>
     /// <typeparam name="Tkey"></typeparam>
-    public class ApplicationRole<Tkey> : IdentityRole<Tkey> where Tkey : IEquatable<Tkey>
+    public class AppRole<Tkey> : IdentityRole<Tkey> where Tkey : IEquatable<Tkey>
     {
         //Put Here any Aditionals Fields that will be stored inside Roles Table
+
+        public ICollection<AppUserRole<Guid>> UserRoles { get; set; }
     }
 }

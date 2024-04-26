@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Identity.Configurations
 {
-    public class UsersPermissionsConfiguration : IEntityTypeConfiguration<ApplicationUserPermission>
+    public class UsersPermissionsConfiguration : IEntityTypeConfiguration<AppUserPermission>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUserPermission> builder)
+        public void Configure(EntityTypeBuilder<AppUserPermission> builder)
         {
             //Config Table Schema ------------------------------------------------
-            ConfigureUserPermissionsTable(builder);
+            ConfigureTable(builder);
 
             //Seeding Data ------------------------------------------------
-            SeedsUserPermissionsTable(builder);
+            SeedsTable(builder);
         }
 
         #region Configure
 
-        private void ConfigureUserPermissionsTable(EntityTypeBuilder<ApplicationUserPermission> userPermissionBuilder)
+        private void ConfigureTable(EntityTypeBuilder<AppUserPermission> userPermissionBuilder)
         {
             //Config Table Schema ------------------------------------------------
             userPermissionBuilder.ToTable("UsersPermissions", "Identity");
@@ -32,9 +32,13 @@ namespace CleanArchitecture.Identity.Configurations
             userPermissionBuilder.Property(p => p.CreatedOn).HasColumnName("UpdatedOn");
 
             //Config Foreign Keys (many to many Relationship)
-            userPermissionBuilder.HasOne(o => o.User).WithMany(m => m.Permissions).HasForeignKey(fk => fk.UserId);
+            userPermissionBuilder.HasOne(o => o.User)
+                                 .WithMany(m => m.UserPermissions)
+                                 .HasForeignKey(fk => fk.UserId);
 
-            userPermissionBuilder.HasOne(o => o.Permission).WithMany(m => m.Users).HasForeignKey(fk => fk.PermissionId);
+            userPermissionBuilder.HasOne(o => o.Permission)
+                                 .WithMany(m => m.UserPermissions)
+                                 .HasForeignKey(fk => fk.PermissionId);
 
             //Config Shared
 
@@ -48,33 +52,33 @@ namespace CleanArchitecture.Identity.Configurations
         #region Seeds
 
         // ReSharper disable once UnusedParameter.Local
-        private void SeedsUserPermissionsTable(EntityTypeBuilder<ApplicationUserPermission> builder)
+        private void SeedsTable(EntityTypeBuilder<AppUserPermission> builder)
         {
             //Seeding Data ------------------------------------------------
-            builder.HasData(new List<ApplicationUserPermission>()
+            builder.HasData(new List<AppUserPermission>()
             {
-                new ApplicationUserPermission()
+                new AppUserPermission()
                 {
                     UserId=Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),
                     PermissionId=(int)PermissionType.CanInsert,
                     CreatedOn=DateTime.Now,
                     UpdatedOn=DateTime.Now
                 },
-                new ApplicationUserPermission()
+                new AppUserPermission()
                 {
                     UserId=Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),
                     PermissionId=(int)PermissionType.CanUpdate,
                     CreatedOn=DateTime.Now,
                     UpdatedOn=DateTime.Now
                 },
-                new ApplicationUserPermission()
+                new AppUserPermission()
                 {
                     UserId=Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),
                     PermissionId=(int)PermissionType.CanDelete,
                     CreatedOn=DateTime.Now,
                     UpdatedOn=DateTime.Now
                 },
-                new ApplicationUserPermission()
+                new AppUserPermission()
                 {
                     UserId=Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),
                     PermissionId=(int)PermissionType.CanView,

@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CleanArchitecture.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Identity.Configurations
 {
-    public class UsersTokensConfiguration : IEntityTypeConfiguration<IdentityUserToken<Guid>>
+    public class UsersTokensConfiguration : IEntityTypeConfiguration<AppUserToken<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
+        public void Configure(EntityTypeBuilder<AppUserToken<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
             ConfigureTable(builder);
@@ -17,7 +18,7 @@ namespace CleanArchitecture.Identity.Configurations
 
         #region Configure
 
-        private void ConfigureTable(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
+        private void ConfigureTable(EntityTypeBuilder<AppUserToken<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
 
@@ -40,7 +41,7 @@ namespace CleanArchitecture.Identity.Configurations
         #region Seeds
 
         // ReSharper disable once UnusedParameter.Local
-        private void SeedsTable(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
+        private void SeedsTable(EntityTypeBuilder<AppUserToken<Guid>> builder)
         {
             //Seeding Data ------------------------------------------------
 

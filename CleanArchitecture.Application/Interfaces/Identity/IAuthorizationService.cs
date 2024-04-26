@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Models.Identity.Authorization;
 using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Enums;
 
 namespace CleanArchitecture.Application.Interfaces.Identity;
 
@@ -22,5 +23,11 @@ public interface IAuthorizationService
     /// </summary>
     /// <returns></returns>
     Task<Result<AssignedPermissionResponse>> GetAssignedPermissionsForUser(AssignedPermissionRequest request);
+
+    /// <summary>
+    /// Check User Has Permission Assigned to Him
+    /// </summary>
+    /// <returns></returns>
+    Task<bool> HasPermission(Guid userId,PermissionType permissionType);
 
 }

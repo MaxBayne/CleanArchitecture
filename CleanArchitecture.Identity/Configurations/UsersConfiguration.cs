@@ -5,21 +5,51 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Identity.Configurations
 {
-    public class UsersConfiguration : IEntityTypeConfiguration<ApplicationUser<Guid>>
+    public class UsersConfiguration : IEntityTypeConfiguration<AppUser<Guid>>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser<Guid>> builder)
+        public void Configure(EntityTypeBuilder<AppUser<Guid>> builder)
         {
-            //Config Table Schema ------------------------------------------------
-            builder.ToTable("Users", "Identity");
-
+            //Config Table ------------------------------------------------
+            ConfigureTable(builder);
 
             //Seeding Data ------------------------------------------------
-            var hasher = new PasswordHasher<ApplicationUser<Guid>>();
+            SeedsTable(builder);
+        }
+
+        #region Configure
+
+        private void ConfigureTable(EntityTypeBuilder<AppUser<Guid>> userBuilder)
+        {
+            //Config Table Schema ------------------------------------------------
+
+            userBuilder.ToTable("Users", "Identity");
+
+            //Config Primary Key
+
+            //Config Columns
+
+            //Config Shared
+
+
+            //Config Navigation
+
+        }
+
+        #endregion
+
+        #region Seeds
+
+        // ReSharper disable once UnusedParameter.Local
+        private void SeedsTable(EntityTypeBuilder<AppUser<Guid>> builder)
+        {
+            //Seeding Data ------------------------------------------------
+
+            var hasher = new PasswordHasher<AppUser<Guid>>();
 
             //Seed Users
-            builder.HasData(new List<ApplicationUser<Guid>>()
+            builder.HasData(new List<AppUser<Guid>>()
             {
-               new ApplicationUser<Guid>
+               new AppUser<Guid>
                {
                    Id=Guid.Parse("1b345d5d-4714-401f-b124-32836d210679"),
                    UserName="admin",
@@ -30,7 +60,7 @@ namespace CleanArchitecture.Identity.Configurations
                    SecurityStamp = "123"
                },
 
-               new ApplicationUser<Guid>
+               new AppUser<Guid>
                {
                    Id=Guid.Parse("2b345d5d-4714-401f-b124-32836d210679"),
                    UserName="supervisor",
@@ -41,7 +71,7 @@ namespace CleanArchitecture.Identity.Configurations
                    SecurityStamp = "123"
                },
 
-               new ApplicationUser<Guid>
+               new AppUser<Guid>
                {
                    Id=Guid.Parse("3b345d5d-4714-401f-b124-32836d210679"),
                    UserName="user",
@@ -54,5 +84,9 @@ namespace CleanArchitecture.Identity.Configurations
 
             });
         }
+
+        #endregion
+
+
     }
 }

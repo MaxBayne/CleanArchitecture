@@ -5,7 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Identity.Contexts
 {
-    public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser<Guid>,ApplicationRole<Guid>,Guid>
+    public class ApplicationIdentityDbContext : IdentityDbContext<AppUser<Guid>,
+                                                                  AppRole<Guid>,
+                                                                  Guid,
+                                                                  AppUserClaim<Guid>,
+                                                                  AppUserRole<Guid>,
+                                                                  AppUserLogin<Guid>,
+                                                                  AppRoleClaim<Guid>,
+                                                                  AppUserToken<Guid>>
     {
         #region Constructors
         public ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options) : base(options) { }
@@ -17,20 +24,8 @@ namespace CleanArchitecture.Identity.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new UsersConfiguration());
 
-            modelBuilder.ApplyConfiguration(new RolesConfiguration());
-
-            modelBuilder.ApplyConfiguration(new PermissionsConfiguration());
-
-            modelBuilder.ApplyConfiguration(new UsersClaimsConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersTokensConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersLoginsConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersPermissionsConfiguration());
-
-            modelBuilder.ApplyConfiguration(new RolesClaimsConfiguration());
-
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationIdentityDbContext).Assembly);
 
         }
         #endregion

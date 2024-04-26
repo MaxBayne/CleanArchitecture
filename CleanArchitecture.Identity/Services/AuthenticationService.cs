@@ -15,11 +15,11 @@ namespace CleanArchitecture.Identity.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly UserManager<ApplicationUser<Guid>> _userManager;
-        private readonly SignInManager<ApplicationUser<Guid>> _signInManager;
+        private readonly UserManager<AppUser<Guid>> _userManager;
+        private readonly SignInManager<AppUser<Guid>> _signInManager;
         private readonly JwtSettings _jwtSettings;
 
-        public AuthenticationService(UserManager<ApplicationUser<Guid>> userManager, SignInManager<ApplicationUser<Guid>> signInManager, IOptions<JwtSettings> jwtSettings)
+        public AuthenticationService(UserManager<AppUser<Guid>> userManager, SignInManager<AppUser<Guid>> signInManager, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -53,7 +53,7 @@ namespace CleanArchitecture.Identity.Services
 
                 //if username and email not exit then try to register it
 
-                var newUser = new ApplicationUser<Guid>()
+                var newUser = new AppUser<Guid>()
                 {
                     UserName = registerRequest.UserName,
                     NormalizedUserName = registerRequest.UserName.ToUpper(),
@@ -214,7 +214,7 @@ namespace CleanArchitecture.Identity.Services
 
         }
 
-        private async Task<IEnumerable<Claim>> CreateUserClaimsAsync(ApplicationUser<Guid> user)
+        private async Task<IEnumerable<Claim>> CreateUserClaimsAsync(AppUser<Guid> user)
         {
             //Get Roles that user belong to it (user can belong to multi roles)
             var userRoles = await _userManager.GetRolesAsync(user);

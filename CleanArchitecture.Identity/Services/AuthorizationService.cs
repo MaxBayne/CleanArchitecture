@@ -1,7 +1,9 @@
-﻿using CleanArchitecture.Application.Interfaces.Identity;
+﻿using Azure.Core;
+using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Application.Models.Identity.Authentication;
 using CleanArchitecture.Application.Models.Identity.Authorization;
 using CleanArchitecture.Common.Results;
+using CleanArchitecture.Domain.Enums;
 using CleanArchitecture.Identity.Contexts;
 using CleanArchitecture.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +30,7 @@ public class AuthorizationService : IAuthorizationService
         {
             //create user Permission Entity
 
-            var newUserPermission = _dbContext.Set<ApplicationUserPermission>().Add(new ApplicationUserPermission()
+            var newUserPermission = _dbContext.Set<AppUserPermission>().Add(new AppUserPermission()
             {
                 PermissionId = request.permissionId,
                 UserId = request.userId,
@@ -61,7 +63,7 @@ public class AuthorizationService : IAuthorizationService
         {
             //get the user permission
 
-            var currentUserPermission = await _dbContext.Set<ApplicationUserPermission>()
+            var currentUserPermission = await _dbContext.Set<AppUserPermission>()
                                                         .FirstOrDefaultAsync(c => c.UserId == request.userId && c.PermissionId == request.permissionId);
 
 
@@ -70,7 +72,7 @@ public class AuthorizationService : IAuthorizationService
                 return Result.Failure<AssigningPermissionResponse>("Invalid User or Permission");
             }
 
-            _dbContext.Set<ApplicationUserPermission>().Remove(currentUserPermission);
+            _dbContext.Set<AppUserPermission>().Remove(currentUserPermission);
 
             await _dbContext.SaveChangesAsync();
 
@@ -88,7 +90,7 @@ public class AuthorizationService : IAuthorizationService
         try
         {
 
-            var assignedPermissions = await _dbContext.Set<ApplicationUserPermission>()
+            var assignedPermissions = await _dbContext.Set<AppUserPermission>()
                                                           .AsNoTracking()
                                                           .Include(i=>i.Permission)
                                                           .Where(c => c.UserId == request.UserId)
@@ -110,6 +112,24 @@ public class AuthorizationService : IAuthorizationService
         catch (Exception ex)
         {
             return Result.Failure<AssignedPermissionResponse>(ex);
+        }
+    }
+
+    public async Task<bool> HasPermission(Guid userId, PermissionType permissionType)
+    {
+        try
+        {
+
+            var hasAssignedPermission = await _dbContext.Set<AppUserPermission>()
+                                                        .AsNoTracking()
+                                                        .AnyAsync(c => c.UserId == userId && c.PermissionId == (int)permissionType);
+
+            return hasAssignedPermission;
+
+        }
+        catch (Exception ex)
+        {
+            return false;
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CleanArchitecture.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Identity.Configurations
 {
-    public class RolesClaimsConfiguration : IEntityTypeConfiguration<IdentityRoleClaim<Guid>>
+    public class RolesClaimsConfiguration : IEntityTypeConfiguration<AppRoleClaim<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityRoleClaim<Guid>> builder)
+        public void Configure(EntityTypeBuilder<AppRoleClaim<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
             ConfigureTable(builder);
@@ -17,7 +18,7 @@ namespace CleanArchitecture.Identity.Configurations
 
         #region Configure
 
-        private void ConfigureTable(EntityTypeBuilder<IdentityRoleClaim<Guid>> builder)
+        private void ConfigureTable(EntityTypeBuilder<AppRoleClaim<Guid>> builder)
         {
             //Config Table Schema ------------------------------------------------
 
@@ -40,7 +41,7 @@ namespace CleanArchitecture.Identity.Configurations
         #region Seeds
 
         // ReSharper disable once UnusedParameter.Local
-        private void SeedsTable(EntityTypeBuilder<IdentityRoleClaim<Guid>> builder)
+        private void SeedsTable(EntityTypeBuilder<AppRoleClaim<Guid>> builder)
         {
             //Seeding Data ------------------------------------------------
 

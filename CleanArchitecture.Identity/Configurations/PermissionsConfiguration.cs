@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Identity.Configurations
 {
-    public class PermissionsConfiguration : IEntityTypeConfiguration<ApplicationPermission<int>>
+    public class PermissionsConfiguration : IEntityTypeConfiguration<AppPermission<int>>
     {
-        public void Configure(EntityTypeBuilder<ApplicationPermission<int>> builder)
+        public void Configure(EntityTypeBuilder<AppPermission<int>> builder)
         {
             //Config Table Schema ------------------------------------------------
-            ConfigurePermissionsTable(builder);
+            ConfigureTable(builder);
 
             //Seeding Data ------------------------------------------------
-            SeedsPermissionsTable(builder);
+            SeedsTable(builder);
         }
 
         #region Configure
 
-        private void ConfigurePermissionsTable(EntityTypeBuilder<ApplicationPermission<int>> builder)
+        private void ConfigureTable(EntityTypeBuilder<AppPermission<int>> builder)
         {
             //Config Table Schema ------------------------------------------------
 
@@ -45,48 +45,48 @@ namespace CleanArchitecture.Identity.Configurations
         #region Seeds
 
         // ReSharper disable once UnusedParameter.Local
-        private void SeedsPermissionsTable(EntityTypeBuilder<ApplicationPermission<int>> builder)
+        private void SeedsTable(EntityTypeBuilder<AppPermission<int>> builder)
         {
             //Seeding Data ------------------------------------------------
-            builder.HasData(new List<ApplicationPermission<int>>()
+            builder.HasData(new List<AppPermission<int>>()
             {
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanInsert,
                     Name="CanInsert",
                     Description="Can Insert Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanUpdate,
                     Name="CanUpdate",
                     Description="Can Update Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanDelete,
                     Name="CanDelete",
                     Description="Can Delete Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanPrint,
                     Name="CanPrint",
                     Description="Can Print Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanImport,
                     Name="CanImport",
                     Description="Can Import Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanExport,
                     Name="CanExport",
                     Description="Can Export Data"
                 },
-                new ApplicationPermission<int>()
+                new AppPermission<int>()
                 {
                     Id=(int)PermissionType.CanView,
                     Name="CanView",

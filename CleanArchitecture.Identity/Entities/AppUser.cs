@@ -6,10 +6,14 @@ namespace CleanArchitecture.Identity.Entities
     /// Will Represent Users
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class ApplicationUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
+    public class AppUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
     {
         //Put Here any Aditionals Fields that will be stored inside Users Table
-        public ICollection<ApplicationUserPermission> Permissions { get; set; }
+        
+        
+        public ICollection<AppUserPermission> UserPermissions { get; set; }
+
+        public ICollection<AppUserRole<Guid>> UserRoles { get; set; }
     }
 
 }
