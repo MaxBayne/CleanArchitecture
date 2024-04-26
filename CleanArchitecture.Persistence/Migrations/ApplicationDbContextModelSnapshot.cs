@@ -57,7 +57,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sales.Orders", (string)null);
+                    b.ToTable("Orders", "Sales");
                 });
 
             modelBuilder.Entity("CleanArchitecture.Domain.Entities.Book", b =>
@@ -97,80 +97,80 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Library.Books", (string)null);
+                    b.ToTable("Books", "Library");
 
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Category = "Programming",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(1891),
                             Description = "Lean OOP inside C#",
                             IsActive = true,
                             Title = "OOP C#",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2112)
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             Category = "Programming",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2142),
                             Description = "Lean Rust Programming",
                             IsActive = true,
                             Title = "Rust",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2145)
                         },
                         new
                         {
-                            Id = -3,
+                            Id = 3,
                             Category = "Mobile",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2153),
                             Description = "Lean Android Programming",
                             IsActive = true,
                             Title = "Android",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2156)
                         },
                         new
                         {
-                            Id = -4,
+                            Id = 4,
                             Category = "Mobile",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2164),
                             Description = "Lean Flutter Programming",
                             IsActive = true,
                             Title = "Flutter",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2166)
                         },
                         new
                         {
-                            Id = -5,
+                            Id = 5,
                             Category = "Desktop",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2174),
                             Description = "Lean DevExpress For Desktop Apps",
                             IsActive = false,
                             Title = "DevExpress",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2176)
                         },
                         new
                         {
-                            Id = -6,
+                            Id = 6,
                             Category = "DataAccess",
                             CreatedBy = 0,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2188),
                             Description = "Lean EntityFrameworkCore",
                             IsActive = false,
                             Title = "EntityFrameworkCore",
                             UpdatedBy = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2024, 4, 26, 7, 24, 43, 654, DateTimeKind.Local).AddTicks(2190)
                         });
                 });
 
@@ -233,7 +233,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                             b1.HasIndex("OrderId");
 
-                            b1.ToTable("Sales.OrdersItems", (string)null);
+                            b1.ToTable("OrdersItems", "Sales");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -283,7 +283,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                                     b2.HasIndex("OrderId");
 
-                                    b2.ToTable("Sales.OrdersItemsTaxes", (string)null);
+                                    b2.ToTable("OrdersItemsTaxes", "Sales");
 
                                     b2.WithOwner()
                                         .HasForeignKey("OrderId");
@@ -292,7 +292,7 @@ namespace CleanArchitecture.Persistence.Migrations
                             b1.Navigation("ItemTaxes");
                         });
 
-                    b.OwnsOne("CleanArchitecture.Domain.ObjectValues.ShippingAddress", "ShippingAddress", b1 =>
+                    b.OwnsOne("CleanArchitecture.Domain.ValueObjects.ShippingAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
@@ -334,7 +334,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Sales.Orders");
+                            b1.ToTable("Orders", "Sales");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");

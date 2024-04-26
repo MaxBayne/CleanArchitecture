@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitecture.Persistence.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public class OrdersConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
@@ -21,7 +21,7 @@ namespace CleanArchitecture.Persistence.Configurations
         private void ConfigureOrdersTable(EntityTypeBuilder<Order> builder)
         {
             //Config Table Schema ------------------------------------------------
-            builder.ToTable("Sales.Orders");
+            builder.ToTable("Orders", "Sales");
 
             //Config Primary Key
             builder.HasKey(u => u.Id);
@@ -53,7 +53,7 @@ namespace CleanArchitecture.Persistence.Configurations
             {
                 //Config Table Schema ------------------------------------------------
 
-                orderItemBuilder.ToTable("Sales.OrdersItems");
+                orderItemBuilder.ToTable("OrdersItems", "Sales");
 
                 //Config Primary Key
                 orderItemBuilder.HasKey(u => u.Id);
@@ -93,7 +93,7 @@ namespace CleanArchitecture.Persistence.Configurations
                 //Config Taxes Table
                 orderItemBuilder.OwnsMany(taxes => taxes.ItemTaxes, taxesBuilder =>
                 {
-                    taxesBuilder.ToTable("Sales.OrdersItemsTaxes");
+                    taxesBuilder.ToTable("OrdersItemsTaxes", "Sales");
 
                     taxesBuilder.HasKey(u => u.Id);
 

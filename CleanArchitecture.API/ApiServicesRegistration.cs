@@ -25,7 +25,7 @@ namespace CleanArchitecture.API
                 //Register All Filters that will be Executed with every Action Method
 
                 //mvcOptions.Filters.Add<LogActivityFilter>();
-                mvcOptions.Filters.Add<PermissionAuthorizationFilter>();
+                mvcOptions.Filters.Add<AuthorizePermissionFilter>();
 
             })
             .AddJsonOptions(jsonOptions =>

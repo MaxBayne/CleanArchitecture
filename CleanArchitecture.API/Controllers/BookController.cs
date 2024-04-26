@@ -7,8 +7,10 @@ using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using CleanArchitecture.API.ActionAttributes.Authorization.PermissionAuthorization;
 using CleanArchitecture.Domain.Enums;
+using CleanArchitecture.API.ActionAttributes.Authorization;
+
+
 
 // ReSharper disable NotAccessedField.Local
 
@@ -16,7 +18,7 @@ using CleanArchitecture.Domain.Enums;
 
 namespace CleanArchitecture.API.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
