@@ -32,13 +32,10 @@ public class CreateBookCommandHandlerTests
         {
             cfg.AddProfile<MappingProfile>();
         }).CreateMapper();
-
-        
-
     }
 
     [Fact]
-    public async Task Handle_Should_Return_FailureResult_When_Validation_Fail()
+    public async Task Handle_WhenValidationFail_ShouldReturnFailureResult()
     {
         //Arrange
 
@@ -59,7 +56,7 @@ public class CreateBookCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_Not_Return_FailureResult_When_Validation_Success()
+    public async Task Handle_WhenValidationSuccess_ShouldNotReturnFailureResult()
     {
         //Arrange
 
@@ -79,7 +76,7 @@ public class CreateBookCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_Return_SuccessResult_With_Value_When_Validation_Success()
+    public async Task Handle_WhenValidationSuccess_ShouldReturnSuccessResultWithValue()
     {
         //Arrange
 
