@@ -83,7 +83,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // GET api/<BookController>/5
-        [AuthorizePermission(PermissionType.CanView)]
+        //[AuthorizePermission(PermissionType.CanView)]
         [HttpGet("{id:int}")]
         [ResponseType(typeof(ViewBookDto), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]
