@@ -44,6 +44,11 @@ namespace CleanArchitecture.API.Controllers
         {
             try
             {
+                if (User.Identity==null || User.Identity.IsAuthenticated == false)
+                {
+                    return Unauthorized();
+                }
+
                 var claimsIdentity = User.Identity as ClaimsIdentity;
 
                 //Get username who authenticated our system
