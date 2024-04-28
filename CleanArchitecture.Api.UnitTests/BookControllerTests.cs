@@ -2,13 +2,11 @@ using System.Security.Claims;
 using CleanArchitecture.API.Controllers;
 using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
-using CleanArchitecture.Common.Results;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
 using FakeItEasy;
 
 namespace CleanArchitecture.Api.UnitTests
