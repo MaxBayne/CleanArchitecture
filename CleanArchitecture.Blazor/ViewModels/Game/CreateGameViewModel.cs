@@ -10,8 +10,8 @@ namespace CleanArchitecture.Blazor.ViewModels.Game
         [Required(ErrorMessage = "Name Field is Required")] 
         public string Name { get; set; } = null!;
 
-        [Required] 
-        public int GenreId { get; set; }
+        [Required(ErrorMessage = "Genre Field is Required")] 
+        public int GenreId { get; set; } = -1;
 
         [Required(ErrorMessage = "Price Field is Required")]
         [Range(1, 1000,ErrorMessage = "Price Range will be between 1 : 1000")]
