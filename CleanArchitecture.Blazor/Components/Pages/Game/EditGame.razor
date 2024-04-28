@@ -12,8 +12,7 @@
 {
     [Inject]
     [SupplyParameterFromForm]
-    private EditGameViewModel ViewModel { get; set; }
-
+    private EditGameViewModel ViewModel { get; set; } = null!;
 
     #region Parameters
 
@@ -27,16 +26,22 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        if(ViewModel.GenresList is null)
-        {
-            ViewModel.GenresList = GenresClient.GetGameGenres();
-        }
+        ViewModel.GenresList = GenresClient.GetGameGenres();
 
-        if(ViewModel.UpdatedGame is null)
+        if(ViewModel.Id==0)
         {
             //Search For Current Game To can edit it
             //GameId = 1;
-            ViewModel.UpdatedGame = GamesClient.FindById(1);
+            var currentGame = GamesClient.FindById(1);
+
+            if (currentGame != null)
+            {
+                ViewModel.Id = currentGame.Id;
+                ViewModel.Name = currentGame.Name;
+                ViewModel.GenreId = currentGame.Genre.Id;
+                ViewModel.Price = currentGame.Price;
+                ViewModel.Year = currentGame.Year;
+            }
         }
     }
 
@@ -46,9 +51,9 @@
 
     private void HandleEditForm()
     {
-        Logger.LogInformation($"(Submitted)=> Id:{ViewModel.UpdatedGame.Id},Name:{ViewModel.UpdatedGame.Name},GenreId:{ViewModel.UpdatedGame.Genre.Id},Price:{ViewModel.UpdatedGame.Price},Year:{ViewModel.UpdatedGame.Year}");
+        Logger.LogInformation($"(Submitted)=> Id:{ViewModel.Id},Name:{ViewModel.Name},GenreId:{ViewModel.GenreId},Price:{ViewModel.Price},Year:{ViewModel.Year}");
 
-        GamesClient.UpdateGame(ViewModel.UpdatedGame.Id, ViewModel.UpdatedGame.Name, ViewModel.UpdatedGame.Genre.Id, ViewModel.UpdatedGame.Price, ViewModel.UpdatedGame.Year);
+        GamesClient.UpdateGame(ViewModel.Id, ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
 
         Navigation.NavigateTo("/game/list");
     }
@@ -70,34 +75,34 @@
 
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
-        <InputText id="txtName" @bind-Value="@ViewModel.UpdatedGame!.Name" class="form-control" placeholder="Name"  />
-        <ValidationMessage For="@(() => ViewModel.UpdatedGame.Name)" />
+        <InputText id="txtName" @bind-Value="@ViewModel.Name" class="form-control" placeholder="Name"  />
+        <ValidationMessage For="@(() => ViewModel.Name)" />
     </div>
 
     <div class="col-md-4">
         <label for="cboGenre" class="form-label">Genre</label>
-         <InputSelect id="cboGenre" class="form-select" @bind-Value="@ViewModel.UpdatedGame.Genre.Id">
+         <InputSelect id="cboGenre" class="form-select" @bind-Value="@ViewModel.GenreId">
             <option value="-1" selected>Select...</option>
 
-            @foreach (var genre in ViewModel.GenresList!)
+            @foreach (var genre in ViewModel.GenresList)
             {
                 <option value="@genre.Id">@genre.Name</option>
             }
 
         </InputSelect> 
-        <ValidationMessage For="@(() => ViewModel.UpdatedGame.Genre.Id)" />
+        <ValidationMessage For="@(() => ViewModel.GenreId)" />
     </div>
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
-        <InputNumber id="txtPrice" class="form-control" @bind-Value="@ViewModel.UpdatedGame.Price" />
-        <ValidationMessage For="@(() => ViewModel.UpdatedGame.Price)" />
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="@ViewModel.Price" />
+        <ValidationMessage For="@(() => ViewModel.Price)" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
-        <InputNumber id="txtYear" class="form-control" @bind-Value="@ViewModel.UpdatedGame.Year" />
-        <ValidationMessage For="@(() => ViewModel.UpdatedGame.Year)" />
+        <InputNumber id="txtYear" class="form-control" @bind-Value="@ViewModel.Year" />
+        <ValidationMessage For="@(() => ViewModel.Year)" />
     </div>
 
     <div class="col-12">
