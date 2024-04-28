@@ -1,11 +1,28 @@
-﻿using CleanArchitecture.Blazor.DataModels;
+﻿using System.ComponentModel.DataAnnotations;
+using CleanArchitecture.Blazor.DataModels;
 using CleanArchitecture.Blazor.ViewModels.Abstract;
 
 namespace CleanArchitecture.Blazor.ViewModels.Game
 {
     public class CreateGameViewModel : BaseViewModel
     {
-        public GameModel CreatedGame { get; set; }
+
+        [Required(ErrorMessage = "Name Field is Required")] 
+        public string Name { get; set; } = null!;
+
+        [Required] 
+        public int GenreId { get; set; }
+
+        [Required(ErrorMessage = "Price Field is Required")]
+        [Range(1, 1000,ErrorMessage = "Price Range will be between 1 : 1000")]
+        public decimal Price { get; set; }
+
+        [Required(ErrorMessage = "Year Field is Required")]
+        public int Year { get; set; }
+
+
+        
         public List<GenreModel> GenresList { get; set; } = null!;
+
     }
 }

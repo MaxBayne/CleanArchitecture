@@ -19,23 +19,7 @@
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
-        //Set Default Values for Form
-        if (ViewModel.CreatedGame is null)
-        {
-            // ViewModel.CreatedGame = new GameModel
-            // {
-            //     Name = "Test",
-            //     Genre = new GenreModel { Id = -1 },
-            //     Price = 200,
-            //     Year = 2024
-            // };
-            ViewModel.CreatedGame = new GameModel();
-        }
-
-        if(ViewModel.GenresList is null)
-        {
-            ViewModel.GenresList = GenresClient.GetGameGenres();
-        }
+        ViewModel.GenresList = GenresClient.GetGameGenres();
     }
 
     #endregion
@@ -44,9 +28,9 @@
 
     private void HandleNewForm()
     {
-        Logger.LogInformation($"(Created)=> Name={ViewModel.CreatedGame.Name} , Genre={ViewModel.CreatedGame.Genre.Id} , Price={ViewModel.CreatedGame.Price} ,Year={ViewModel.CreatedGame.Year}");
+        Logger.LogInformation($"(Created)=> Name={ViewModel.Name} , Genre={ViewModel.GenreId} , Price={ViewModel.Price} ,Year={ViewModel.Year}");
 
-        GamesClient.AddGame(ViewModel.CreatedGame.Name, ViewModel.CreatedGame.Genre.Id, ViewModel.CreatedGame.Price, ViewModel.CreatedGame.Year);
+        GamesClient.AddGame(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
 
         Navigation.NavigateTo("/game/list");
     }
@@ -62,19 +46,19 @@
 <EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm">
     
     <DataAnnotationsValidator />
-
+    
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
-        <InputText id="txtName" @bind-Value="ViewModel.CreatedGame.Name" class="form-control" placeholder="Name" />
-        <ValidationMessage For="()=>ViewModel.CreatedGame.Name" />
+        <InputText id="txtName" @bind-Value="ViewModel.Name" class="form-control" placeholder="Name" />
+        <ValidationMessage For="()=>ViewModel.Name" />
     </div>
 
     <div class="col-md-4">
         <label for="cboGenre" class="form-label">Genre</label>
-        <InputSelect id="cboGenre" class="form-select" @bind-Value="ViewModel.CreatedGame.Genre.Id">
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="ViewModel.GenreId">
             <option value="-1" selected>Select...</option>
 
-            @foreach (var genre in ViewModel.GenresList!)
+            @foreach (var genre in ViewModel.GenresList)
             {
                 <option value="@genre.Id">@genre.Name</option>
             }
@@ -85,14 +69,14 @@
 
     <div class="col-md-4">
         <label for="txtPrice" class="form-label">Price</label>
-        <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.CreatedGame.Price" />
-        <ValidationMessage For="()=>ViewModel.CreatedGame.Price" />
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.Price" />
+        <ValidationMessage For="()=>ViewModel.Price" />
     </div>
 
     <div class="col-md-4">
         <label for="txtYear" class="form-label">Year</label>
-        <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.CreatedGame.Year" />
-        <ValidationMessage For="()=>ViewModel.CreatedGame.Year" />
+        <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.Year" />
+        <ValidationMessage For="()=>ViewModel.Year" />
     </div>
 
     <div class="col-12">
