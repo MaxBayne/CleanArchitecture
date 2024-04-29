@@ -23,18 +23,24 @@
     //Called When Component receive data Over Parameters
     protected override void OnParametersSet()
     {
-        if (ViewModel!.Id!=0)
-        {
-            //When Form Submitted inside ViewModel
-            return;
+        ViewModel.Id = Id.Value;
+
+
+         if (ViewModel!.Name != null)
+         {
+             //When Form Submitted inside ViewModel
+             
+             return;
         }
 
         if (Id is not null)
         {
+            
+
             //Search For Current Game To can edit it
             var currentGame = GamesClient.FindById(Id.Value);
 
-            if (currentGame != null && ViewModel!=null)
+            if (currentGame != null)
             {
                 ViewModel.Id = currentGame.Id;
                 ViewModel.Name = currentGame.Name;
@@ -63,7 +69,7 @@
     {
         Logger.LogInformation($"(Submitted)=> Id:{ViewModel!.Id},Name:{ViewModel!.Name},GenreId:{ViewModel!.GenreId},Price:{ViewModel!.Price},Year:{ViewModel!.Year}");
 
-        GamesClient.UpdateGame(ViewModel!.Id, ViewModel!.Name, ViewModel!.GenreId, ViewModel!.Price, ViewModel!.Year);
+        GamesClient.UpdateGame(ViewModel!.Id, ViewModel!.Name!, ViewModel!.GenreId, ViewModel!.Price, ViewModel!.Year);
 
         Navigation.NavigateTo("/game/list");
     }

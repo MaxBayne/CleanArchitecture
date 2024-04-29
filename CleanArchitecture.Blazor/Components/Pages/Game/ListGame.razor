@@ -22,6 +22,12 @@
 
 }
 
+<style>
+    .column-auto 
+    {
+        width: auto !important;
+    }
+</style>
 
 <PageTitle>Games List</PageTitle>
 
@@ -42,15 +48,17 @@
 
 @if (ViewModel.GamesList.Any())
 {
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped" >
 
         <thead class="table-dark">
-        <th class="text-center">Id</th>
-        <th>Name</th>
-        <th class="text-center">Genre</th>
-        <th class="text-end">Price</th>
-        <th class="text-center">Year</th>
-        <th class="text-center">Action</th>
+            <tr>
+                <th class="text-center">Id</th>
+                <th>Name</th>
+                <th class="text-center">Genre</th>
+                <th class="text-end">Price</th>
+                <th class="text-center column-auto ">Year</th>
+                <th class="text-center column-auto">Action</th>
+            </tr>
         </thead>
 
         <tbody>
@@ -61,12 +69,20 @@
                     <td>@game.Name</td>
                     <td class="text-center">@game.Genre.Name</td>
                     <td class="text-end">@game.Price.ToString("c2")</td>
-                    <td class="text-center">@game.Year</td>
-                    <td class="text-center">
-                        <a href="/game/edit/@game.Id" class="btn btn-secondary" role="button">
-                            <i class="bi bi-pencil-square"></i>
-                            Edit
-                        </a>
+                    <td class="text-center column-auto">@game.Year</td>
+                    <td class="text-center column-auto">
+                        
+                            <a href="/game/edit/@game.Id" title="Edit" class="btn btn-secondary" role="button">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            
+                            <button type="button" title="Remove" class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#DeleteGameModel-@game.Id">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+
+                            <DeleteGame GameId="@game.Id" GameName="@game.Name"/>
+                        
+
                     </td>
                 </tr>
             }

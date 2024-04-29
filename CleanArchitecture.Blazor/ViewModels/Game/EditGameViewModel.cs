@@ -9,7 +9,7 @@ namespace CleanArchitecture.Blazor.ViewModels.Game
         public int Id { get; set; } = 0;
 
         [Required(ErrorMessage = "Name Field is Required")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Required]
         public int GenreId { get; set; }

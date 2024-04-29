@@ -21,7 +21,6 @@ namespace CleanArchitecture.Blazor
             //Register ViewModels
             builder.Services.AddScoped<CreateGameViewModel>();
             builder.Services.AddScoped<EditGameViewModel>();
-            builder.Services.AddScoped<DeleteGameViewModel>();
             builder.Services.AddScoped<DetailsGameViewModel>();
             builder.Services.AddScoped<ListGameViewModel>();
             
