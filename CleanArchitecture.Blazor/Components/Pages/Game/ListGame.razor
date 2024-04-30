@@ -67,21 +67,20 @@
                 <tr>
                     <td class="text-center text-dark">@game.Id</td>
                     <td>@game.Name</td>
-                    <td class="text-center">@game.Genre.Name</td>
+                    <td class="text-center">@game.Genre?.Name</td>
                     <td class="text-end">@game.Price.ToString("c2")</td>
                     <td class="text-center column-auto">@game.Year</td>
                     <td class="text-center column-auto">
-                        
-                            <a href="/game/edit/@game.Id" title="Edit" class="btn btn-secondary" role="button">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            
-                            <button type="button" title="Remove" class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#DeleteGameModel-@game.Id">
-                                <i class="bi bi-x-lg"></i>
-                            </button>
 
-                            <DeleteGame GameId="@game.Id" GameName="@game.Name"/>
-                        
+                        <a href="/game/edit/@game.Id" title="Edit" class="btn btn-secondary" role="button">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button type="button" title="Remove" class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#DeleteGameModel-@game.Id">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+
+                        <DeleteGame GameId="@game.Id" GameName="@game.Name" />
 
                     </td>
                 </tr>
