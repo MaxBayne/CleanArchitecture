@@ -20,6 +20,10 @@ namespace CleanArchitecture.Domain.Entities
             Name = string.Empty;
         }
 
+        public Genre(int id) : base(id)
+        {
+        }
+
         public Genre(string name)
         {
             Name = name;
@@ -43,7 +47,15 @@ namespace CleanArchitecture.Domain.Entities
 
             return newGenre;
         }
+        public static Genre Create(int id)
+        {
+            var newGenre = new Genre(id);
 
+            //Raise Event For Create Genre
+            newGenre.RegisterNotification(new GenreCreatedNotification(newGenre));
+
+            return newGenre;
+        }
         public static Genre Create(int id, string name)
         {
             var newGenre = new Genre(id, name);

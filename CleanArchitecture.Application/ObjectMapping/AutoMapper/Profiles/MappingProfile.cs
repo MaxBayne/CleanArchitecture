@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Game;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Order;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.OrderItem;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.ShippingAddress;
@@ -58,6 +59,16 @@ namespace CleanArchitecture.Application.ObjectMapping.AutoMapper.Profiles
             CreateMap<Order, DeleteOrderDto>().ReverseMap();
 
             #endregion
+
+            #region GameDto <=> Game
+
+            CreateMap<Game, ViewGameDto>().ReverseMap();
+            CreateMap<Game, CreateGameDto>().ReverseMap();
+            CreateMap<Game, UpdateGameDto>().ReverseMap();
+            CreateMap<Game, DeleteGameDto>().ReverseMap();
+
+            #endregion
+
         }
     }
 }

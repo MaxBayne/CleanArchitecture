@@ -34,6 +34,14 @@ namespace CleanArchitecture.Domain.Entities
             Year = year;
         }
 
+        public Game(string name, int genreId, decimal price, int year)
+        {
+            Name = name;
+            Genre =Genre.Create(genreId);
+            Price = price;
+            Year = year;
+        }
+
         public Game(int id,string name, Genre? genre, decimal price, int year) : base(id)
         {
             Name = name;
@@ -59,6 +67,16 @@ namespace CleanArchitecture.Domain.Entities
         public static Game Create(string name,Genre? genre,decimal price,int year)
         {
             var newGame = new Game(name, genre, price, year);
+
+            //Raise Event For Create Game
+            newGame.RegisterNotification(new GameCreatedNotification(newGame));
+
+            return newGame;
+        }
+
+        public static Game Create(string name, int genreId, decimal price, int year)
+        {
+            var newGame = new Game(name, genreId, price, year);
 
             //Raise Event For Create Game
             newGame.RegisterNotification(new GameCreatedNotification(newGame));
@@ -107,6 +125,13 @@ namespace CleanArchitecture.Domain.Entities
             return Result.Success();
         }
 
+        public Result ChangeGenre(int genreId)
+        {
+            Genre = Genre.Create(genreId);
+
+            return Result.Success();
+        }
+
         public Result SetPrice(decimal price)
         {
             //validate
@@ -134,5 +159,6 @@ namespace CleanArchitecture.Domain.Entities
         }
 
         #endregion
+
     }
 }
