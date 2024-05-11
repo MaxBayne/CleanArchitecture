@@ -30,6 +30,8 @@ namespace CleanArchitecture.Persistence.Contexts
 
         public DbSet<Order> Orders { get; set; } = null!;
 
+        public DbSet<Game> Games { get; set; } = null!;
+
         #endregion
     }
 }
