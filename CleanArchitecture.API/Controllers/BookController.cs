@@ -34,7 +34,9 @@ namespace CleanArchitecture.API.Controllers
 
         //[AllowAnonymous]
         // GET: api/<BookController>
-        [Authorize(Roles = "Administrators,Supervisorss")]
+        //[Authorize(Roles = "Administrators,Supervisorss")]
+        //[Authorize(Policy = "AdminsOnlyPolicy")]
+        [Authorize(Policy = "AdminsFromEgyptPolicy")]
         [HttpGet]
         [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]

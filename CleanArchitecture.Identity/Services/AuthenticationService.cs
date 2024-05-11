@@ -234,7 +234,8 @@ namespace CleanArchitecture.Identity.Services
             {
                 new(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new(ClaimTypes.Name,user.UserName!),
-                new(ClaimTypes.Email,user.Email!)
+                new(ClaimTypes.Email,user.Email!),
+                new(ClaimTypes.Country,"Egypt")
             };
 
             //Combine All Claims into one list

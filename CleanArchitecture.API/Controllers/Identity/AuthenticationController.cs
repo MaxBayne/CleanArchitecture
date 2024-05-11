@@ -49,7 +49,7 @@ namespace CleanArchitecture.API.Controllers.Identity
             if (loginResponse.IsSuccess)
             {
                 _logger.LogInformation($"User ({loginRequest.UserName}) logged successfully");
-                return Ok(loginResponse);
+                return Ok(loginResponse.Value?.UserToken);
             }
 
             _logger.LogInformation($"User ({loginRequest.UserName}) failed login");

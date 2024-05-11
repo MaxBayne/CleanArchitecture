@@ -1,10 +1,14 @@
 ﻿using CleanArchitecture.API.Authorization.PermissionsAuthorization;
+using CleanArchitecture.API.Authorization.PoliciesAuthorization.Requirements;
+using CleanArchitecture.API.Authorization.PoliciesAuthorization.RequirementsHandlers;
 using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace CleanArchitecture.API
@@ -125,14 +129,52 @@ namespace CleanArchitecture.API
             //Config API Security (Authorizations)
 
             #region Config Permission Based Authorization
+            
+            //Using ActionFilters and Action Attributes
 
             #endregion
 
             #region Config Role Based Authorization
+            
+            //Not Need Configs
 
             #endregion
 
             #region Config Policy Based Authorization
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminsOnlyPolicy", policyBuilder =>
+                {
+
+                    //mean this policy required user has claim type with claim data
+                    //policyBuilder.RequireClaim(ClaimTypes.Role, "Administrators");
+
+                    //mean this policy to be success it required user is in role called administrators
+                    //policyBuilder.RequireRole("Administrators");
+
+                    //mean this policy to be success it required user is authenticated
+                    //policyBuilder.RequireAuthenticatedUser(); 
+
+                    //mean this policy to be success it required user name is admin
+                    //policyBuilder.RequireUserName("admin");
+
+                    //mean check policy pass custom logic inside requirement
+                    policyBuilder.AddRequirements(new UserRoleMustBeAdministratorsRequirement());
+                });
+
+                options.AddPolicy("AdminsFromEgyptPolicy", policyBuilder =>
+                {
+                    //to be policy success , all below requirements must be succeded
+                    policyBuilder.AddRequirements(new UserRoleMustBeAdministratorsRequirement());
+                    policyBuilder.AddRequirements(new UserHasClaimCountryIsEgyptRequirement());
+                });
+            });
+
+            //Register Authorization Handlers inside Dependency Services
+            services.AddSingleton<IAuthorizationHandler, UserHasClaimCountryIsEgyptRequirementHandler>();
+            services.AddSingleton<IAuthorizationHandler, UserRoleMustBeAdministratorsRequirementHandler>();
+            services.AddSingleton<IAuthorizationHandler, UserRoleMustBeSupervisorssRequirementHandler>();
 
             #endregion
 
