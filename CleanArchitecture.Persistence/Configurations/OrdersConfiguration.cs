@@ -21,14 +21,24 @@ namespace CleanArchitecture.Persistence.Configurations
         private void ConfigureOrdersTable(EntityTypeBuilder<Order> builder)
         {
             //Config Table Schema ------------------------------------------------
+
+            //Set table name and schema
+
             builder.ToTable("Orders", "Sales");
 
-            //Config Primary Key
-            builder.HasKey(u => u.Id);
-            builder.Property(c => c.Id).HasColumnName("OrderId").ValueGeneratedOnAdd();
+            //Set primary key
 
-            //Config Columns
-            builder.Property(p => p.OrderDescription).HasMaxLength(200);
+            builder.HasKey(u => u.Id);
+
+
+            //Configure properties
+
+            builder.Property(c => c.Id)
+                   .HasColumnName("OrderId")
+                   .ValueGeneratedOnAdd();
+
+            builder.Property(p => p.OrderDescription)
+                   .HasMaxLength(200);
 
             //Config Shared
             builder.OwnsOne(order => order.ShippingAddress, shippingAddressBuilder =>
@@ -53,43 +63,65 @@ namespace CleanArchitecture.Persistence.Configurations
             {
                 //Config Table Schema ------------------------------------------------
 
+                //Set table name and schema
+
                 orderItemBuilder.ToTable("OrdersItems", "Sales");
 
-                //Config Primary Key
+                //Set primary key
                 orderItemBuilder.HasKey(u => u.Id);
-                orderItemBuilder.Property(c => c.Id).HasColumnName("OrderItemId").ValueGeneratedOnAdd();
+
+
+                //Configure properties
+                orderItemBuilder.Property(c => c.Id)
+                                .HasColumnName("OrderItemId")
+                                .ValueGeneratedOnAdd();
+
+                orderItemBuilder.Property(c => c.Description)
+                                .HasMaxLength(200);
+
+                orderItemBuilder.Property(p => p.AdditionsPercent)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.AdditionsValue)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.DiscountPercent)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.DiscountValue)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.Quantity)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.TaxesPercent)
+                                .HasColumnType("decimal(18,5)");
+
+                orderItemBuilder.Property(p => p.TaxesValue)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.UnitPrice)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.AdditionsPercent)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.AdditionsValue)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.DiscountPercent)
+                                .HasColumnType("decimal(18,3)");
+
+                orderItemBuilder.Property(p => p.DiscountValue)
+                                .HasColumnType("decimal(18,3)");
+
+
+
 
                 //Config Foreign Keys
                 orderItemBuilder.WithOwner().HasForeignKey(fk=>fk.OrderId);
 
-                //Config Columns
-
-                orderItemBuilder.Property(c => c.Description).HasMaxLength(200);
-
-                orderItemBuilder.Property(p => p.AdditionsPercent).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.AdditionsValue).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.DiscountPercent).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.DiscountValue).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.Quantity).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.TaxesPercent).HasColumnType("decimal(18,5)");
-
-                orderItemBuilder.Property(p => p.TaxesValue).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.UnitPrice).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.AdditionsPercent).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.AdditionsValue).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.DiscountPercent).HasColumnType("decimal(18,3)");
-
-                orderItemBuilder.Property(p => p.DiscountValue).HasColumnType("decimal(18,3)");
-
+                
                 //Config Taxes Table
                 orderItemBuilder.OwnsMany(taxes => taxes.ItemTaxes, taxesBuilder =>
                 {

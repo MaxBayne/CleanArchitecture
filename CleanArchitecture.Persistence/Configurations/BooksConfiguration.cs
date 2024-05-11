@@ -22,10 +22,24 @@ namespace CleanArchitecture.Persistence.Configurations
         {
             //Config Table Schema ------------------------------------------------
 
-            builder.ToTable("Books", "Library")
-                .HasKey(u => u.Id);
+            //Set table name and schema
 
-            builder.Property(c => c.Id).ValueGeneratedOnAdd();
+            builder.ToTable("Books", "Library");
+
+            //Set primary key
+
+            builder.HasKey(u => u.Id);
+
+            //Configure properties
+
+            builder.Property(c => c.Id)
+                   .ValueGeneratedOnAdd();
+
+            builder.Property(c => c.Title)
+                   .IsRequired()
+                   .HasMaxLength(200);
+
+            //Configure foreign key relationship
         }
 
         #endregion
