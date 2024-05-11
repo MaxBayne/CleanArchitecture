@@ -25,6 +25,7 @@ namespace CleanArchitecture.Persistence
             //Register Repositories inside Dependency Injection System as Transient
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IGameRepository, GameRepository>();
 
             return services;
         }
