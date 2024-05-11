@@ -40,6 +40,8 @@ namespace CleanArchitecture.API.Authentication.BasicAuthentication
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, username));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()));
+                    claims.Add(new Claim(ClaimTypes.Role, "Admins"));
+                    claims.Add(new Claim(ClaimTypes.Role, "Managers"));
 
                     //الهوية مع تحديد بيانات الهوية
                     var identity = new ClaimsIdentity(claims, Scheme.Name);

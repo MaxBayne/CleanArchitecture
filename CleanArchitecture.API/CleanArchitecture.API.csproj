@@ -32,8 +32,8 @@
 
   <ItemGroup>
     <Folder Include="Authentication\BearerAuthentication\" />
-    <Folder Include="ActionFilters\Authorization\PolicyAuthorization\" />
-    <Folder Include="ActionFilters\Authorization\RoleAuthorization\" />
+    <Folder Include="Authorization\PoliciesAuthorization\" />
+    <Folder Include="Authorization\RolesAuthorization\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

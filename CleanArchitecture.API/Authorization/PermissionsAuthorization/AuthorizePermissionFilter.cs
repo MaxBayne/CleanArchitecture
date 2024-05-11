@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.API.ActionAttributes.Authorization;
-using CleanArchitecture.Application.Interfaces.Identity;
+﻿using CleanArchitecture.Application.Interfaces.Identity;
 using CleanArchitecture.Application.Models.Identity.Authorization;
 using CleanArchitecture.Domain.Enums;
 using CleanArchitecture.Identity.Services;
@@ -7,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace CleanArchitecture.API.ActionFilters.Authorization.PermissionAuthorization
+namespace CleanArchitecture.API.Authorization.PermissionsAuthorization
 {
     public class AuthorizePermissionFilter : IAsyncAuthorizationFilter
     {
         private readonly ILogger<AuthorizePermissionFilter> _logger;
         private readonly IAuthorizationService _authorizationService;
 
-        public AuthorizePermissionFilter(ILogger<AuthorizePermissionFilter> logger,IAuthorizationService authorizationService)
+        public AuthorizePermissionFilter(ILogger<AuthorizePermissionFilter> logger, IAuthorizationService authorizationService)
         {
             _logger = logger;
             _authorizationService = authorizationService;

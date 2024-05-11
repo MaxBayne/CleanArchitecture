@@ -7,9 +7,8 @@ using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using CleanArchitecture.API.Authorization.PermissionsAuthorization;
 using CleanArchitecture.Domain.Enums;
-using CleanArchitecture.API.ActionAttributes.Authorization;
-
 
 
 // ReSharper disable NotAccessedField.Local
@@ -35,7 +34,7 @@ namespace CleanArchitecture.API.Controllers
 
         //[AllowAnonymous]
         // GET: api/<BookController>
-        [Authorize]
+        [Authorize(Roles = "Administrators,Supervisorss")]
         [HttpGet]
         [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
@@ -88,7 +87,7 @@ namespace CleanArchitecture.API.Controllers
         }
 
         // GET api/<BookController>/5
-        //[AuthorizePermission(PermissionType.CanView)]
+        [AuthorizePermission(PermissionType.CanView)]
         [HttpGet("{id:int}")]
         [ResponseType(typeof(ViewBookDto), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status404NotFound)]

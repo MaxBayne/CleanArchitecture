@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.API.ActionFilters.Authorization.PermissionAuthorization;
+﻿using CleanArchitecture.API.Authorization.PermissionsAuthorization;
 using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
