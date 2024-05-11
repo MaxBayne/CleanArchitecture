@@ -10,9 +10,11 @@ namespace CleanArchitecture.Domain.Entities
         #region Properites
 
         public string Name { get; private set; }
-        public Genre? Genre { get; private set; }
         public decimal Price { get; private set; }
         public int Year { get; private set; }
+
+        public Genre? Genre { get; private set; }
+        public int GenreId { get; private set; }
 
         #endregion
 
@@ -22,6 +24,7 @@ namespace CleanArchitecture.Domain.Entities
         {
             Name = string.Empty;
             Genre=new Genre();
+            GenreId = Genre.Id;
             Price = 0;
             Year = 0;
         }
@@ -30,6 +33,7 @@ namespace CleanArchitecture.Domain.Entities
         {
             Name = name;
             Genre= genre;
+            GenreId = Genre.Id;
             Price = price;
             Year = year;
         }
@@ -38,6 +42,7 @@ namespace CleanArchitecture.Domain.Entities
         {
             Name = name;
             Genre =Genre.Create(genreId);
+            GenreId = genreId;
             Price = price;
             Year = year;
         }
@@ -46,6 +51,16 @@ namespace CleanArchitecture.Domain.Entities
         {
             Name = name;
             Genre = genre;
+            GenreId = Genre.Id;
+            Price = price;
+            Year = year;
+        }
+
+        public Game(int id, string name, int genreId, decimal price, int year) : base(id)
+        {
+            Name = name;
+            Genre = Genre.Create(genreId);
+            GenreId = genreId;
             Price = price;
             Year = year;
         }
@@ -94,6 +109,15 @@ namespace CleanArchitecture.Domain.Entities
             return newGame;
         }
 
+        public static Game Create(int id,string name, int genreId, decimal price, int year)
+        {
+            var newGame = new Game(id,name, genreId, price, year);
+
+            //Raise Event For Create Game
+            newGame.RegisterNotification(new GameCreatedNotification(newGame));
+
+            return newGame;
+        }
 
         #endregion
 
