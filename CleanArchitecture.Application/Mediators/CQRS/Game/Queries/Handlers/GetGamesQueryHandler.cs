@@ -22,7 +22,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Game.Queries.Handlers
             try
             {
                 //Get Data from Database using Repository as Entities
-                var gamesEntities = await _gameRepository.GetAllAsync();
+                var gamesEntities = await _gameRepository.Get_All_Games_With_Genre_Async();
                 
                 //Convert Domain Entity to Dto using AutoMapper
                 var gamesDto = AutoMapper.Map<List<ViewGameDto>>(gamesEntities);

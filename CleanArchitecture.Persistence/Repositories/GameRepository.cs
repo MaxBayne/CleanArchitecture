@@ -11,5 +11,10 @@ namespace CleanArchitecture.Persistence.Repositories
     public class GameRepository : GenericRepository<ApplicationDbContext, Game, int>, IGameRepository
     {
         public GameRepository(ApplicationDbContext dbContext) : base(dbContext) {}
+
+        public async Task<List<Game>> Get_All_Games_With_Genre_Async()
+        {
+            return await DbContext.Games.Include(c => c.Genre).ToListAsync();
+        }
     }
 }

@@ -5,6 +5,6 @@ namespace CleanArchitecture.Application.Interfaces.Persistence.Repositories
 {
     public interface IGameRepository : IGenericRepository<Game, int>
     {
-       
+        Task<List<Game>> Get_All_Games_With_Genre_Async();
     }
 }
