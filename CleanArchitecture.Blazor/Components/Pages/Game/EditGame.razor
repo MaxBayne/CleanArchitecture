@@ -21,8 +21,9 @@
 
     #region Overrides
 
+  
     //Called When Component receive data Over Parameters
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         ViewModel.Id = Id.Value;
 
@@ -39,13 +40,13 @@
             
 
             //Search For Current Game To can edit it
-            var currentGame = GamesClient.FindById(Id.Value);
+            var currentGame = await GamesClient.FindByIdAsync(Id.Value);
 
             if (currentGame != null)
             {
                 ViewModel.Id = currentGame.Id;
                 ViewModel.Name = currentGame.Name;
-                ViewModel.GenreId = currentGame.Genre.Id;
+                ViewModel.GenreId = currentGame.GenreId;
                 ViewModel.Price = currentGame.Price;
                 ViewModel.Year = currentGame.Year;
             }
@@ -66,11 +67,11 @@
 
     #region Form Events
 
-    private void HandleEditForm()
+    private async void HandleEditForm()
     {
         Logger.LogInformation($"(Submitted)=> Id:{ViewModel!.Id},Name:{ViewModel!.Name},GenreId:{ViewModel!.GenreId},Price:{ViewModel!.Price},Year:{ViewModel!.Year}");
 
-        GamesClient.UpdateGame(ViewModel!.Id, ViewModel!.Name!, ViewModel!.GenreId, ViewModel!.Price, ViewModel!.Year);
+        await GamesClient.UpdateGameAsync(ViewModel!.Id, ViewModel!.Name!, ViewModel!.GenreId, ViewModel!.Price, ViewModel!.Year);
 
         Navigation.NavigateTo("/game/list");
     }

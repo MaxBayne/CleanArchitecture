@@ -1,97 +1,147 @@
-﻿using CleanArchitecture.Blazor.Clients.Abstract;
+﻿using AutoMapper;
+using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Game;
+using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.Clients.Contracts;
+using CleanArchitecture.Blazor.Components.Pages.Game;
 using CleanArchitecture.Blazor.DataModels;
+using System.Net.Http;
 
 
-namespace CleanArchitecture.Blazor.Clients.Implements;
-
-
-// ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-public class GamesClient : BaseClient, IGamesClient
+namespace CleanArchitecture.Blazor.Clients.Implements
 {
-    private readonly List<GameModel> _gamesList;
-    private readonly IGenresClient _genresClient;
-
-    public GamesClient(IGenresClient genresClient)
+    public class GamesClient : BaseClient, IGamesClient
     {
-        _genresClient = genresClient;
-        _gamesList = new List<GameModel>()
+        private readonly IGenresClient _genresClient;
+        private readonly ILogger<GamesClient> _logger;
+        private readonly IMapper _mapper;
+        private readonly HttpClient _httpClient;
+        
+        public GamesClient(ILogger<GamesClient> logger,IMapper mapper, IGenresClient genresClient, HttpClient httpClient)
         {
-            new GameModel{Id=1,Name="Street Fighter",Genre=_genresClient.FindByName("Action")!,Price=150,Year=2010},
-            new GameModel{Id=2,Name="Call of Duty",Genre=_genresClient.FindByName("War")!,Price=46,Year=2008},
-            new GameModel{Id=3,Name="Medal Of Honor",Genre=_genresClient.FindByName("War")!,Price=98,Year=2019},
-            new GameModel{Id=4,Name="Need For Speed",Genre=_genresClient.FindByName("Family")!,Price=870,Year=2022},
-            new GameModel{Id=5,Name="Freedom Fighter",Genre=_genresClient.FindByName("Action")!,Price=450,Year=2018}
-        };
-    }
-
-    #region Retrieve
-
-    public List<GameModel> GetGamesList() => _gamesList;
-
-    public GameModel? FindById(int id) => _gamesList.FirstOrDefault(c => c.Id == id);
-
-    #endregion
-
-    #region Insert
-
-    public void AddGame(string name, int genreId, decimal price, int year)
-    {
-        var genre = _genresClient.FindById(genreId);
-
-        var newGame = new GameModel() 
-        {
-            Name=name,
-            Genre=genre!,
-            Price= price,
-            Year=year 
-        };
-
-        _gamesList.Add(newGame);
-
-        //Send New Game To Api Service
-    }
-
-    #endregion
-
-    #region Update
-
-    public void UpdateGame(int id,string name, int genreId, decimal price, int year)
-    {
-        var oldGame = FindById(id);
-        var genre = _genresClient.FindById(genreId);
-
-        if (oldGame != null)
-        {
-            oldGame.Name=name;
-            oldGame.Genre=genre!;
-            oldGame.Price=price;
-            oldGame.Year=year;
-
-            //Send Updated Game to Api Service
+            _logger = logger;
+            _mapper = mapper;
+            _httpClient = httpClient;
+            _genresClient = genresClient;
         }
 
+        #region Retrieve
 
-
-    }
-
-    #endregion
-
-    #region Delete
-
-    public void DeleteGame(int id)
-    {
-        var oldGame = FindById(id);
-
-        if (oldGame != null)
+        public async Task<List<GameModel>> GetGamesListAsync()
         {
-            _gamesList.Remove(oldGame);
+            List<GameModel> gamesList = new();
 
-            //Send Deleted Game To Api Service
+            try
+            {
+                //try to fetch games list from api if fail then will use memory version
+                var gamesFromApi = await _httpClient.GetFromJsonAsync<List<ViewGameDto>>("Game");
+
+                if (gamesFromApi != null)
+                {
+                    //convert from dto to model
+                    gamesList = _mapper.Map<List<GameModel>>(gamesFromApi);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+            return gamesList;
         }
 
+        public async Task<GameModel?> FindByIdAsync(int id) 
+        {
+            GameModel? game = null;
+
+            try
+            {
+                var fromApi = await _httpClient.GetFromJsonAsync<ViewGameDto>($"Game/{id}");
+
+                if (fromApi != null)
+                {
+                    //convert from dto to model
+                    game = _mapper.Map<GameModel>(fromApi);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+            return game;
+        }
+        
+
+        #endregion
+
+        #region Insert
+
+        public async Task AddGameAsync(string name, int genreId, decimal price, int year)
+        {
+            try
+            {
+                var newGameDto = new CreateGameDto()
+                {
+                    Name = name,
+                    GenreId = genreId,
+                    Price = price,
+                    Year = year
+                };
+
+                var post = await _httpClient.PostAsJsonAsync("Game", newGameDto);
+               
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Update
+
+        public async Task UpdateGameAsync(int id, string name, int genreId, decimal price, int year)
+        {
+            try
+            {
+                var editGameDto = new UpdateGameDto()
+                {
+                    Name = name,
+                    GenreId = genreId,
+                    Price = price,
+                    Year = year
+                };
+
+                var put = await _httpClient.PutAsJsonAsync($"Game/{id}", editGameDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            
+        }
+
+        #endregion
+
+        #region Delete
+
+        public async Task DeleteGameAsync(int id)
+        {
+            try
+            {
+                await _httpClient.DeleteAsync($"Game/{id}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        #endregion
+
     }
-
-    #endregion
-
 }
+
+
+

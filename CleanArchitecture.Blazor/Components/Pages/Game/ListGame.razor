@@ -15,11 +15,10 @@
     }
 
     //Called When Component is ready to start and its parameters was set
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ViewModel.GamesList = GamesClient.GetGamesList();
+        ViewModel.GamesList = await GamesClient.GetGamesListAsync();
     }
-
 }
 
 <style>

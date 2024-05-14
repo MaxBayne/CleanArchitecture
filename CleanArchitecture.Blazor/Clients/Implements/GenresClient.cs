@@ -9,9 +9,12 @@ namespace CleanArchitecture.Blazor.Clients.Implements;
 public class GenresClient : BaseClient, IGenresClient
 {
     private readonly List<GenreModel> _gameGenres;
+    private readonly HttpClient _httpClient;
 
-    public GenresClient()
+    public GenresClient(HttpClient httpClient)
     {
+        _httpClient = httpClient;
+
         _gameGenres = new List<GenreModel>
         {
             new GenreModel{ Id=1,Name="Action"},
@@ -19,6 +22,7 @@ public class GenresClient : BaseClient, IGenresClient
             new GenreModel{ Id=3,Name="Family"},
             new GenreModel{ Id=4,Name="Tricks"}
         };
+        
     }
 
     #region Retrieve

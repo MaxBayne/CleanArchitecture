@@ -27,11 +27,11 @@
 
     #region Form Events
 
-    private void HandleNewForm()
+    private async void HandleNewForm()
     {
         Logger.LogInformation($"(Created)=> Name={ViewModel.Name} , Genre={ViewModel.GenreId} , Price={ViewModel.Price} ,Year={ViewModel.Year}");
 
-        GamesClient.AddGame(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
+        await GamesClient.AddGameAsync(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
 
         Navigation.NavigateTo("/game/list");
     }

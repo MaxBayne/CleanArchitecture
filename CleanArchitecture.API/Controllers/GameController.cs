@@ -101,6 +101,7 @@ namespace CleanArchitecture.API.Controllers
             }
         }
 
+      
         // POST api/<GameController>
         [HttpPost]
         [ResponseType(StatusCodes.Status201Created)]
@@ -111,7 +112,7 @@ namespace CleanArchitecture.API.Controllers
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
                 var command = new CreateGameCommand(newGame);
-                
+
                 var response = await _mediator.Send(command, cancellationToken);
 
                 if (!response.IsSuccess)
@@ -122,7 +123,7 @@ namespace CleanArchitecture.API.Controllers
                 else
                 {
                     //On Response Success
-                    return CreatedAtAction(nameof(Get),new {id=response.Value!.ViewGameDto.Id},response);
+                    return CreatedAtAction(nameof(Get), new { id = response.Value!.ViewGameDto.Id }, response);
                 }
             }
             catch (Exception ex)
@@ -141,7 +142,7 @@ namespace CleanArchitecture.API.Controllers
             try
             {
                 //using Mediator to send request and mediator will handle it by handler and return the response
-                var command = new UpdateGameCommand(id,1, updatedGame);
+                var command = new UpdateGameCommand(id,0, updatedGame);
                 
                 var response = await _mediator.Send(command, cancellationToken);
 

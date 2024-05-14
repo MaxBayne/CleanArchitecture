@@ -110,7 +110,8 @@ namespace CleanArchitecture.Domain.Entities
 
         public Result ChangeGenre(int genreId)
         {
-            Genre = Genre.Create(genreId);
+            Genre = null;
+            GenreId = genreId;
 
             return Result.Success();
         }

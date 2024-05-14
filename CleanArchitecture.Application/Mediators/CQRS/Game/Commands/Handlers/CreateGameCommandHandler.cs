@@ -35,7 +35,7 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Game.Commands.Handlers
                 //Create Game using Entity
                 var createGameDto = request.CreateGameDto;
 
-                var newGameEntity = Domain.Entities.Game.Create(createGameDto.Name, createGameDto.Genre.Id, createGameDto.Price, createGameDto.Year);
+                var newGameEntity = Domain.Entities.Game.Create(createGameDto.Name, createGameDto.GenreId, createGameDto.Price, createGameDto.Year);
 
                 //Save Entity inside Database using Repository
                 await _gameRepository.AddAsync(newGameEntity);

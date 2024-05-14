@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CleanArchitecture.Blazor.DataModels.Abstract;
-using System.ComponentModel.DataAnnotations;
 
 namespace CleanArchitecture.Blazor.DataModels
 {
@@ -13,6 +12,8 @@ namespace CleanArchitecture.Blazor.DataModels
 
         [Required]
         public GenreModel Genre { get; set; } = new();
+
+        public int GenreId { get; set; }
 
         [Range(1,0)]
         public decimal Price { get; set; }

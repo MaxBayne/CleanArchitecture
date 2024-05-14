@@ -47,11 +47,12 @@ namespace CleanArchitecture.Application.Mediators.CQRS.Game.Commands.Handlers
 
                 //Update Current Entity with New Updated Entity
                 currentGameEntity.ChangeName(request.UpdatedGameDto.Name);
-                currentGameEntity.ChangeGenre(request.UpdatedGameDto.Genre.Id);
+                currentGameEntity.ChangeGenre(request.UpdatedGameDto.GenreId);
                 currentGameEntity.SetPrice(request.UpdatedGameDto.Price);
                 currentGameEntity.SetYear(request.UpdatedGameDto.Year);
 
                 
+
                 //Save Updated Entity inside database
                 await _gameRepository.UpdateAsync(currentGameEntity);
 

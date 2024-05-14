@@ -14,11 +14,11 @@
     [Parameter]
     public string? GameName { get; set; }
 
-    private void ConfirmDelete()
+    private async void ConfirmDelete()
     {
         if (GameId != null)
         {
-            GamesClient.DeleteGame(GameId.Value);
+            await GamesClient.DeleteGameAsync(GameId.Value);
 
             NavigationManager.Refresh();
         }
