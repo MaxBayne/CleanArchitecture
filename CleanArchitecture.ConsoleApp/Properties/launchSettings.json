@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CleanArchitecture.ConsoleApp": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
