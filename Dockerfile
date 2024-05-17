@@ -9,7 +9,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
-COPY ["../CleanArchitecture.ConsoleApp/CleanArchitecture.ConsoleApp.csproj", "CleanArchitecture.ConsoleApp/"]
+COPY ["CleanArchitecture.ConsoleApp/CleanArchitecture.ConsoleApp.csproj", "CleanArchitecture.ConsoleApp/"]
 RUN dotnet restore "./CleanArchitecture.ConsoleApp/./CleanArchitecture.ConsoleApp.csproj"
 COPY . .
 WORKDIR "/src/CleanArchitecture.ConsoleApp"
