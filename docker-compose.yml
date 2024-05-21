@@ -1,0 +1,79 @@
+
+# Define Networks -------------------------------------------------
+networks:
+    app-network:
+        driver: bridge
+
+# Define Volumes --------------------------------------------------
+volumes:
+  sql_server_2022_volume:
+    driver: local
+
+# Define Containers ----------------------------------------------
+services:
+
+  # 1- Config Sql Server Container
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server-2022
+    hostname: sql-server-2022-host
+    restart: always
+    networks:
+        app-network:
+            aliases:
+                - sqlserver2022
+    ports:
+        - "1433:1433"
+    volumes:
+        - sql_server_2022_volume:/var/opt/mssql
+        
+    environment:
+        - MSSQL_PID=Enterprise
+        - SA_PASSWORD=P@ssword
+        - ACCEPT_EULA=Y
+
+  # 2- Config API Container (Back-End)
+  webapi:
+    build:
+        context: .
+        dockerfile: CleanArchitecture.API/Dockerfile
+
+    container_name: web-api-service
+    hostname: web-api-service-host
+    networks:
+        - app-network
+    ports:
+        - "8080:8080"
+        - "8081:8081"
+    depends_on: 
+        - sqlserver2022
+
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__AppConnectionString=Server=sqlserver2022;Database=CleanArchitecture;User ID=sa;Password=P@ssword;TrustServerCertificate=True
+        - ConnectionStrings__IdentityConnectionString=Server=sqlserver2022;Database=CleanArchitecture;User ID=sa;Password=P@ssword;TrustServerCertificate=True
+
+  # 3- Config Blazor App Container (Front-End)
+  blazorapp:
+    build:
+        context: .
+        dockerfile: CleanArchitecture.Blazor/Dockerfile
+    container_name: blazor-app
+    hostname: blazor-app-host
+    networks:
+        - app-network
+    ports:
+        - "9090:8080"
+        - "9091:8081"
+    depends_on: 
+        - webapi
+
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development    
+        - Api__OnlineStoreApiUrl=http://webapi:8080/api/
+        
+        
+    
+
+
+  

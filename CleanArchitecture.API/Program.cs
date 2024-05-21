@@ -7,6 +7,7 @@ using CleanArchitecture.API;
 using CleanArchitecture.API.Middlewares;
 using CleanArchitecture.API.Authentication.BasicAuthentication;
 using Microsoft.AspNetCore.Authentication;
+using CleanArchitecture.API.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,9 @@ app.UseAuthorization();
 app.MapControllers(); //Endpoints over Controller classes
 app.MapEndpoints(); //Endpoints inside files
 
-//4-Start Application
+//4- Execute DbContext Migrations
+app.ExecuteDbMigrations();
+
+//5-Start Application
 //===================
 app.Run();

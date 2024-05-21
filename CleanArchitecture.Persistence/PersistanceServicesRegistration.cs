@@ -26,7 +26,7 @@ namespace CleanArchitecture.Persistence
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IGameRepository, GameRepository>();
-
+            
             return services;
         }
     }

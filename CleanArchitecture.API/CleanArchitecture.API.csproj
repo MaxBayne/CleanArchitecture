@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>7ab6ee2e-175b-4059-ac41-10276b155f43</UserSecretsId>
     <LangVersion>preview</LangVersion>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Ardalis.GuardClauses" />
   </ItemGroup>

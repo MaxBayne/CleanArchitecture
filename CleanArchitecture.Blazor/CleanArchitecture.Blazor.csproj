@@ -7,6 +7,7 @@
     <LangVersion>preview</LangVersion>
     <UserSecretsId>74bad295-a7ad-4416-b41b-0f5d55306ddc</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

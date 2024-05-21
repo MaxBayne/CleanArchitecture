@@ -10,20 +10,23 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
-COPY ["CleanArchitecture.Blazor/CleanArchitecture.Blazor.csproj", "CleanArchitecture.Blazor/"]
+COPY ["CleanArchitecture.API/CleanArchitecture.API.csproj", "CleanArchitecture.API/"]
 COPY ["CleanArchitecture.Application/CleanArchitecture.Application.csproj", "CleanArchitecture.Application/"]
 COPY ["CleanArchitecture.Domain/CleanArchitecture.Domain.csproj", "CleanArchitecture.Domain/"]
 COPY ["CleanArchitecture.Common/CleanArchitecture.Common.csproj", "CleanArchitecture.Common/"]
-RUN dotnet restore "./CleanArchitecture.Blazor/./CleanArchitecture.Blazor.csproj"
+COPY ["CleanArchitecture.Identity/CleanArchitecture.Identity.csproj", "CleanArchitecture.Identity/"]
+COPY ["CleanArchitecture.Infrastructure/CleanArchitecture.Infrastructure.csproj", "CleanArchitecture.Infrastructure/"]
+COPY ["CleanArchitecture.Persistence/CleanArchitecture.Persistence.csproj", "CleanArchitecture.Persistence/"]
+RUN dotnet restore "./CleanArchitecture.API/./CleanArchitecture.API.csproj"
 COPY . .
-WORKDIR "/src/CleanArchitecture.Blazor"
-RUN dotnet build "./CleanArchitecture.Blazor.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/CleanArchitecture.API"
+RUN dotnet build "./CleanArchitecture.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CleanArchitecture.Blazor.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./CleanArchitecture.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CleanArchitecture.Blazor.dll"]
+ENTRYPOINT ["dotnet", "CleanArchitecture.API.dll"]
