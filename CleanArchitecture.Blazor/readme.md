@@ -12,17 +12,28 @@ Server Side Modes
     - no interactivity between  client and server because its fully rendered into server
     - need to be online with server always
     - best for static pages that not need interactivity
+    - its rendered on server side with full page render
 
-# Stream Render (SR)  
+# Interactive Server Side Render (ISSR)  
 ---------------------------------------
-    - its called Stream Render
-    - its interactive render in server and update partial of ui of client
-    - not need to render full page just piece of code or UI
-    - its open connection with server using SignalR (Web Socket) for interactivity between client and server
+    - it depend on signalR communications
+    - we can set any component to use it by set (@rendermode InteractiveServer)
+    - its interactive render in server and update partial of ui of client so no full page rendering
     - need to be online with server always for interactivity
     - any reaction in client ui action sent to server to process it and take response to update ui only not full page just the interacted componenet
     - best for pages that need online and interactivity with user reaction like real time data
+    - its rendered on server side with partial page render
 
+# Interactive Server Side Render (Stream Render)  
+---------------------------------------
+    - it depend on (blazor.web.js) inside app.razor no need for signalR communications
+    - we can set any component to use it by set attributes of (@attribute [StreamRendering(true)])
+    - its interactive render in server and update partial of ui of client so no full page rendering
+    - need to be online with server always for interactivity
+    - any reaction in client ui action sent to server to process it and take response to update ui only not full page just the interacted componenet
+    - best for pages that need online and interactivity with user reaction like real time data
+    - its rendered on server side with partial page render
+    - its best when we have data and need page to be rendered partially and user can see page and wait for other data to be completed and then inject it inside page
 
 
 Client Side Modes

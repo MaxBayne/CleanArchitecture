@@ -1,5 +1,5 @@
 using CleanArchitecture.Blazor;
-using CleanArchitecture.Blazor.Components;
+using CleanArchitecture.Blazor.Views;
 
 
 
