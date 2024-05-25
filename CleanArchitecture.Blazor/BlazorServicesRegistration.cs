@@ -11,10 +11,11 @@ namespace CleanArchitecture.Blazor
         {
             //Register Services inside Dependency Injection System
 
-            
+
             // Add services (Dependency Injection) to the container.
             services.AddRazorComponents()
-                            .AddInteractiveServerComponents();//enable interactive Server Side Render (Web Socket)
+                            .AddInteractiveServerComponents()       //enable interactive in Server Side (Web Socket)
+                            .AddInteractiveWebAssemblyComponents(); //enable interactive in Client Side (Web Assembly)
                             
 
             //Add Other Services to container

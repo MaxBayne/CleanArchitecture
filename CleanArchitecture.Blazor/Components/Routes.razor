@@ -1,6 +1,32 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@using CleanArchitecture.Blazor.Components.Layout
+
+
+<Router AppAssembly="@typeof(Program).Assembly">
+    
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" /> *@
+        <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
+
 </Router>
+
+
+@code
+{
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+
+    private Type GetLayoutComponent(RouteData routeData)
+    {
+        var query = new Uri(NavigationManager.Uri).Query;
+        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(query);
+        if (queryParams.TryGetValue("lang", out var lang))
+        {
+            return lang == "ar" ? typeof(MainLayoutAr) : typeof(MainLayout);
+        }
+        return typeof(MainLayout); // Default to English layout
+    }
+
+}

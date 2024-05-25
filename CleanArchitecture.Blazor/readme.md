@@ -1,5 +1,5 @@
 Blazor Render Modes
---------------------
+--------------------------------------------------
             
 Server Side Modes
 =================
@@ -13,8 +13,10 @@ Server Side Modes
     - need to be online with server always
     - best for static pages that not need interactivity
 
-# Interactive Server Side Render (ISR)  
+# Stream Render (SR)  
 ---------------------------------------
+    - its called Stream Render
+    - its interactive render in server and update partial of ui of client
     - not need to render full page just piece of code or UI
     - its open connection with server using SignalR (Web Socket) for interactivity between client and server
     - need to be online with server always for interactivity
@@ -42,3 +44,21 @@ Auto Modes
     - Let Blazor Decided whice mode will be use server side or client side depend on many factors like browser or machine or speed of internet
     - First Time For Component will be used Interactive Server Side Render and in background will download and cache component in web assemblly
     - Second Time For Component will use cached version and using client side render for cached components
+
+
+
+Interactivity Location
+--------------------------------------------------
+# Global Location
+    - just set rendermode attribute to [App.razor] for (HeadOutlet) and (Routes) like below
+     <HeadOutlet @rendermode="InteractiveAuto" />
+     <Routes @rendermode="InteractiveAuto" />
+
+    - no need to specify any render mode to any components they will be share render mode from app.razor
+         
+
+# Per Component Location
+    - we need to set render mode directive to any component/page like below
+      @rendermode InteractiveAuto
+      @rendermode InteractiveServer
+      @rendermode InteractiveWebAssembly

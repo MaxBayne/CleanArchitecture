@@ -55,8 +55,12 @@ app.UseAuthorization();
 app.MapControllers(); //Endpoints over Controller classes
 app.MapEndpoints(); //Endpoints inside files
 
-//4- Execute DbContext Migrations
-app.ExecuteDbMigrations();
+//4- Execute DbContext Migrations on Production Only
+if (!app.Environment.IsDevelopment())
+{
+    app.ExecuteDbMigrations();
+}
+
 
 //5-Start Application
 //===================
