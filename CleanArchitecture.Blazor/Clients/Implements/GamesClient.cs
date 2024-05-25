@@ -2,7 +2,7 @@
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Game;
 using CleanArchitecture.Blazor.Clients.Abstract;
 using CleanArchitecture.Blazor.Clients.Contracts;
-using CleanArchitecture.Blazor.Components.Pages.Game;
+using CleanArchitecture.Blazor.Views.Pages.Game;
 using CleanArchitecture.Blazor.DataModels;
 using System.Net.Http;
 
