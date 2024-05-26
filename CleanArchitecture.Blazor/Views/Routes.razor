@@ -1,30 +1,26 @@
-<<<<<<< HEAD
-﻿@using CleanArchitecture.Blazor.Views.Layout
-=======
-﻿@using CleanArchitecture.Blazor.Views.Components.Layout
->>>>>>> 8b9a85b426e4672517b8b4d72f503f4dfa09bdf5
-
-
+@using CleanArchitecture.Blazor.Views.Layout
+﻿
 <Router AppAssembly="@typeof(Program).Assembly">
     
     <Found Context="routeData">
-        @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" /> *@
-        <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" />
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        @* <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" /> *@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 
 </Router>
 
 
-@code
+@* @code
 {
     [Inject]
-    private NavigationManager NavigationManager { get; set; }
+    private NavigationManager? NavigationManager { get; set; }
 
 
     private Type GetLayoutComponent(RouteData routeData)
     {
-        var query = new Uri(NavigationManager.Uri).Query;
+        var uri = NavigationManager?.Uri;
+        var query = new Uri(uri??"").Query;
         var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(query);
         if (queryParams.TryGetValue("lang", out var lang))
         {
@@ -33,4 +29,4 @@
         return typeof(MainLayout); // Default to English layout
     }
 
-}
+} *@

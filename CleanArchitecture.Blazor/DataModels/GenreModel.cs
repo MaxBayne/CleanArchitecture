@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Blazor.DataModels.Abstract;
+using CleanArchitecture.Blazor.DataModels.Abstract;
 
 namespace CleanArchitecture.Blazor.DataModels
 {

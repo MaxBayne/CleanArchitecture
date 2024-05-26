@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using CleanArchitecture.Blazor.Clients.Contracts;
 using CleanArchitecture.Blazor.Clients.Implements;
 using CleanArchitecture.Blazor.ViewModels.Game;
@@ -31,7 +31,6 @@ namespace CleanArchitecture.Blazor
             {
                 httpClient.BaseAddress = new Uri(configuration["Api:OnlineStoreApiUrl"] ?? throw new Exception("Missing Setting (Api:OnlineStoreApiUrl) inside appsettings.json"));
             });
-
 
             //Register ViewModels
             services.AddScoped<CreateGameViewModel>();

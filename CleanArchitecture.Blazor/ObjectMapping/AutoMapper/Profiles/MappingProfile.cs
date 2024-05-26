@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Game;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Genre;
 using CleanArchitecture.Blazor.DataModels;

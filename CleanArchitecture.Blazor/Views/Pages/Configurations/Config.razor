@@ -1,0 +1,16 @@
+@page "/config"
+
+@inject IConfiguration config
+
+@code {
+    
+}
+
+<PageTitle>Configuration</PageTitle>
+
+<h3>Config</h3>
+
+<p><b>OnlineStoreApiUrl</b> = @config.GetValue(typeof(string), "Api:OnlineStoreApiUrl")</p>
+<p><b>SecretKey</b> = @config.GetValue(typeof(string),"Api:SecretKey")</p>
+
+

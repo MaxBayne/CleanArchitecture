@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,7 +18,29 @@
     <Routes />
     <script src="_framework/blazor.web.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    
+    @* <script>
+        // Function to remove the BOM from the body tag
+        function removeBOM()
+        {
+            // Get the body element
+            var body = document.body;
+
+            // Convert the body HTML to a string
+            var bodyHTML = body.innerHTML;
+
+            // Define the BOM character
+            var BOM = '\uFEFF';
+
+            // Replace all occurrences of the BOM with an empty string
+            var cleanedHTML = bodyHTML.split(BOM).join('');
+
+            // Update the body HTML
+            body.innerHTML = cleanedHTML;
+        }
+
+        // Execute the function to remove the BOM
+        removeBOM();
+    </script> *@
 </body>
 
 </html>

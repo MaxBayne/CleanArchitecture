@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using CleanArchitecture.Blazor.DataModels;
 using CleanArchitecture.Blazor.ViewModels.Abstract;
 

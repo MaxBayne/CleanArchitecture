@@ -1,7 +1,8 @@
-﻿@using CleanArchitecture.Blazor.ViewModels.Game
+@using CleanArchitecture.Blazor.ViewModels.Game
 
 @page "/game/list"
 @rendermode InteractiveAuto
+@attribute [StreamRendering(true)]
 @inject IGamesClient GamesClient
 @inject ListGameViewModel ViewModel
 

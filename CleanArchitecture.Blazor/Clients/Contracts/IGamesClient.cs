@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Blazor.DataModels;
+using CleanArchitecture.Blazor.DataModels;
 
 namespace CleanArchitecture.Blazor.Clients.Contracts
 {

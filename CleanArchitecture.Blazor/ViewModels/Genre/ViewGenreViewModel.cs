@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Blazor.ViewModels.Abstract;
+using CleanArchitecture.Blazor.ViewModels.Abstract;
 
 namespace CleanArchitecture.Blazor.ViewModels.Genre
 {
