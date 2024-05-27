@@ -1,0 +1,90 @@
+﻿@using CleanArchitecture.BlazorApp.ViewModels.Game
+
+@page "/game/add"
+@rendermode InteractiveServer
+
+@inject NavigationManager Navigation
+@inject IGamesClient GamesClient
+@inject IGenresClient GenresClient
+@inject ILogger<CreateGame> Logger
+
+
+@code
+{
+    [Inject]
+    [SupplyParameterFromForm]
+    private CreateGameViewModel ViewModel { get; set; } = null!;
+
+    #region Overrides
+
+    //Called When Component is ready to start and its parameters was set
+    protected override void OnInitialized()
+    {
+        ViewModel.GenresList = GenresClient.GetGameGenres();
+    }
+
+    #endregion
+
+    #region Form Events
+
+    private async void HandleNewForm()
+    {
+        Logger.LogInformation($"(Created)=> Name={ViewModel.Name} , Genre={ViewModel.GenreId} , Price={ViewModel.Price} ,Year={ViewModel.Year}");
+
+        await GamesClient.AddGameAsync(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
+
+        Navigation.NavigateTo("/game/list");
+    }
+
+    #endregion
+
+}
+
+<PageTitle>New Game</PageTitle>
+
+<h3>New Game</h3>
+
+<EditForm class="row g-3" Model="ViewModel" FormName="FormNewGame" OnValidSubmit="HandleNewForm">
+
+    <DataAnnotationsValidator />
+
+    <ValidationSummary />
+
+    <div class="col-12">
+        <label for="txtName" class="form-label">Name</label>
+        <InputText id="txtName" @bind-Value="ViewModel.Name" class="form-control" placeholder="Name" />
+        <ValidationMessage For="()=>ViewModel.Name" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="cboGenre" class="form-label">Genre</label>
+        <InputSelect id="cboGenre" class="form-select" @bind-Value="ViewModel.GenreId">
+            <option value="-1" selected>Select...</option>
+
+            @foreach (var genre in ViewModel.GenresList)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
+
+        </InputSelect>
+
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtPrice" class="form-label">Price</label>
+        <InputNumber id="txtPrice" class="form-control" @bind-Value="ViewModel.Price" />
+        <ValidationMessage For="()=>ViewModel.Price" />
+    </div>
+
+    <div class="col-md-4">
+        <label for="txtYear" class="form-label">Year</label>
+        <InputNumber id="txtYear" class="form-control" @bind-Value="ViewModel.Year" />
+        <ValidationMessage For="()=>ViewModel.Year" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary" role="button">Save</button>
+        <a class="btn btn-secondary" role="button" href="game/list">Cancel</a>
+    </div>
+
+</EditForm>

@@ -1,0 +1,24 @@
+﻿@page "/counter"
+@rendermode InteractiveAuto
+
+@code
+{
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current Count = @currentCount</p>
+
+<button type="button" class="btn btn-primary" @onclick="IncrementCount">Click Me</button>
+
+
+
