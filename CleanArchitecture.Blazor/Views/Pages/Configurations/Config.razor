@@ -3,14 +3,17 @@
 @inject IConfiguration config
 
 @code {
-    
+
 }
 
-<PageTitle>Configuration</PageTitle>
+
+<HeadContent>
+    <title>Configuration</title>
+</HeadContent>
 
 <h3>Config</h3>
 
 <p><b>OnlineStoreApiUrl</b> = @config.GetValue(typeof(string), "Api:OnlineStoreApiUrl")</p>
-<p><b>SecretKey</b> = @config.GetValue(typeof(string),"Api:SecretKey")</p>
+<p><b>SecretKey</b> = @(config.GetValue<string>("Api:SecretKey"))</p>
 
 

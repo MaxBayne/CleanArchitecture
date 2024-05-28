@@ -1,6 +1,5 @@
-namespace CleanArchitecture.Blazor.DataModels.Abstract
+namespace CleanArchitecture.Blazor.DataModels.Abstract;
+
+public abstract class BaseDataModel
 {
-    public abstract class BaseDataModel
-    {
-    }
 }

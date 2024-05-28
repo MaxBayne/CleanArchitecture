@@ -61,7 +61,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.ConsoleAp
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{73B7838C-B5FA-488A-8C65-3069CB9D4D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.BlazorApp", "CleanArchitecture.BlazorApp\CleanArchitecture.BlazorApp.csproj", "{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.BlazorApp", "CleanArchitecture.BlazorApp\CleanArchitecture.BlazorApp.csproj", "{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Blazor", "CleanArchitecture.Blazor\CleanArchitecture.Blazor.csproj", "{96BE7A01-67FA-4700-984F-F27F30AD98A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Blazor.Client", "CleanArchitecture.Blazor.Client\CleanArchitecture.Blazor.Client.csproj", "{120D2869-DA9C-43B0-B3D6-1FB514A77D17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +125,14 @@ Global
 		{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BE7A01-67FA-4700-984F-F27F30AD98A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BE7A01-67FA-4700-984F-F27F30AD98A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BE7A01-67FA-4700-984F-F27F30AD98A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BE7A01-67FA-4700-984F-F27F30AD98A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120D2869-DA9C-43B0-B3D6-1FB514A77D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120D2869-DA9C-43B0-B3D6-1FB514A77D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120D2869-DA9C-43B0-B3D6-1FB514A77D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120D2869-DA9C-43B0-B3D6-1FB514A77D17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,7 +161,9 @@ Global
 		{809FFC86-CF70-4BB9-8B9F-002662D1B805} = {BBBC6520-6F15-40BD-AD51-06682BBA9057}
 		{9DACA8E8-E240-4C4A-A4A1-C673983286A9} = {6F0848EE-9CE7-4651-B1B9-164976CAB2A8}
 		{73B7838C-B5FA-488A-8C65-3069CB9D4D6B} = {F325EAAE-84F2-444D-8571-46B0AE71909C}
-		{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751} = {6F0848EE-9CE7-4651-B1B9-164976CAB2A8}
+		{2CE7CBDA-E56B-4ED5-B9D1-B2809B34A751} = {5F142214-1DAD-406E-875E-B582DAE67CBB}
+		{96BE7A01-67FA-4700-984F-F27F30AD98A7} = {5F142214-1DAD-406E-875E-B582DAE67CBB}
+		{120D2869-DA9C-43B0-B3D6-1FB514A77D17} = {6F0848EE-9CE7-4651-B1B9-164976CAB2A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB67E615-C170-49F7-8E60-FEB0FD7F51DC}

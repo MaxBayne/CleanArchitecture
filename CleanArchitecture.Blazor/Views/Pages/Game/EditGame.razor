@@ -21,23 +21,23 @@
 
     #region Overrides
 
-  
+
     //Called When Component receive data Over Parameters
     protected override async Task OnParametersSetAsync()
     {
         ViewModel.Id = Id.Value;
 
 
-         if (ViewModel!.Name != null)
-         {
-             //When Form Submitted inside ViewModel
-             
-             return;
+        if (ViewModel!.Name != null)
+        {
+            //When Form Submitted inside ViewModel
+
+            return;
         }
 
         if (Id is not null)
         {
-            
+
 
             //Search For Current Game To can edit it
             var currentGame = await GamesClient.FindByIdAsync(Id.Value);

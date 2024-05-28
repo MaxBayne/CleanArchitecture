@@ -1,8 +1,8 @@
-using CleanArchitecture.Blazor.Clients.Abstract;
-using CleanArchitecture.Blazor.Clients.Contracts;
+using CleanArchitecture.Blazor.ApiClients.Abstract;
+using CleanArchitecture.Blazor.ApiClients.Contracts;
 using CleanArchitecture.Blazor.DataModels;
 
-namespace CleanArchitecture.Blazor.Clients.Implements;
+namespace CleanArchitecture.Blazor.ApiClients.Implements;
 
 
 

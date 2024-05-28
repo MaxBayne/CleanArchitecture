@@ -1,6 +1,6 @@
 using CleanArchitecture.BlazorApp.DataModels;
 
-namespace CleanArchitecture.BlazorApp.Clients.Contracts;
+namespace CleanArchitecture.BlazorApp.ApiClients.Contracts;
 
 public interface IGamesClient
 {

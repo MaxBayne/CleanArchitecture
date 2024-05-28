@@ -1,17 +1,6 @@
 ﻿@using CleanArchitecture.Blazor.Views.Layout
-﻿
-<Router AppAssembly="@typeof(Program).Assembly">
-    
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
-        @* <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" /> *@
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
 
-</Router>
-
-
-@* @code
+@code
 {
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
@@ -29,4 +18,12 @@
         return typeof(MainLayout); // Default to English layout
     }
 
-} *@
+}
+
+<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client.Views._Imports).Assembly }">
+    <Found Context="routeData">
+        @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" /> *@
+        <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+</Router>

@@ -1,11 +1,11 @@
 using AutoMapper;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Game;
-using CleanArchitecture.BlazorApp.Clients.Abstract;
-using CleanArchitecture.BlazorApp.Clients.Contracts;
-using CleanArchitecture.BlazorApp.DataModels;
+using CleanArchitecture.Blazor.ApiClients.Abstract;
+using CleanArchitecture.Blazor.ApiClients.Contracts;
+using CleanArchitecture.Blazor.DataModels;
 using System.Net.Http;
 
-namespace CleanArchitecture.BlazorApp.Clients.Implements;
+namespace CleanArchitecture.Blazor.ApiClients.Implements;
 
 public class GamesClient : BaseClient, IGamesClient
 {

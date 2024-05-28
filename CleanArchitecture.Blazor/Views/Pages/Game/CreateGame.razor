@@ -44,12 +44,12 @@
 
 <h3>New Game</h3>
 
-<EditForm class="row g-3" Model="ViewModel"  FormName="FormNewGame" OnValidSubmit="HandleNewForm">
-    
+<EditForm class="row g-3" Model="ViewModel" FormName="FormNewGame" OnValidSubmit="HandleNewForm">
+
     <DataAnnotationsValidator />
-    
+
     <ValidationSummary />
-    
+
     <div class="col-12">
         <label for="txtName" class="form-label">Name</label>
         <InputText id="txtName" @bind-Value="ViewModel.Name" class="form-control" placeholder="Name" />
@@ -67,7 +67,7 @@
             }
 
         </InputSelect>
-        
+
     </div>
 
     <div class="col-md-4">

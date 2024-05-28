@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="lib/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="CleanArchitecture.Blazor.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <HeadOutlet />
 </head>
 
@@ -18,29 +18,6 @@
     <Routes />
     <script src="_framework/blazor.web.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    @* <script>
-        // Function to remove the BOM from the body tag
-        function removeBOM()
-        {
-            // Get the body element
-            var body = document.body;
-
-            // Convert the body HTML to a string
-            var bodyHTML = body.innerHTML;
-
-            // Define the BOM character
-            var BOM = '\uFEFF';
-
-            // Replace all occurrences of the BOM with an empty string
-            var cleanedHTML = bodyHTML.split(BOM).join('');
-
-            // Update the body HTML
-            body.innerHTML = cleanedHTML;
-        }
-
-        // Execute the function to remove the BOM
-        removeBOM();
-    </script> *@
 </body>
 
 </html>

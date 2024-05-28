@@ -1,6 +1,6 @@
 using System.Reflection;
-using CleanArchitecture.Blazor.Clients.Contracts;
-using CleanArchitecture.Blazor.Clients.Implements;
+using CleanArchitecture.Blazor.ApiClients.Contracts;
+using CleanArchitecture.Blazor.ApiClients.Implements;
 using CleanArchitecture.Blazor.ViewModels.Game;
 
 namespace CleanArchitecture.Blazor

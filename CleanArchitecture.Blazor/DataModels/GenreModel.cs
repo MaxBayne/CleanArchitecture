@@ -1,10 +1,9 @@
 using CleanArchitecture.Blazor.DataModels.Abstract;
 
-namespace CleanArchitecture.Blazor.DataModels
+namespace CleanArchitecture.Blazor.DataModels;
+
+public class GenreModel:BaseDataModel
 {
-    public class GenreModel:BaseDataModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
 }
