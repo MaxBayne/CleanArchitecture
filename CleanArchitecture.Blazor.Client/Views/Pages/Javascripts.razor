@@ -1,0 +1,46 @@
+﻿@page "/javascripts"
+@rendermode InteractiveAuto
+@inject IJSRuntime js
+
+@code
+{
+    private IJSObjectReference? jsFile;
+    private int sumResult=0;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsFile = await js.InvokeAsync<IJSObjectReference>("import", "./Views/Pages/Javascripts.razor.js");
+    }
+
+    private async Task CallJavascriptMethod()
+    {
+        await jsFile.InvokeVoidAsync("displayMessage","iam javascipt message invoked from c#");
+    }
+
+    private async Task CallJavascriptFunction()
+    {
+        sumResult = await jsFile.InvokeAsync<int>("calcSum", 10,20);
+    }
+
+}
+
+<PageTitle>Component Javascript</PageTitle>
+
+<h3>Component JavaScripts</h3>
+
+<br />
+<br />
+
+<h4>Call Javascript Method</h4>
+
+<button type="button" class="btn btn-primary" @onclick="CallJavascriptMethod">Call Javascript Method</button>
+
+<br />
+<br />
+
+<h4>Call Javascript Function</h4>
+
+<button type="button" class="btn btn-primary" @onclick="CallJavascriptFunction">Call Javascript Function</button>
+<br />
+Sum Result = @sumResult
+<hr />
