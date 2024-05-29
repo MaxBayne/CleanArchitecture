@@ -1,6 +1,7 @@
 using CleanArchitecture.Blazor;
 using CleanArchitecture.Blazor.Views;
-using CleanArchitecture.Blazor.Client.Views.Pages.Counter;
+using CleanArchitecture.Blazor.Client.Views.Pages;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
