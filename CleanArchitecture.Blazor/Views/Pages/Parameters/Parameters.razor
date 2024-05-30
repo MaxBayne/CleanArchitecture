@@ -1,0 +1,102 @@
+﻿@page "/parameters"
+@page "/parameters/{Title?}"
+@page "/parameters/{Title?}/{Description?}/"
+@page "/parameters/{Price:decimal}"
+
+@rendermode InteractiveServer
+
+@code 
+{
+    [Parameter]
+    public string? Title{ get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public decimal? Price { get; set; }
+
+    ///parameters?phone=01091281295
+    [SupplyParameterFromQuery(Name="phone")]
+    public string? Phone{ get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Title = Title ?? "Default Title";
+        Description = Description ?? "Default Description";
+        Price = Price ?? 0;
+    }
+}
+
+<PageTitle>Parameters</PageTitle>
+
+<h3>Parameters</h3>
+
+<h6>Title: @Title</h6>
+<h6>Description: @Description</h6>
+<h6>Price: @Price</h6>
+<h6>Phone: @Phone</h6>
+
+<hr />
+
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p id="SpcialElementId">This is Special Element With Id [SpcialElementId]</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
+<p>This is the Test of Our Info</p>
