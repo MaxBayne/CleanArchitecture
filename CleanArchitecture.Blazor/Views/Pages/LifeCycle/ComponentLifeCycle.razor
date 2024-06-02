@@ -23,10 +23,29 @@
         logger.LogInformation($"This is From OnAfterRender (firstRender={firstRender})");
     }
 
+    private void Reset()
+    {
+        CounterValue=0;
+    }
 
     private void Increment()
     {
         CounterValue+=1;
+    }
+
+    private async Task IncrementAsync()
+    {
+        CounterValue ++;
+
+        await Task.Delay(2000);
+
+        CounterValue++;
+
+        StateHasChanged();
+
+        await Task.Delay(2000);
+
+        CounterValue++;
     }
 }
 
@@ -34,5 +53,8 @@
 
 <h3>Component Life Cycle</h3>
 
-<button type="button" class="btn btn-primary" @onclick="()=>Increment()">Count</button>
+<button type="button" class="btn btn-primary" @onclick="()=>Increment()">Count Sync</button>
+<button type="button" class="btn btn-primary" @onclick="()=>IncrementAsync()">Count Async</button>
+<button type="button" class="btn btn-secondary" @onclick="()=>Reset()">Reset</button>
+
 <h6>@CounterValue</h6>

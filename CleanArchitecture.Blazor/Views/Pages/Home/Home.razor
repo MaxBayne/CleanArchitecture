@@ -1,6 +1,16 @@
 @page "/"
 @using CleanArchitecture.Blazor.Views.Pages.Parameters
+@rendermode InteractiveServer
 
+@code
+{
+    private decimal Price{ get; set; }
+
+    private void PriceChanged(decimal value)
+    {
+        Price = value;
+    }
+}
 
 <PageTitle>Home</PageTitle>
 
@@ -10,4 +20,9 @@
 
 <hr />
 
-<Parameters Title="Title" Description="Description" />
+
+<Parameters Title="Title" Description="Description" OnPriceChanged="PriceChanged" />
+
+<h5 style="background-color:lightyellow">Price From Child Componenet = @Price</h5>
+
+<hr />

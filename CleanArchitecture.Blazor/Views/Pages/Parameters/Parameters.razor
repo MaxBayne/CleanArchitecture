@@ -7,6 +7,8 @@
 
 @code 
 {
+    // Inputs Parameters ===========================
+
     [Parameter]
     public string? Title{ get; set; }
 
@@ -15,6 +17,11 @@
 
     [Parameter]
     public decimal? Price { get; set; }
+
+    // Outputs Parameters ===========================
+
+    [Parameter]
+    public EventCallback<decimal> OnPriceChanged{ get; set; }
 
     ///parameters?phone=01091281295
     [SupplyParameterFromQuery(Name="phone")]
@@ -26,77 +33,25 @@
         Description = Description ?? "Default Description";
         Price = Price ?? 0;
     }
+
+    private async Task ChangePriceAsync()
+    {
+        Price += 100;
+
+        await OnPriceChanged.InvokeAsync(Price.Value);
+    }
 }
 
 <PageTitle>Parameters</PageTitle>
 
-<h3>Parameters</h3>
+<h3 id="SpcialElementId">Parameters</h3>
 
 <h6>Title: @Title</h6>
 <h6>Description: @Description</h6>
 <h6>Price: @Price</h6>
 <h6>Phone: @Phone</h6>
 
-<hr />
+<button type="button" class="btn btn-outline-primary" @onclick="()=>ChangePriceAsync()">Change Price</button>
 
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p id="SpcialElementId">This is Special Element With Id [SpcialElementId]</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
-<p>This is the Test of Our Info</p>
+<br />
+<br />
