@@ -9,22 +9,21 @@
     <a class="navbar-brand" href="">
         <span class="bi bi-mask" aria-hidden="true"></span>
         Blazor Application
+        
+        <div style="font-size:17px;color:gray;text-align:center;margin-left:20px">@DateTime.Now.ToLongTimeString()</div>
+        
     </a>
+    
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
+        
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link p-2" href="game/list">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Games
             </NavLink>
         </div>
 
@@ -82,6 +81,17 @@
             </NavLink>
         </div>
 
+        <div class="nav-item px-3">
+            <NavLink class="nav-link p-2" href="games">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Forms (List)
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link p-2" href="games/add">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Forms (Add)
+            </NavLink>
+        </div>
         
 
     </nav>

@@ -1,6 +1,6 @@
 ﻿@using CleanArchitecture.Blazor.ViewModels.Game
 
-@page "/game/list"
+@page "/games"
 @rendermode InteractiveAuto
 @attribute [StreamRendering(true)]
 @inject IGamesClient GamesClient
@@ -36,7 +36,7 @@
     </div>
 
     <div class="col-md-6">
-        <a class="btn btn-primary" style="float:right;" role="button" href="/game/add">
+        <a class="btn btn-primary" style="float:right;" role="button" href="/games/add">
             <i class="bi bi-plus"></i>
             New Game
         </a>

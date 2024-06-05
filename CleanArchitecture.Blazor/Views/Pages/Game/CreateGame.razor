@@ -1,6 +1,6 @@
 ﻿@using CleanArchitecture.Blazor.ViewModels.Game
 
-@page "/game/add"
+@page "/games/add"
 @rendermode InteractiveServer
 
 @inject NavigationManager Navigation
@@ -15,12 +15,16 @@
     [SupplyParameterFromForm]
     private CreateGameViewModel ViewModel { get; set; } = null!;
 
+    private List<GameModel> Games { get; set; } = null!;
+
     #region Overrides
 
     //Called When Component is ready to start and its parameters was set
     protected override void OnInitialized()
     {
         ViewModel.GenresList = GenresClient.GetGameGenres();
+
+        Games = new List<GameModel>();
     }
 
     #endregion
@@ -31,9 +35,19 @@
     {
         Logger.LogInformation($"(Created)=> Name={ViewModel.Name} , Genre={ViewModel.GenreId} , Price={ViewModel.Price} ,Year={ViewModel.Year}");
 
-        await GamesClient.AddGameAsync(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
+        Games.Add(new GameModel
+        {
+            Name = ViewModel.Name,
+            Price = ViewModel.Price,
+            Year = ViewModel.Year
+        });
 
-        Navigation.NavigateTo("/game/list");
+        if (ViewModel.UseApi)
+        {
+            await GamesClient.AddGameAsync(ViewModel.Name, ViewModel.GenreId, ViewModel.Price, ViewModel.Year);
+            Navigation.NavigateTo("/games");
+        }
+        
     }
 
     #endregion
@@ -83,8 +97,25 @@
     </div>
 
     <div class="col-12">
+        <label for="chkUseApi" class="form-check-label">Use Api</label>
+        <InputCheckbox id="chkUseApi" class="form-check-input" @bind-Value="ViewModel.UseApi" />
+    </div>
+
+    <div class="col-12">
         <button type="submit" class="btn btn-primary" role="button">Save</button>
-        <a class="btn btn-secondary" role="button" href="game/list">Cancel</a>
+        <button type="reset" class="btn btn-secondary" role="button">Reset</button>
+        <a class="btn btn-secondary" role="button" href="games">Cancel</a>
     </div>
 
 </EditForm>
+
+<hr />
+
+<ul>
+    @foreach(var game in Games)
+    {
+        <li>
+            <b>Name = </b> @game.Name - <b>Price = </b> @game.Price - <b>Year = </b> @game.Year
+        </li>
+    }
+</ul>

@@ -1,6 +1,6 @@
 ﻿@using CleanArchitecture.Blazor.ViewModels.Game
 
-@page "/game/edit/{Id:int}"
+@page "/games/edit/{Id:int}"
 @rendermode InteractiveWebAssembly
 
 @inject NavigationManager Navigation
@@ -73,7 +73,7 @@
 
         await GamesClient.UpdateGameAsync(ViewModel!.Id, ViewModel!.Name!, ViewModel!.GenreId, ViewModel!.Price, ViewModel!.Year);
 
-        Navigation.NavigateTo("/game/list");
+        Navigation.NavigateTo("/games");
     }
 
     #endregion
@@ -128,7 +128,7 @@
 
         <div class="col-12">
             <button type="submit" class="btn btn-primary" role="button">Save Changes</button>
-            <a class="btn btn-secondary" role="button" href="/game/list">Cancel</a>
+            <a class="btn btn-secondary" role="button" href="/games">Cancel</a>
         </div>
 
     </EditForm>

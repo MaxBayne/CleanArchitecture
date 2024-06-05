@@ -20,6 +20,7 @@ public class CreateGameViewModel : BaseViewModel
     [Required(ErrorMessage = "Year Field is Required")]
     public int Year { get; set; }
 
+    public bool UseApi { get; set; }
 
     
     public List<GenreModel> GenresList { get; set; } = null!;
