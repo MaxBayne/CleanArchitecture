@@ -97,6 +97,16 @@
     </div>
 
     <div class="col-12">
+        <label for="txtDescription" class="form-label">Description</label>
+        <InputTextArea id="txtDescription" class="form-control" placeholder="Description Here" rows="3" @bind-Value="ViewModel.Description" />
+    </div>
+
+
+
+
+
+
+    <div class="col-12">
         <label for="chkUseApi" class="form-check-label">Use Api</label>
         <InputCheckbox id="chkUseApi" class="form-check-input" @bind-Value="ViewModel.UseApi" />
     </div>

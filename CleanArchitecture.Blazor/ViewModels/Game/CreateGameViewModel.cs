@@ -22,6 +22,7 @@ public class CreateGameViewModel : BaseViewModel
 
     public bool UseApi { get; set; }
 
+    public string Description { get; set; }
     
     public List<GenreModel> GenresList { get; set; } = null!;
 
