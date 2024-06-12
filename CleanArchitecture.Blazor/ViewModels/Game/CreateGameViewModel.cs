@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using CleanArchitecture.Blazor.DataModels;
+using CleanArchitecture.Blazor.ViewEnums;
 using CleanArchitecture.Blazor.ViewModels.Abstract;
 
 namespace CleanArchitecture.Blazor.ViewModels.Game;
@@ -23,6 +24,11 @@ public class CreateGameViewModel : BaseViewModel
     public bool UseApi { get; set; }
 
     public string Description { get; set; }
+
+    public DateTime CreatedDate { get; set; }
+
+    public GameRateEnum Rate { get; set; }
+
     
     public List<GenreModel> GenresList { get; set; } = null!;
 
