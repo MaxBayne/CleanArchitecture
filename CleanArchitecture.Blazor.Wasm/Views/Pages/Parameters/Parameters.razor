@@ -1,0 +1,55 @@
+﻿@page "/parameters"
+@page "/parameters/{Title?}"
+@page "/parameters/{Title?}/{Description?}/"
+@page "/parameters/{Price:decimal}"
+
+@code 
+{
+    // Inputs Parameters ===========================
+
+    [Parameter]
+    public string? Title{ get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public decimal? Price { get; set; }
+
+    // Outputs Parameters ===========================
+
+    [Parameter]
+    public EventCallback<decimal> OnPriceChanged{ get; set; }
+
+    ///parameters?phone=01091281295
+    [SupplyParameterFromQuery(Name="phone")]
+    public string? Phone{ get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Title = Title ?? "Default Title";
+        Description = Description ?? "Default Description";
+        Price = Price ?? 0;
+    }
+
+    private async Task ChangePriceAsync()
+    {
+        Price += 100;
+
+        await OnPriceChanged.InvokeAsync(Price.Value);
+    }
+}
+
+<PageTitle>Parameters</PageTitle>
+
+<h3 id="SpcialElementId">Parameters</h3>
+
+<h6>Title: @Title</h6>
+<h6>Description: @Description</h6>
+<h6>Price: @Price</h6>
+<h6>Phone: @Phone</h6>
+
+<button type="button" class="btn btn-outline-primary" @onclick="()=>ChangePriceAsync()">Change Price</button>
+
+<br />
+<br />

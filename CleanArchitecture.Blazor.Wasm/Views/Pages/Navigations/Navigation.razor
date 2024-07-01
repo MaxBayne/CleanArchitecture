@@ -1,0 +1,44 @@
+﻿@page "/navigations"
+@inject NavigationManager navigation
+
+@code 
+{
+    private void Go_To_Page_Parameters_Special_Element()
+    {
+        navigation.NavigateTo("/parameters#SpcialElementId");
+    }
+
+    private void Go_To_Page_Parameters()
+    {
+        navigation.NavigateTo("/parameters/maxbayne?phone=01091281295");
+    }
+
+    private void Go_To_Page_Counter()
+    {
+        navigation.NavigateTo("/counter");
+    }
+
+    private void Go_To_Page_Home()
+    {
+        navigation.NavigateTo("/");
+    }
+
+    private void Refresh_Full_Page()
+    {
+        navigation.Refresh(true);
+    }
+}
+
+<PageTitle>Navigations</PageTitle>
+
+<h3>Navigation</h3>
+
+<button type="button" class="btn btn-outline-secondary" @onclick="()=> Go_To_Page_Counter()">Navigate To Counter Page</button>
+
+<button type="button" class="btn btn-outline-secondary" @onclick="()=> Go_To_Page_Home()">Navigate To Home Page</button>
+
+<button type="button" class="btn btn-outline-secondary" @onclick="()=> Go_To_Page_Parameters()">Navigate To Parameters Page</button>
+
+<button type="button" class="btn btn-outline-secondary" @onclick="()=> Go_To_Page_Parameters_Special_Element()">Navigate To Special Element</button>
+
+<button type="button" class="btn btn-outline-secondary" @onclick="()=> Refresh_Full_Page()">Refresh Full Page</button>

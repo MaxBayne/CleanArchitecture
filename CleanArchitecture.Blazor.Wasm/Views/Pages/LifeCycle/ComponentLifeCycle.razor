@@ -1,0 +1,59 @@
+﻿@page "/lifecycle"
+@inject ILogger<ComponentLifeCycle> logger
+
+@code 
+{
+    private int CounterValue { get; set; } = 0;
+
+    //For initiailize Componenet or call database
+    protected override void OnInitialized()
+    {
+        logger.LogInformation("This is From OnInitialized");
+    }
+
+    protected override void OnParametersSet()
+    {
+        logger.LogInformation("This is From OnParametersSet");
+    }
+
+    //after dom created and used for javascript operations
+    protected override void OnAfterRender(bool firstRender)
+    {
+        logger.LogInformation($"This is From OnAfterRender (firstRender={firstRender})");
+    }
+
+    private void Reset()
+    {
+        CounterValue=0;
+    }
+
+    private void Increment()
+    {
+        CounterValue+=1;
+    }
+
+    private async Task IncrementAsync()
+    {
+        CounterValue ++;
+
+        await Task.Delay(2000);
+
+        CounterValue++;
+
+        StateHasChanged();
+
+        await Task.Delay(2000);
+
+        CounterValue++;
+    }
+}
+
+<PageTitle>Life Cycle</PageTitle>
+
+<h3>Component Life Cycle</h3>
+
+<button type="button" class="btn btn-primary" @onclick="()=>Increment()">Count Sync</button>
+<button type="button" class="btn btn-primary" @onclick="()=>IncrementAsync()">Count Async</button>
+<button type="button" class="btn btn-secondary" @onclick="()=>Reset()">Reset</button>
+
+<h6>@CounterValue</h6>

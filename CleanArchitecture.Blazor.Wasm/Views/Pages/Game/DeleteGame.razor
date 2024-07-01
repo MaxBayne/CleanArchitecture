@@ -1,0 +1,43 @@
+﻿@* @page "/games/delete/{Id:int}" *@
+
+@inject IGamesClient GamesClient
+@inject NavigationManager NavigationManager
+
+
+@code
+{
+    [Parameter]
+    public int? GameId { get; set; }
+
+    [Parameter]
+    public string? GameName { get; set; }
+
+    private async void ConfirmDelete()
+    {
+        if (GameId != null)
+        {
+            await GamesClient.DeleteGameAsync(GameId.Value);
+
+            NavigationManager.Refresh();
+        }
+    }
+}
+
+<div id="DeleteGameModel-@GameId" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Game</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you Sure to Delete Game Called (<span class="text-danger">@GameName</span>) ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="ConfirmDelete">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

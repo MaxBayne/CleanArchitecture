@@ -1,0 +1,29 @@
+﻿@page "/quickgrid"
+@attribute [StreamRendering(true)]
+
+@code {
+    private IQueryable<GameModel> GamesList;
+
+    protected override void OnInitialized()
+    {
+        GamesList = new List<GameModel>
+        {
+            new GameModel{ Id=1,Name="Game 1",GenreId=1,Price=150,Year=1990},
+            new GameModel{ Id=2,Name="Game 2",GenreId=2,Price=200,Year=1980},
+            new GameModel{ Id=3,Name="Game 3",GenreId=1,Price=190,Year=1970},
+            new GameModel{ Id=4,Name="Game 4",GenreId=2,Price=160,Year=1965},
+            new GameModel{ Id=5,Name="Game 5",GenreId=3,Price=170,Year=1944},
+        }.AsQueryable();
+    }
+}
+
+<PageTitle>Quick Grid</PageTitle>
+
+<h3>QuickGrid Demo</h3>
+
+<QuickGrid Items="GamesList" Class="table table-bordered table-hover table-striped">
+    <PropertyColumn Title="#" Property="(p)=>p.Id" Sortable="false" />
+    <PropertyColumn Title="Name" Property="(p)=>p.Name" Sortable="false" />
+    <PropertyColumn Title="Price" Property="(p)=>p.Price" Sortable="false" />
+    <PropertyColumn Title="Year" Property="(p)=>p.Year" Sortable="true" />
+</QuickGrid>
