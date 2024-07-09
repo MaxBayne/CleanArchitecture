@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.API.Authorization.PoliciesAuthorization.Requirements;
+﻿using CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace CleanArchitecture.API.Authorization.PoliciesAuthorization.RequirementsHandlers
+namespace CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.RequirementsHandlers
 {
     public class UserHasClaimCountryIsEgyptRequirementHandler : AuthorizationHandler<UserHasClaimCountryIsEgyptRequirement>
     {

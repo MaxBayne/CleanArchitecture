@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.API.Authorization.PermissionsAuthorization;
-using CleanArchitecture.API.Authorization.PoliciesAuthorization.Requirements;
-using CleanArchitecture.API.Authorization.PoliciesAuthorization.RequirementsHandlers;
+﻿using CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.Requirements;
+using CleanArchitecture.API.Security.Authorization.PermissionsAuthorization;
+using CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.RequirementsHandlers;
 using CleanArchitecture.Common.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

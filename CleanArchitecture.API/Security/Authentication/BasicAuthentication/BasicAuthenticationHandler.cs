@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 
-namespace CleanArchitecture.API.Authentication.BasicAuthentication
+namespace CleanArchitecture.API.Security.Authentication.BasicAuthentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
@@ -17,7 +17,7 @@ namespace CleanArchitecture.API.Authentication.BasicAuthentication
         {
         }
 
-        
+
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {

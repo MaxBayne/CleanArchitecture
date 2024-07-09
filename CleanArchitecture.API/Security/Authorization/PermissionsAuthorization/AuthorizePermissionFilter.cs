@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace CleanArchitecture.API.Authorization.PermissionsAuthorization
+namespace CleanArchitecture.API.Security.Authorization.PermissionsAuthorization
 {
     public class AuthorizePermissionFilter : IAsyncAuthorizationFilter
     {

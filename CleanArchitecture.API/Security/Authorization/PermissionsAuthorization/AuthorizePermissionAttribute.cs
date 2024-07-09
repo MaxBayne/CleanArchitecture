@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Shared;
 
-namespace CleanArchitecture.API.Authorization.PermissionsAuthorization
+namespace CleanArchitecture.API.Security.Authorization.PermissionsAuthorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [DebuggerDisplay("{ToString(),nq}")]

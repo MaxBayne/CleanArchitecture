@@ -1,7 +1,7 @@
-﻿using CleanArchitecture.API.Authorization.PoliciesAuthorization.Requirements;
+﻿using CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
-namespace CleanArchitecture.API.Authorization.PoliciesAuthorization.RequirementsHandlers
+namespace CleanArchitecture.API.Security.Authorization.PoliciesAuthorization.RequirementsHandlers
 {
     public class UserRoleMustBeAdministratorsRequirementHandler : AuthorizationHandler<UserRoleMustBeAdministratorsRequirement>
     {

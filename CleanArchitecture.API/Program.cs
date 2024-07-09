@@ -5,7 +5,7 @@ using CleanArchitecture.Persistence;
 using CleanArchitecture.API.Infrastructure;
 using CleanArchitecture.API;
 using CleanArchitecture.API.Middlewares;
-using CleanArchitecture.API.Authentication.BasicAuthentication;
+using CleanArchitecture.API.Security.Authentication.BasicAuthentication;
 using Microsoft.AspNetCore.Authentication;
 using CleanArchitecture.API.Extensions;
 

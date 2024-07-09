@@ -7,7 +7,7 @@ using CleanArchitecture.Application.Mediators.CQRS.Book.Queries;
 using CleanArchitecture.Application.ObjectMapping.AutoMapper.Dtos.Book;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using CleanArchitecture.API.Authorization.PermissionsAuthorization;
+using CleanArchitecture.API.Security.Authorization.PermissionsAuthorization;
 using CleanArchitecture.Domain.Enums;
 
 
