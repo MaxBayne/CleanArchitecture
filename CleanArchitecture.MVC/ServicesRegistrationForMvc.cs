@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CleanArchitecture.MVC
 {
-    public static class MvcServicesRegistration
+    public static class ServicesRegistrationForMvc
     {
         public static IServiceCollection AddMvcServices(this IServiceCollection services,IConfiguration configuration)
         {

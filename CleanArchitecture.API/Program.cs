@@ -4,9 +4,6 @@ using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Persistence;
 using CleanArchitecture.API.Infrastructure;
 using CleanArchitecture.API;
-using CleanArchitecture.API.Middlewares;
-using CleanArchitecture.API.Security.Authentication.BasicAuthentication;
-using Microsoft.AspNetCore.Authentication;
 using CleanArchitecture.API.Extensions;
 
 
@@ -20,7 +17,7 @@ var sources = builder.Configuration.Sources;
 builder.Services.AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration)
                 .AddPersistenceServices(builder.Configuration)
-                .AddIdentityServices(builder.Configuration)
+                .AddSecurityServices(builder.Configuration)
                 .AddApiServices(builder.Configuration);
 
 

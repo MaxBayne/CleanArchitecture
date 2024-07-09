@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Application
 {
-    public static class ApplicationServicesRegistration
+    public static class ServicesRegistrationForApplication
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {

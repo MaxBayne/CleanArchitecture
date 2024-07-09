@@ -36,7 +36,7 @@ namespace CleanArchitecture.API.Controllers
         // GET: api/<BookController>
         //[Authorize(Roles = "Administrators,Supervisorss")]
         //[Authorize(Policy = "AdminsOnlyPolicy")]
-        [Authorize(Policy = "AdminsFromEgyptPolicy")]
+        //[Authorize(Policy = "AdminsFromEgyptPolicy")]
         [HttpGet]
         [ResponseType(typeof(List<ViewBookDto>), StatusCodes.Status200OK)]
         [ResponseType(StatusCodes.Status204NoContent)]
@@ -45,21 +45,21 @@ namespace CleanArchitecture.API.Controllers
         {
             try
             {
-                if (User.Identity==null || User.Identity.IsAuthenticated == false)
-                {
-                    return Unauthorized();
-                }
+                //if (User.Identity==null || User.Identity.IsAuthenticated == false)
+                //{
+                //    return Unauthorized();
+                //}
 
-                var claimsIdentity = User.Identity as ClaimsIdentity;
+                //var claimsIdentity = User.Identity as ClaimsIdentity;
 
-                //Get username who authenticated our system
-                var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
-                var userName = claimsIdentity?.FindFirst(ClaimTypes.Name);
-                var userRole = claimsIdentity?.FindFirst(ClaimTypes.Role);
+                ////Get username who authenticated our system
+                //var userId = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+                //var userName = claimsIdentity?.FindFirst(ClaimTypes.Name);
+                //var userRole = claimsIdentity?.FindFirst(ClaimTypes.Role);
 
-                _logger.LogInformation("UserId = {0}",userId);
-                _logger.LogInformation("UserName = {0}", userName);
-                _logger.LogInformation("UserRole = {0}", userRole);
+                //_logger.LogInformation("UserId = {0}",userId);
+                //_logger.LogInformation("UserName = {0}", userName);
+                //_logger.LogInformation("UserRole = {0}", userRole);
 
                 //using Mediator to send request and mediator will handle it by handler and return the response
                 var request = new GetBooksQuery();
