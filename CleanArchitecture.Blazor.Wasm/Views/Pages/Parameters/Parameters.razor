@@ -5,6 +5,8 @@
 
 @code 
 {
+    private string authMessage = "The user is NOT authenticated.";
+
     // Inputs Parameters ===========================
 
     [Parameter]
@@ -16,14 +18,33 @@
     [Parameter]
     public decimal? Price { get; set; }
 
+    ///parameters?phone=01091281295
+    [SupplyParameterFromQuery(Name = "phone")]
+    public string? Phone { get; set; }
+
+    // Cascading Inputs Parameters ===========================
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
     // Outputs Parameters ===========================
 
     [Parameter]
     public EventCallback<decimal> OnPriceChanged{ get; set; }
 
-    ///parameters?phone=01091281295
-    [SupplyParameterFromQuery(Name="phone")]
-    public string? Phone{ get; set; }
+   
+    protected override async Task OnInitializedAsync()
+    {
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user?.Identity is not null && user.Identity.IsAuthenticated)
+            {
+                authMessage = $"{user.Identity.Name} is authenticated.";
+            }
+        }
+    }
 
     protected override void OnParametersSet()
     {
@@ -53,3 +74,7 @@
 
 <br />
 <br />
+
+<h3>Cascade Auth State</h3>
+
+<p>@authMessage</p>

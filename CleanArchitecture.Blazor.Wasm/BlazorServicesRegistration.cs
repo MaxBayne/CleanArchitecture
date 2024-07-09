@@ -32,8 +32,10 @@ namespace CleanArchitecture.Blazor.Wasm
             services.AddScoped<DetailsGameViewModel>();
             services.AddScoped<ListGameViewModel>();
 
-
-            
+            //Register Authentication (Security)
+            //services.AddOptions();
+            //services.AddCascadingAuthenticationState();
+            services.AddAuthorizationCore();
 
             return services;
         }
