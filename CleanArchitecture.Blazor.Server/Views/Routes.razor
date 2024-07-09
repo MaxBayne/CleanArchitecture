@@ -9,7 +9,7 @@
     private Type GetLayoutComponent(RouteData routeData)
     {
         var uri = NavigationManager?.Uri;
-        var query = new Uri(uri??"").Query;
+        var query = new Uri(uri ?? "").Query;
         var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(query);
         if (queryParams.TryGetValue("lang", out var lang))
         {
@@ -20,10 +20,14 @@
 
 }
 
+
 <Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client.Views._Imports).Assembly }">
     <Found Context="routeData">
+
         @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" /> *@
         <RouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@GetLayoutComponent(routeData)" />
     </Found>
 </Router>

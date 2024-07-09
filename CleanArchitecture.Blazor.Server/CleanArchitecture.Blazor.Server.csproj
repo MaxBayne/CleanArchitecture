@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
@@ -20,12 +21,17 @@
   <ItemGroup>
 	<ProjectReference Include="..\CleanArchitecture.Application\CleanArchitecture.Application.csproj" />
     <ProjectReference Include="..\CleanArchitecture.Blazor.Client\CleanArchitecture.Blazor.Client.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.Identity\CleanArchitecture.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\.dockerignore" Link=".dockerignore">
       <DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Security\Authorization\RolesAuthorization\" />
   </ItemGroup>
 
 </Project>

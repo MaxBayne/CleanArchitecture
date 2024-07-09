@@ -1,0 +1,121 @@
+﻿@page "/authorization/component"
+@inject IAuthorizationPolicyProvider policyProvider
+@inject IAuthorizationService authorizationService
+
+
+@code 
+{
+    private bool _adminsOnlyPolicyExist;
+    private bool? _is_in_Role_Administrators;
+    private bool? _is_in_Role_Supervisorss;
+
+    private string _authMessage = "The user is NOT authenticated.";
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? _authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Check Authentication State
+
+        var authState = await _authenticationState;
+        var user = authState?.User;
+
+        if (user?.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            _authMessage = $"{user.Identity.Name} is authenticated.";
+        }
+
+        //Check Roles
+        _is_in_Role_Administrators = user?.IsInRole("Administrators");
+        _is_in_Role_Supervisorss = user?.IsInRole("Supervisorss");
+
+        //Check Policy
+        if (await policyProvider.GetPolicyAsync("AdminsOnlyPolicy") != null)
+        {
+            _adminsOnlyPolicyExist = true;
+        }
+        else
+        {
+            _adminsOnlyPolicyExist = false;
+        }
+    }
+
+    private void Sign_In()
+    {
+
+        //authenticationStateProvider.
+    }
+}
+
+<PageTitle>Authorization Component</PageTitle>
+
+<h3>Authentication</h3>
+
+<p>@_authMessage</p>
+
+<hr />
+
+<h3>AuthorizeView (Default Policy Signed-In or Signed-Out)</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <p>Hello, @context.User.Identity?.Name!</p>
+    </Authorized>
+    
+    <NotAuthorized>
+        <p>You're not authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<hr />
+
+<h3>AuthorizeView (With Role Based Authorization)</h3>
+
+<AuthorizeView Roles="Administrators,Supervisorss">
+    <Authorized>
+        <p>you are in role Administrators or Supervisorss</p>
+
+    </Authorized>
+    
+    <NotAuthorized>
+        <p>You're not authorized. you are not inside roles Administrators or Supervisorss</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Administrators">
+    <p>User: @context.User</p>
+    <p>You have the 'Administrators' role claim.</p>
+    <AuthorizeView Roles="Supervisorss" Context="innerContext">
+        <p>User: @innerContext.User</p>
+        <p>You have both 'Administrators' and 'Supervisorss' role claims.</p>
+    </AuthorizeView>
+</AuthorizeView>
+
+<hr />
+
+<h3>AuthorizeView (With Policy Based Authorization)</h3>
+
+@if (_adminsOnlyPolicyExist)
+{
+    <AuthorizeView Policy="AdminsOnlyPolicy">
+        <Authorized>
+            <p>You satisfy the 'AdminsOnlyPolicy' policy.</p>
+
+        </Authorized>
+
+        <NotAuthorized>
+            <p>You're not authorized. you are not satisfied with policy (AdminsOnlyPolicy)</p>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    @* <AuthorizeView Policy="AdminsOnlyPolicy">
+        <AuthorizeView Policy="AdminsOnlyPolicy_In_USA">
+            <p>You satisfy the 'AdminsOnlyPolicy' and 'AdminsOnlyPolicy_In_USA' policies.</p>
+        </AuthorizeView>
+    </AuthorizeView> *@
+}
+
+<hr />
+
+<br />

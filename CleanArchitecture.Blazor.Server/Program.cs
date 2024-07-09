@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 //1- Add services to the container (Dependency Injection)
 //=======================================================
 
-builder.Services.AddBlazorServices(builder.Configuration);
+builder.Services.AddSecurityServices(builder.Configuration)
+                .AddBlazorServices(builder.Configuration);
 
 //2- Build Web Application using Previous builder (that hold settings and services)
 //=================================================================================
@@ -37,6 +38,11 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+//Configure Security
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
