@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
     //On Development Stage
 
     app.UseWebAssemblyDebugging();
+    //app.UseMigrationsEndPoint();
 }
 else
 {
@@ -39,15 +40,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-//Configure Security
-app.UseAuthentication();
-app.UseAuthorization();
-
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Counter).Assembly);
+
+
+// Add additional endpoints required by the Identity /Account Razor components.
+app.MapAdditionalIdentityEndpoints();
 
 //4-Start Application
 //===================

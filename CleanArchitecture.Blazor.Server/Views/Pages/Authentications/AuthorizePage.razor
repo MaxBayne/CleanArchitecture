@@ -1,0 +1,50 @@
+﻿@page "/authorization/page"
+@attribute [Authorize]
+
+
+
+@code 
+{
+    [CascadingParameter]
+    private Task<AuthenticationState>? _authenticationState { get; set; }
+    private bool? _is_authenticated;
+    private string? _username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Check Authentication State
+
+        var authState = await _authenticationState;
+        var user = authState?.User;
+
+
+        _is_authenticated = user?.Identity.IsAuthenticated;
+
+        if (_is_authenticated==true)
+        {
+            _username = authState?.User.Identity.Name;
+        }
+        else
+        {
+            _username = string.Empty;
+        }
+
+
+
+    }
+}
+
+<PageTitle>Authorization Page</PageTitle>
+
+<h3>Authorization Page</h3>
+
+
+@if (_is_authenticated == true)
+{
+    <p>you are authenticated (@_username)</p>
+}
+else
+{
+    <p>you are not authenticated, try login first</p>
+}
+

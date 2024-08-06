@@ -65,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Blazor.Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Blazor.Server", "CleanArchitecture.Blazor.Server\CleanArchitecture.Blazor.Server.csproj", "{73963D2F-DEED-4BF2-865B-EEDCD481456D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Blazor.Wasm", "CleanArchitecture.Blazor.Wasm\CleanArchitecture.Blazor.Wasm.csproj", "{EBEE355E-3048-498C-B94A-CF280898782C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Blazor.Wasm", "CleanArchitecture.Blazor.Wasm\CleanArchitecture.Blazor.Wasm.csproj", "{EBEE355E-3048-498C-B94A-CF280898782C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
