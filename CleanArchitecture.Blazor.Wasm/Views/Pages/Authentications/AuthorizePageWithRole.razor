@@ -1,0 +1,43 @@
+﻿@page "/authorization/role"
+@* @attribute [Authorize] *@
+@attribute [Authorize(Roles = "Administrators, Supervisorss")]
+
+
+@code 
+{
+    [CascadingParameter]
+    private Task<AuthenticationState>? _authenticationState { get; set; }
+    private bool? _is_in_Role_Administrators;
+    private bool? _is_in_Role_Supervisorss;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Check Authentication State
+
+        var authState = await _authenticationState;
+        var user = authState?.User;
+
+        //Check Roles
+        _is_in_Role_Administrators = user?.IsInRole("Administrators");
+        _is_in_Role_Supervisorss = user?.IsInRole("Supervisorss");
+
+
+
+    }
+}
+
+<PageTitle>Authorization Page With Roles</PageTitle>
+
+<h3>Authorization Page With Roles</h3>
+
+<p>You can only see this if you're in the 'Administrators' or 'Supervisorss' role.</p>
+
+@if (_is_in_Role_Administrators==true)
+{
+    <p>you are in role Administrators</p>
+}
+
+@if (_is_in_Role_Supervisorss==true)
+{
+    <p>you are in role Supervisorss</p>
+}

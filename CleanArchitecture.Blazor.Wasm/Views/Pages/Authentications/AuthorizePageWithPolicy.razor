@@ -1,0 +1,29 @@
+﻿@page "/authorization/policy"
+@* @attribute [Authorize] *@
+@attribute [Authorize(Policy = "AdminsOnlyPolicy")]
+@inject IAuthorizationPolicyProvider policyProvider;
+
+@code 
+{
+    private bool _adminsOnlyPolicyExist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Check Policy
+        if (await policyProvider.GetPolicyAsync("AdminsOnlyPolicy") != null)
+        {
+            _adminsOnlyPolicyExist = true;
+        }
+        else
+        {
+            _adminsOnlyPolicyExist = false;
+        }
+    }
+}
+
+<PageTitle>Authorization Page With Policy</PageTitle>
+
+<h3>Authorization Page With Policy</h3>
+
+<p>You can only see this if you satisfy the 'AdminsOnlyPolicy' policy.</p>
+
