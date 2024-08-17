@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+@inject IAccessTokenProvider TokenProvider
+
+@code {
+    private async Task BeginSignIn()
+    {
+        Navigation.NavigateTo("authentication/login");
+    }
+
+    private async Task BeginSignOut()
+    {
+        Navigation.NavigateTo("authentication/logout");
+    }
+}
+
+@* <AuthorizeView>
+    <Authorized>
+        <h1>Hello, @context.User.Identity.Name!</h1>
+        <button @onclick="BeginSignOut">Logout</button>
+    </Authorized>
+    <NotAuthorized>
+        <button @onclick="BeginSignIn">Login</button>
+    </NotAuthorized>
+</AuthorizeView> *@
+
+@* 
+    <AuthorizeView>
+    <Authorized>
+        <span><b>Welcome : </b></span>
+        <a class="btn btn-default" href="Account/Manage">
+            <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+        </a>
+
+        <form action="Account/Logout" method="post">
+            <AntiforgeryToken />
+            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+            <button type="submit" class="btn btn-outline-danger">
+                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+            </button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a class="btn btn-outline-primary" href="Account/Login">Login</a>
+        <a class="btn btn-success" href="Account/Register">Register</a>
+    </NotAuthorized>
+</AuthorizeView> 
+*@
+

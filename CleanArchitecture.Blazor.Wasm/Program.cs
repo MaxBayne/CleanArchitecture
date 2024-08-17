@@ -20,6 +20,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddBlazorServices(builder.Configuration);
 
+builder.Services.AddSecurityServices(builder.Configuration);
 
 //3- Build Web Application using Previous builder (that hold settings and services)
 //=================================================================================
